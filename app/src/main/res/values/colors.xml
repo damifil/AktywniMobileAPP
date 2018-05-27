@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+
+
+
+    <color name="primary">#00AA8D</color>
+    <color name="text_primary">#00AA8D</color>
+    <!-- darker variant for the status bar and contextual app bars -->
+    <color name="primary_dark">#00AA8D</color>
+    <color name="accent">#FFFFFF</color>
+    <color name="background">#00AA8D</color>
+    <color name="button_color">#1B3544</color>
+    <color name="text_color">#FFFFFF</color>
+
+
+
+
 </resources>
