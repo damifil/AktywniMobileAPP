@@ -6,7 +6,7 @@
             <stroke
                 android:width="2dp"
                 android:color="@color/button_color"/>
-            <corners android:radius="5dp"/>
+            <corners android:radius="1dp"/>
         </shape>
     </item>
     <item android:id="@android:id/mask">
@@ -15,7 +15,7 @@
                 android:width="2dp"
                 android:color="@color/button_color"/>
             <solid android:color="@android:color/white"/>
-            <corners android:radius="5dp"/>
+            <corners android:radius="1dp"/>
         </shape>
     </item>
 

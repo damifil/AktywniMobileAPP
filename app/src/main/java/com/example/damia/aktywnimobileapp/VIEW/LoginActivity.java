@@ -23,12 +23,37 @@ public class LoginActivity extends Activity {
         //
         Typeface tf = Typeface.createFromAsset(getAssets(),
                 "fonts/Pacifico-Regular.ttf");
-        TextView tv = (TextView) findViewById(R.id.TVLog);
+        TextView tv =  findViewById(R.id.TVLog);
         tv.setTypeface(tf);
+
+        tf = Typeface.createFromAsset(getAssets(),
+                "fonts/fa-solid-900.ttf");
+         tv =  findViewById(R.id.TVLoginIco);
+        tv.setTypeface(tf);
+
+        tv =  findViewById(R.id.TVPasswordIco);
+        tv.setTypeface(tf);
+
+
+        tv =  findViewById(R.id.TVPasswordIcoSee);
+        tv.setTypeface(tf);
+
+        final TextView seeIco=findViewById(R.id.TVPasswordIcoSee);
+        seeIco.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                seeIco.setText( seeIco.getText()=="\uf070"? "\uf06e":"\uf070");
+            }
+        });
+
         presenter=new LoginPresenter(this);
 
-
+        tf = Typeface.createFromAsset(getAssets(),
+                "fonts/Segoe UI.ttf");
         Button loginButton =  findViewById(R.id.BTLogin);
+        loginButton.setTypeface(tf);
+
         loginButton.setOnClickListener( new View.OnClickListener() {
 
             @Override
@@ -39,6 +64,8 @@ public class LoginActivity extends Activity {
 
 
         Button passwordButton =  findViewById(R.id.BTPassword);
+        passwordButton.setTypeface(tf);
+        
         passwordButton.setOnClickListener( new View.OnClickListener() {
 
             @Override

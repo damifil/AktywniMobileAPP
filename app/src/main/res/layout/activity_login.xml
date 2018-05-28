@@ -22,41 +22,126 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/ETLogin"
+
+    <LinearLayout
+        android:id="@+id/LLLogin"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:orientation="horizontal"
+        tools:context="inteligenty_zamek.app_ik.Views.LoginActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TVLog" />
+        app:layout_constraintTop_toBottomOf="@+id/TVLog"
+        android:layout_marginTop="50dp"
+        >
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/TVLoginIco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\uf007"
+            android:textColor="@color/text_color"
+            android:layout_alignBaseline="@+id/ETLogin"
+            android:layout_alignBottom="@+id/ETLogin"
+            android:layout_alignParentLeft="true"
+            android:paddingStart="5dp"
+            />
+
+        <EditText
+            android:id="@+id/ETLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/text_color"
+            android:paddingStart="30dp"
+
+            />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LLPassword"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:context="inteligenty_zamek.app_ik.Views.LoginActivity"
+
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LLLogin"
+        >
+
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/TVPasswordIco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="\uf023"
+                android:textColor="@color/text_color"
+                android:layout_alignBaseline="@+id/ETPassword"
+                android:layout_alignBottom="@+id/ETPassword"
+                android:layout_alignParentLeft="true"
+                android:paddingStart="5dp"
+                />
 
     <EditText
         android:id="@+id/ETPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ETLogin" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/text_color"
+        android:paddingStart="30dp"
+
+        />
+
+            <TextView
+                android:id="@+id/TVPasswordIcoSee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/ETPassword"
+                android:layout_alignBottom="@+id/ETPassword"
+                android:layout_alignParentRight="true"
+                android:text="\uf06e"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/text_color"
+
+                />
+        </RelativeLayout>
+    </LinearLayout>
 
     <Button
-        style="@style/ButtonBorder.Accent"
         android:id="@+id/BTPassword"
+        style="@style/ButtonBorder.Accent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="Rejestracja"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
+        android:text="Rejestracja"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="16sp"/>
 
     <Button
         android:id="@+id/BTLogin"
@@ -69,5 +154,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ETPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/LLPassword"
+        android:textSize="16sp"/>
 </android.support.constraint.ConstraintLayout>
