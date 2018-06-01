@@ -15,7 +15,22 @@
         <item name="colorControlNormal">@color/text_color</item>
         <item name="colorControlActivated">@color/accent</item>
         <item name="colorControlHighlight">@color/accent</item>
+        <item name="android:editTextStyle">@style/EditTestStyle</item>
+        <item name="android:buttonStyle">@style/ButtonStyle</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+    </style>
 
+    <style name="EditTestStyle" parent="Base.V7.Widget.AppCompat.EditText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+
+    <style name="ButtonStyle" parent="Base.Widget.AppCompat.Button">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="TextViewStyle" >
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="AppTheme.Button" parent="Base.Widget.AppCompat.Button">

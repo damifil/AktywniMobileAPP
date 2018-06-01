@@ -3,6 +3,7 @@ package com.example.damia.aktywnimobileapp.API;
 
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -48,6 +49,7 @@ public class HTTPRequestAPI extends
     @Override
     protected void onPostExecute(String response) {
 
+        Log.i("HHHH","otrzymane: "+response);
         java.lang.reflect.Method method;
         try {
             method = presenter.getClass().getMethod(methodName, String.class);

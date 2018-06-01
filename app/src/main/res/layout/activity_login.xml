@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="model"
+            type="com.example.damia.aktywnimobileapp.MODEL.LoginModel" />
+    </data>
+
+<android.support.constraint.ConstraintLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginEnd="20dp"
     android:layout_marginStart="20dp"
     tools:context=".VIEW.LoginActivity">
+
+
 
     <TextView
         android:id="@+id/TVLog"
@@ -17,7 +28,7 @@
         android:padding="5sp"
         android:text="Aktywni.pl"
         android:textColor="#ffffff"
-        android:textSize="50sp"
+        android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +72,7 @@
             android:layout_alignParentTop="true"
             android:textColor="@color/text_color"
             android:paddingStart="30dp"
-
+            android:text="@={model.login}"
             />
         </RelativeLayout>
 
@@ -110,7 +121,7 @@
         android:layout_alignParentTop="true"
         android:textColor="@color/text_color"
         android:paddingStart="30dp"
-
+        android:text="@={model.password}"
         />
 
             <TextView
@@ -157,3 +168,5 @@
         app:layout_constraintTop_toBottomOf="@+id/LLPassword"
         android:textSize="16sp"/>
 </android.support.constraint.ConstraintLayout>
+
+</layout>
