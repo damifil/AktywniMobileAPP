@@ -87,7 +87,15 @@ public class RegisterActivity extends Activity {
 
     }
 
-    public  void showTooltipLogin()
+    public void GoTologin()
+    {
+        Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        RegisterActivity.this.startActivity(myIntent);
+        this.finish();
+    }
+
+
+    public  void ShowTooltipLogin()
     {
         ViewTooltip
                 .on(this, findViewById((R.id.ETLogin)))
@@ -119,7 +127,7 @@ public class RegisterActivity extends Activity {
 
 
 
-    public  void showTooltipPassword()
+    public  void ShowTooltipPassword()
     {
         ViewTooltip
                 .on(this, findViewById((R.id.ETPassword)))
@@ -150,7 +158,7 @@ public class RegisterActivity extends Activity {
     }
 
 
-    public  void showTooltipEmail()
+    public  void ShowTooltipEmail()
     {
         ViewTooltip
                 .on(this, findViewById((R.id.ETEmail)))

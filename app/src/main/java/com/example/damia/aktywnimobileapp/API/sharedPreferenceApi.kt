@@ -11,10 +11,10 @@ import com.example.damia.aktywnimobileapp.R
 enum class EnumChoice(val value:String)
 {
     // do przejrzenia co potrzebne
-    ip("ipserwer"),password("password"),token("sessionToken"),
+    ip("ipserwer"),password("password"),
     login("login"),nameuser("name"),surname("surname"),
-    isLogin("isLogin"),isAdmin("isadmin"),choiceLogin("choiceLogin"),choiceLock("choiceLock"),
-    publicKey("publicKey"),loginModel("loginModel"),registerModel("registerModel");
+    isLogin("isLogin"),isAdmin("role"),choiceLogin("choiceLogin"),choiceLock("choiceLock"),
+    publicKey("publicKey"),loginModel("loginModel"),registerModel("registerModel"),token("token"),expireData("expires");
 }
 
 

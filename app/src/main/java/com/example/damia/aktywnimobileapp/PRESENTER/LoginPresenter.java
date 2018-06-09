@@ -9,16 +9,19 @@ import com.example.damia.aktywnimobileapp.API.EnumChoice;
 import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI;
 import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi;
 import com.example.damia.aktywnimobileapp.MODEL.LoginModel;
+import com.example.damia.aktywnimobileapp.VIEW.LoginActivity;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
 
 public class LoginPresenter {
 
-    Context context;
+    LoginActivity context;
    public LoginModel model;
-    public LoginPresenter(Context context)
+    public LoginPresenter(LoginActivity context)
     {
         this.context=context;
         LoadModel();
@@ -26,9 +29,6 @@ public class LoginPresenter {
         {
             model= new LoginModel();
         }
-
-
-
     }
 
     public void SaveModel()
@@ -53,19 +53,35 @@ public class LoginPresenter {
 
     public void login()
     {
-        Log.i("HHHHHH",model.login);
         HashMap toSend = new HashMap();
         toSend.put("UserLogin", model.login);
         toSend.put("password", model.password);
         try {
-            new HTTPRequestAPI(this, "http://localhost:5000/account/login", "loginResult", toSend).execute();
+            new HTTPRequestAPI(this, "account/login", "loginResult", toSend).execute();
         }catch (Exception e){}
     }
 
     public void loginResult(String result)
     {
+        try {
+            JSONObject object = new JSONObject(result);
+            sharedPreferenceApi.INSTANCE.set(context, CyptographyApi.encrypt(object.getString("token")), EnumChoice.token);
+            sharedPreferenceApi.INSTANCE.set(context, object.getString("expires"), EnumChoice.expireData);
+            sharedPreferenceApi.INSTANCE.set(context, object.getString("role"), EnumChoice.isAdmin);
+        }catch (Exception e){}
 
-
+        if(!result.isEmpty())
+        {
+            try {
+                sharedPreferenceApi.INSTANCE.set(context, "", EnumChoice.loginModel);
+            }catch (Exception ex){}
+            model.ResetData();
+            context.goToHomeView();
+        }
+        else
+        {
+            context.showTooltip();
+        }
     }
 
 

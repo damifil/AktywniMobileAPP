@@ -100,8 +100,8 @@ public class LoginActivity extends Activity {
     public void goToHomeView()
     {
         Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-        //myIntent.putExtra("key", value);
         LoginActivity.this.startActivity(myIntent);
+        this.finish();
     }
 
     public  void showTooltip()

@@ -6,4 +6,11 @@ public class RegisterModel {
     public String password="";
     public String email="";
 
+    public void ResetData()
+    {
+        login="";
+        password="";
+        email="";
+    }
+
 }

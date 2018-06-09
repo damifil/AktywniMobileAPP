@@ -5,6 +5,8 @@ package com.example.damia.aktywnimobileapp.API;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -29,7 +31,7 @@ public class HTTPRequestAPI extends
 
     public HTTPRequestAPI(Object presenter,String url,String methodName,HashMap DataToSend) {
 
-        this.urlString=url;
+        this.urlString="http://192.168.137.1:5000/"+url;
         this.DataToSend=DataToSend;
         this.methodName=methodName;
         this.presenter=presenter;
@@ -40,6 +42,7 @@ public class HTTPRequestAPI extends
     protected String doInBackground(Void... params) {
         String response = "";
         try {
+
             response = performPostCall(urlString, DataToSend);
         } catch (Exception e) {
         }
@@ -49,12 +52,10 @@ public class HTTPRequestAPI extends
     @Override
     protected void onPostExecute(String response) {
 
-        Log.i("HHHH","otrzymane: "+response);
         java.lang.reflect.Method method;
         try {
             method = presenter.getClass().getMethod(methodName, String.class);
             method.invoke(presenter, response);
-
         }catch(Exception ex){
         }
     }
@@ -70,6 +71,8 @@ public class HTTPRequestAPI extends
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
             conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type","application/json;charset=utf-8");
+            conn.setRequestProperty("Accept","application/json");
             conn.setDoInput(true);
             conn.setDoOutput(true);
             OutputStream os = conn.getOutputStream();
@@ -79,6 +82,7 @@ public class HTTPRequestAPI extends
             writer.flush();
             writer.close();
             os.close();
+
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 String line;
@@ -96,18 +100,7 @@ public class HTTPRequestAPI extends
         return response;
     }
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException{
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for(Map.Entry<String, String> entry : params.entrySet()){
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-        }
+        String result=new JSONObject(params).toString();
         return result.toString();
     }
 }

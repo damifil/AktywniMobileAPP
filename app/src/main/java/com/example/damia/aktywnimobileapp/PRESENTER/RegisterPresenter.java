@@ -1,15 +1,17 @@
 package com.example.damia.aktywnimobileapp.PRESENTER;
 
-import android.content.Context;
-
 import com.example.damia.aktywnimobileapp.API.CyptographyApi;
 import com.example.damia.aktywnimobileapp.API.EnumChoice;
+import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI;
 import com.example.damia.aktywnimobileapp.API.Valdiation;
 import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi;
-import com.example.damia.aktywnimobileapp.MODEL.LoginModel;
 import com.example.damia.aktywnimobileapp.MODEL.RegisterModel;
 import com.example.damia.aktywnimobileapp.VIEW.RegisterActivity;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class RegisterPresenter {
 
@@ -33,9 +35,7 @@ public class RegisterPresenter {
         try {
             sharedPreferenceApi.INSTANCE.set(context, CyptographyApi.encrypt(json), EnumChoice.registerModel);
         }catch (Exception ex){}
-
     }
-
     public void LoadModel()
     {
         Gson gson = new Gson();
@@ -50,23 +50,39 @@ public class RegisterPresenter {
     {
     if(!Valdiation.isCorrectPassword(model.password))
     {
-     context.showTooltipPassword();
+     context.ShowTooltipPassword();
     }
     if(!Valdiation.isEmailValid(model.email))
     {
-        context.showTooltipEmail();
+        context.ShowTooltipEmail();
     }
     if(Valdiation.isEmailValid(model.email) && Valdiation.isCorrectPassword(model.password))
     {
-        ////// tutaj akcja z wysłaniem i
+        HashMap toSend = new HashMap();
+        toSend.put("Login", model.login);
+        toSend.put("Email", model.email);
+        toSend.put("Password", model.password);
+
+        try {
+            new HTTPRequestAPI(this, "account/register", "RegisterResult", toSend).execute();
+        }catch (Exception e){}
     }
+    }
+    public void RegisterResult(String result) {
+        try {
+            JSONObject object = new JSONObject(result);
+            if (object.getString("response").equals("True")) {
+                try {
+                    model.ResetData();
+                    sharedPreferenceApi.INSTANCE.set(context, "", EnumChoice.registerModel);
+                } catch (Exception ex) {
+                }
+                context.GoTologin();
+            } else {
+                context.ShowTooltipLogin();
+            }
+        } catch (Exception e) {
+        }
 
     }
-
-
-    public void registerResulty(String result)
-    {
-
-    }
-
 }
