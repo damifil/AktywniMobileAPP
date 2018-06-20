@@ -1,17 +1,23 @@
 package com.example.damia.aktywnimobileapp.VIEW
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.graphics.Typeface.BOLD
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.damia.aktywnimobileapp.API.CyptographyApi
+import com.example.damia.aktywnimobileapp.API.EnumChoice
+import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi
 
 import com.example.damia.aktywnimobileapp.R
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +44,10 @@ class TopPanel : Fragment() {
 
 
     }
+
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -67,6 +77,13 @@ class TopPanel : Fragment() {
         tvMessage.setTypeface(tf)
         val tvSettings = view.findViewById(R.id.TVFSettings) as TextView
         tvSettings.setTypeface(tf)
+        tvSettings.setOnClickListener {
+            val intent = Intent(context, LoginActivity::class.java)
+            sharedPreferenceApi.set(context!!, "", EnumChoice.token)
+            startActivity(intent)
+            activity!!.finish()
+
+        }
     }
 
 
