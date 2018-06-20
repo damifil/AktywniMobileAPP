@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VIEW.TopPanel"
+
+    android:background="@color/background"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        >
+    <TextView
+        android:layout_width="150dp"
+        android:textSize="20dp"
+        android:layout_height="match_parent"
+        android:text="Aktywni.pl"
+        android:id="@+id/TVFLogo"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:paddingTop="10dp">
+            <TextView
+                android:textSize="20dp"
+                android:layout_marginStart="10dp"
+                android:id="@+id/TVFIntence"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="\uf0ac" />
+            <TextView
+                android:textSize="20dp"
+                android:layout_marginStart="10dp"
+                android:id="@+id/TVFMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="\uf075" />
+
+            <TextView
+                android:textSize="20dp"
+                android:layout_marginStart="10dp"
+                android:id="@+id/TVFSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="\uf142" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</FrameLayout>

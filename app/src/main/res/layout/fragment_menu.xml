@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".VIEW.MenuFragment"
+    android:background="@color/background"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        >
+
+
+        <TextView
+            android:id="@+id/TVHomeLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="\uf015"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toStartOf="@+id/TVEventLogo"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/TVEventLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="\uf206"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toStartOf="@+id/TVFriendsLogo"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/TVHomeLogo" />
+
+        <TextView
+            android:id="@+id/TVFriendsLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="\uf500"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toStartOf="@+id/TVHistoryLogo"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/TVEventLogo" />
+
+        <TextView
+            android:id="@+id/TVHistoryLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="\uf1da"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/TVFriendsLogo" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
