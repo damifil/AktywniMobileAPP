@@ -29,6 +29,13 @@ public class LoginPresenter {
         {
             model= new LoginModel();
         }
+
+        if(sharedPreferenceApi.INSTANCE.getString(context,EnumChoice.token)!="")
+        {
+            context.goToHomeView();
+        }
+
+
     }
 
     public void SaveModel()
