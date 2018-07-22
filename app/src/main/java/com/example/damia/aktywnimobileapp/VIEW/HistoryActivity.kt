@@ -12,7 +12,7 @@ class HistoryActivity : AppCompatActivity() , TopPanel.OnFragmentInteractionList
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_history)
+
 
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -22,5 +22,8 @@ class HistoryActivity : AppCompatActivity() , TopPanel.OnFragmentInteractionList
                     .commit()
 
         }
+        overridePendingTransition(0,0)
+
+        setContentView(R.layout.activity_history)
         }
 }

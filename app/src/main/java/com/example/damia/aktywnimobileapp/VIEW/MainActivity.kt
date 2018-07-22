@@ -4,6 +4,9 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.damia.aktywnimobileapp.R
+import android.os.StrictMode
+
+
 
 class MainActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListener, MenuFragment.OnFragmentInteractionListener {
 
@@ -16,7 +19,7 @@ class MainActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
 
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListener
 
 
         }
-
+        overridePendingTransition(0,0)
+        setContentView(R.layout.activity_main)
     }
 }

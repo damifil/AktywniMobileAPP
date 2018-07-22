@@ -14,7 +14,6 @@ class EventActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_event)
 
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -25,5 +24,9 @@ class EventActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListene
 
 
         }
+        overridePendingTransition(0,0)
+
+        setContentView(R.layout.activity_event)
+
     }
 }

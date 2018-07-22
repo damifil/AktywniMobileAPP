@@ -57,8 +57,9 @@ class MenuFragment : Fragment() {
 
         tvHistoryLogo.setOnClickListener {
             val intent = Intent(activity, HistoryActivity::class.java)
-            startActivity(intent)
+
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent)
             activity!!.overridePendingTransition(0, 0)
             activity!!.finish()
         }
@@ -71,6 +72,7 @@ class MenuFragment : Fragment() {
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent)
             activity!!.overridePendingTransition(0, 0)
+
             activity!!.finish()
 
         }

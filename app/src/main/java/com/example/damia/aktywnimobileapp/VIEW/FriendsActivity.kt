@@ -12,7 +12,6 @@ class FriendsActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListe
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_friends)
 
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -21,7 +20,9 @@ class FriendsActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListe
                     .add(R.id.menu, MenuFragment.newInstance("3"), "menu")
                     .commit()
         }
+        overridePendingTransition(0,0)
 
+        setContentView(R.layout.activity_friends)
 
         }
 }
