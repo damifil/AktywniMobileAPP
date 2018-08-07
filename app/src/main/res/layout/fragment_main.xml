@@ -3,11 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VIEW.MainFragment">
+    tools:context=".VIEW.MainFragment"
 
- <com.google.android.gms.maps.MapView
+    >
+
+
+ <com.example.damia.aktywnimobileapp.MapClass.MapWrapperLayout
      android:layout_width="match_parent"
      android:layout_height="match_parent"
-     android:id="@+id/map"/>
+     android:id="@+id/map_relative_layout"
+     >
+  <com.google.android.gms.maps.MapView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/map"/>
 
+ </com.example.damia.aktywnimobileapp.MapClass.MapWrapperLayout>
 </FrameLayout>
