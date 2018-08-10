@@ -1,0 +1,64 @@
+package com.example.damia.aktywnimobileapp.Adapters
+
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.TextureView
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import com.example.damia.aktywnimobileapp.MODEL.Sport
+import com.example.damia.aktywnimobileapp.R
+
+import kotlinx.android.synthetic.main.list_of_sports_item.view.*
+
+internal object ListOfSportIndex {
+     var row_index=0
+}
+class ListOfSportsAdapter (val items: java.util.ArrayList<Sport>, val context: Context,val clickListener: (Sport) -> Unit):  RecyclerView.Adapter<ViewHolder2>()
+{
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder2 {
+        return ViewHolder2(LayoutInflater.from(context).inflate(R.layout.list_of_sports_item, parent, false))
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder2, position: Int) {
+
+        val tf = Typeface.createFromAsset(context.assets,
+                "fonts/fa-solid-900.ttf")
+        holder.tvIco.setTypeface(tf)
+        holder.tvIco.text=items.get(position).name
+        holder.bind(items[position], clickListener)
+
+     /*   holder.tvIco.setOnClickListener(View.OnClickListener {
+            row_index = position
+            notifyDataSetChanged()
+        })*/
+        if (ListOfSportIndex.row_index === position) {
+            holder.tvIco.setTextColor(Color.parseColor("#000000"))
+
+        } else {
+            holder.tvIco.setTextColor(Color.parseColor("#ffffff"))
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
+}
+class ViewHolder2 (view: View) : RecyclerView.ViewHolder(view) {
+    var tvIco = view.sportIco
+
+    fun bind(part:Sport, clickListener: (Sport) -> Unit) {
+        tvIco.text = part.code
+        tvIco.setOnClickListener{
+            clickListener(part)
+            ListOfSportIndex.row_index=position
+        }
+    }
+
+}

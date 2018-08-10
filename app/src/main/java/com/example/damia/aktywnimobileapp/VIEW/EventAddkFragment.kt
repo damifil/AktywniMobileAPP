@@ -1,18 +1,40 @@
 package com.example.damia.aktywnimobileapp.VIEW
 
 import android.annotation.TargetApi
+import android.app.DatePickerDialog
+import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Context
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import android.widget.Adapter
+import android.widget.TextView
+import android.widget.Toast
+import com.example.damia.aktywnimobileapp.API.RecyclerItemClickListener
+import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
+import com.example.damia.aktywnimobileapp.Adapters.ListOfSportsAdapter
+import com.example.damia.aktywnimobileapp.MODEL.EventListItem
+import com.example.damia.aktywnimobileapp.MODEL.Sport
 
 import com.example.damia.aktywnimobileapp.R
+import kotlinx.android.synthetic.main.fragment_event.view.*
+import kotlinx.android.synthetic.main.fragment_event_addk.view.*
 import mehdi.sakout.fancybuttons.FancyButton
+import android.widget.TimePicker
+import android.text.format.DateFormat.is24HourFormat
+import java.text.DateFormat
+import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,12 +50,12 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class EventAddkFragment : Fragment() {
+class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-
+    private var adapter:RecyclerView.Adapter<RecyclerView.ViewHolder>?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -42,12 +64,19 @@ class EventAddkFragment : Fragment() {
         }
     }
 
+
+    override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
+        // Do something with the time chosen by the user
+    }
+    private fun partItemClicked(partItem: Sport) {
+       // Toast.makeText(context, "Clicked: ${partItem.name}", Toast.LENGTH_LONG).show()
+        adapter!!.notifyDataSetChanged()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         var view = inflater.inflate(R.layout.fragment_event_addk, container, false)
-
-
         view.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
 
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -70,7 +99,59 @@ class EventAddkFragment : Fragment() {
                 anim.start()
             }
         })
+        var rv = view.findViewById(R.id.rv_list_sport) as RecyclerView
+        rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
+        val tf = Typeface.createFromAsset(context!!.assets,
+                "fonts/fa-solid-900.ttf")
+
+        var tvIco = view.findViewById(R.id.tv_ico_calendar) as TextView
+        tvIco.setTypeface(tf)
+        tvIco.setText("\uf073")
+
+        tvIco.setOnClickListener()
+        {
+
+
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
+            val dpd = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+
+                //Toast.makeText (context,"" + dayOfMonth + " " + monthOfYear + ", " + year,Toast.LENGTH_LONG).show()
+            }, year, month, day)
+            dpd.show()
+        }
+
+        tvIco = view.findViewById(R.id.tv_ico_maps) as TextView
+        tvIco.setTypeface(tf)
+        tvIco.setText("\uf279")
+
+
+
+
+//////
+        var arr: ArrayList<Sport> = ArrayList()
+        var a1 = Sport()
+        a1.name = "kolarstwo"
+        a1.code = "\uF206"
+        var a2 = Sport()
+        a2.name = "futbol"
+        a2.code = "\uf1e3"
+        arr.add(a1)
+        arr.add(a2)
+        arr.add(a2)
+        arr.add(a2)
+        arr.add(a2)
+        arr.add(a2)
+        arr.add(a2)
+        arr.add(a2)
+/////////
+        rv.rv_list_sport.adapter = ListOfSportsAdapter(arr, context!!, { partItem: Sport -> partItemClicked(partItem) })
+
+       adapter=rv.rv_list_sport.adapter
 
         return view
     }

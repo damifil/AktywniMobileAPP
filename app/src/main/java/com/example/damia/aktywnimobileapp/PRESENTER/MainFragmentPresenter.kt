@@ -77,7 +77,6 @@ class MainFragmentPresenter(context: MainFragment) {
 
         for (item in model.listOfEvents)
         {
-            Log.i("HHH",item.latitude!!.toString()+"  "+item.longitude!!.toString()+"  "+item.eventName+" "+item.typeOfSport)
             context2.setMarker(item.latitude!!,item.longitude!!,item.eventName,item.typeOfSport)
         }
     }
