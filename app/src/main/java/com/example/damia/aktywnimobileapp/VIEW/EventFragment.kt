@@ -122,8 +122,8 @@ class EventFragment : Fragment() {
 
         var arr:ArrayList<EventListItem> = ArrayList()
 //////
-        var a1= EventListItem("dd","Dsd","dsdf")
-        var a2=EventListItem("dsdfd","Dsd","dsdf")
+        var a1= EventListItem("dd","Dsd","dsdf","\uf206")
+        var a2=EventListItem("dsdfd","Dsd","dsdf","\uf206")
         arr.add(a1)
         arr.add(a2)
         arr.add(a2)
