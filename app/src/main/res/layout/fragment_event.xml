@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-
         >
 
         <TextView
@@ -49,7 +48,7 @@
             app:layout_constraintStart_toStartOf="parent"
             fancy:fb_borderColor="#FFFFFF"
             fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#7ab800"
+            fancy:fb_defaultColor="@color/button_color_not_choice_alternative"
             fancy:fb_focusColor="#9bd823"
             fancy:fb_radius="30dp"
             fancy:fb_textColor="#FFFFFF"
@@ -68,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             fancy:fb_borderColor="#FFFFFF"
             fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#7ab800"
+            fancy:fb_defaultColor="@color/button_color_not_choice_alternative"
             fancy:fb_focusColor="#9bd823"
             fancy:fb_radius="60dp"
             fancy:fb_textColor="#FFFFFF"

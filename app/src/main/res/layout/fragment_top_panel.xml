@@ -13,13 +13,16 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginBottom="15dp"
         >
     <TextView
         android:layout_width="150dp"
         android:textSize="20dp"
         android:layout_height="match_parent"
         android:text="Aktywni.pl"
-        android:id="@+id/TVFLogo"/>
+        android:id="@+id/TVFLogo"
+        android:textColor="@color/text_color_alternative"
+        />
 
 
         <LinearLayout
@@ -27,29 +30,42 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:gravity="end"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+
+            >
             <TextView
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:layout_marginStart="10dp"
                 android:id="@+id/TVFIntence"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="\uf0ac" />
+                android:text="\uf0ac"
+                android:textColor="@color/text_color_alternative"
+                android:layout_marginEnd="15dp"
+                />
             <TextView
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:layout_marginStart="10dp"
                 android:id="@+id/TVFMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="\uf075" />
+                android:text="\uf075"
+                android:textColor="@color/text_color_alternative"
+                android:layout_marginEnd="15dp"
+
+                />
 
             <TextView
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:layout_marginStart="10dp"
                 android:id="@+id/TVFSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="\uf142" />
+                android:text="\uf142"
+                android:textColor="@color/text_color_alternative"
+                android:layout_marginEnd="15dp"
+
+                />
         </LinearLayout>
 
 

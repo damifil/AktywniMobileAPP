@@ -22,14 +22,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 
-class MainFragmentPresenter(context: MainFragment) {
+class MainFragmentPresenter(context: MainFragment,fromMain:Boolean) {
     val model: MainFragmentModel
     val context2:MainFragment
     init {
        this.context2 =context
         this.model = MainFragmentModel()
         // zassanie z serwera eventow
-    //przykładowe dane
+       //przykładowe dane
         var date: Date?=null
         val format = SimpleDateFormat("yyyy-MM-dd")
         try {
@@ -41,7 +41,7 @@ class MainFragmentPresenter(context: MainFragment) {
         event.description="opis wydarzeenia"
         event.eventName="event1"
         event.eventValue=0
-        event.typeOfSport="piłka nożna"
+        event.typeOfSport="piłka nożna\nOcena: 7"
         event.latitude=30.0
         event.longitude=20.0
         event.date= date

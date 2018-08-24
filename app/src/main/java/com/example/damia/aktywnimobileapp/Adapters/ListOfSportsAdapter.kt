@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.damia.aktywnimobileapp.MODEL.Sport
+import com.example.damia.aktywnimobileapp.MODEL.SportObject
 import com.example.damia.aktywnimobileapp.R
 
 import kotlinx.android.synthetic.main.list_of_sports_item.view.*
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.list_of_sports_item.view.*
 internal object ListOfSportIndex {
      var row_index=0
 }
-class ListOfSportsAdapter (val items: java.util.ArrayList<Sport>, val context: Context,val clickListener: (Sport) -> Unit):  RecyclerView.Adapter<ViewHolder2>()
+class ListOfSportsAdapter (val items: Array<SportObject>, val context: Context,val clickListener: (SportObject) -> Unit):  RecyclerView.Adapter<ViewHolder2>()
 {
 
 
@@ -53,7 +54,7 @@ class ListOfSportsAdapter (val items: java.util.ArrayList<Sport>, val context: C
 class ViewHolder2 (view: View) : RecyclerView.ViewHolder(view) {
     var tvIco = view.sportIco
 
-    fun bind(part:Sport, clickListener: (Sport) -> Unit) {
+    fun bind(part:SportObject, clickListener: (SportObject) -> Unit) {
         tvIco.text = part.code
         tvIco.setOnClickListener{
             clickListener(part)

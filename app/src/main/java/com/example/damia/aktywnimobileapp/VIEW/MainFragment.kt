@@ -8,7 +8,6 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,6 @@ import android.widget.Toast
 import com.example.damia.aktywnimobileapp.API.MyLocationListener
 import com.example.damia.aktywnimobileapp.MapClass.MapWrapperLayout
 import com.example.damia.aktywnimobileapp.PRESENTER.MainFragmentPresenter
-import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 
@@ -51,9 +49,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var fromMain: Boolean? = null
     private var listener: OnFragmentInteractionListener? = null
 
 
@@ -62,10 +58,10 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var mView: View? = null
     private var mcontext: Context? = null
 
-
     private var infoWindow: ViewGroup? = null
     private var infoTitle: TextView? = null
     private var infoSnippet: TextView? = null
+    private var score: TextView? = null
     private var infoButton: Button? = null
     private var infoButtonListener: OnInfoWindowElemTouchListener? = null
     private var mapWrapperLayout: MapWrapperLayout? = null
@@ -74,20 +70,19 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            fromMain = it.getBoolean("fromMain")
         }
-        val locationmanager=  mcontext!!.getSystemService(Context.LOCATION_SERVICE)as LocationManager
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(mcontext!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         mView = inflater.inflate(R.layout.fragment_main, container, false)
 
         this.infoWindow = inflater.inflate(R.layout.info_window, null) as ViewGroup
-        presenter = MainFragmentPresenter(this)
+        presenter = MainFragmentPresenter(this,fromMain!!)
         return mView
     }
 
@@ -116,12 +111,13 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         this.infoTitle = infoWindow!!.findViewById(R.id.title) as TextView
         this.infoSnippet = infoWindow!!.findViewById(R.id.snippet) as TextView
         this.infoButton = infoWindow!!.findViewById(R.id.button) as Button
         mapWrapperLayout = mView!!.findViewById(R.id.map_relative_layout)
         mMapView = mView!!.findViewById(R.id.map)
-        if (mMapView != null) {
+         if (mMapView != null) {
             mMapView!!.onCreate(null)
             mMapView!!.onResume()
             mMapView!!.getMapAsync(this)
@@ -131,14 +127,29 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     override fun onMapReady(googleMap: GoogleMap) {
         MapsInitializer.initialize(mcontext)
+        var a= getArguments()!!.getBoolean("fromMain")
         mGoogleMap = googleMap
         mapWrapperLayout!!.init(googleMap, getPixelsFromDp(mcontext!!, 59f))
         this.infoButtonListener = object : OnInfoWindowElemTouchListener(infoButton,
                 mcontext!!.resources.getDrawable(R.drawable.round_but_green_sel, null), //btn_default_normal_holo_light
                 mcontext!!.resources.getDrawable(R.drawable.round_but_red_sel, null)) //btn_default_pressed_holo_light
         {
+
             override fun onClickConfirmed(v: View, marker: Marker) {
-                Toast.makeText(mcontext, marker.title + "'s button clicked!", Toast.LENGTH_SHORT).show()
+                val position = marker.position
+
+
+                if(fromMain!!) {
+                    Toast.makeText(mcontext, marker.title + "'s button clicked!", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(mcontext, "kontynujemy tworzenie", Toast.LENGTH_SHORT).show()
+                    val newFragment = EventAddkFragment.newInstance(position.latitude,position.longitude)
+                    val transaction = fragmentManager!!.beginTransaction()
+                    transaction.replace(R.id.body, newFragment)
+                    //  transaction.addToBackStack(null)
+                    transaction.commit()
+                }
             }
         }
         this.infoButton!!.setOnTouchListener(infoButtonListener)
@@ -208,6 +219,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         listener = null
     }
 
+
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
@@ -215,12 +227,13 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(fm:Boolean) =
                 MainFragment().apply {
-                    arguments = Bundle().apply {
-                    }
+                    arguments = Bundle().apply {putBoolean("fromMain",fm)}
                 }
     }
+
+
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -238,3 +251,4 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
+

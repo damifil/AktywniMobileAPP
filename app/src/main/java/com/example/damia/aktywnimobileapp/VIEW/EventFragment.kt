@@ -162,7 +162,7 @@ class EventFragment : Fragment() {
                 isBack=2
 
 
-                val newFragment = EventAddkFragment()
+                val newFragment = EventAddkFragment.newInstance(0.0,0.0)
 
 
                 val transaction = fragmentManager!!.beginTransaction()
