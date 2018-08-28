@@ -12,7 +12,7 @@ import com.example.damia.aktywnimobileapp.API.addFragment
 import com.example.damia.aktywnimobileapp.API.replaceFragment
 
 
-class MainActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListener, EventFragment.OnFragmentInteractionListener,EventAddkFragment.OnFragmentInteractionListener, EventSearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, FreindsFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), EventChatFragment.OnFragmentInteractionListener, TopPanel.OnFragmentInteractionListener, EventFragment.OnFragmentInteractionListener,EventAddkFragment.OnFragmentInteractionListener, EventSearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, FreindsFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener {
 
 
 
@@ -105,7 +105,8 @@ class MainActivity : AppCompatActivity(), TopPanel.OnFragmentInteractionListener
                 tvEventLogo.setTextColor(ContextCompat.getColor(this, R.color.button_color_not_choice))
                 tvHomeLogo.setTextColor(ContextCompat.getColor(this, R.color.button_color_not_choice))
                 tvFriendsLogo.setTextColor(ContextCompat.getColor(this, R.color.button_color_not_choice))
-                replaceFragment(HistoryFragment.newInstance(), R.id.body)
+                //replaceFragment(HistoryFragment.newInstance(), R.id.body)
+                replaceFragment(EventChatFragment.newInstance("",""), R.id.body)
             }
 
         }
