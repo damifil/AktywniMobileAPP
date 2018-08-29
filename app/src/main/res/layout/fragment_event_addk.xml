@@ -36,7 +36,7 @@
                 android:layout_width="351dp"
                 android:layout_height="111dp"
                 android:layout_marginTop="24dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/edittext_bottom_left_line"
                 android:ems="10"
                 android:gravity="top"
                 android:hint="opis wydarzenia"
@@ -83,7 +83,7 @@
                 android:layout_marginEnd="59dp"
                 android:layout_marginTop="20dp"
                 android:text=""
-                android:textColor="@color/text_color_alternative"
+                android:textColor="@color/button_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rv_list_sport" />
 
@@ -104,7 +104,8 @@
                 android:layout_marginEnd="56dp"
                 android:layout_marginTop="32dp"
                 android:text=""
-                android:textColor="@color/text_color_alternative"
+
+                android:textColor="@color/button_color"
                 app:layout_constraintBottom_toTopOf="@+id/btCreate"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_ico_calendar" />
@@ -118,6 +119,7 @@
                 android:hint="nazwa wydarzenia"
                 android:inputType="textPersonName"
                 android:text=""
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

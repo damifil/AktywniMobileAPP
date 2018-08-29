@@ -14,7 +14,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/button_color_not_choice_alternative_green"
         android:textSize="40sp"
         android:padding="15dp"
         />

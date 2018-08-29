@@ -109,7 +109,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
 
                 val cy = view.getHeight()
                 val cx = view.getWidth()
-                // get the final radius for the clipping circle
+
                 val finalRadius = Math.max(view.getWidth(), view.getHeight())
 
                 // create the animator for this view (the start radius is zero)
@@ -145,7 +145,8 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
 
                 tv_date.setText("Data: "+dayOfMonth + " " + monthOfYear+" "+year)
                 presenter!!.model.date="Data: "+dayOfMonth + " " + monthOfYear+" "+year
-                tv_ico_calendar.setTextColor(ContextCompat.getColor(context!!, R.color.button_color))
+
+                tiemPicker()
             }, year, month, day)
             dpd.show()
         }
@@ -174,6 +175,13 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
             if(presenter!!.model.isCorrectData())
             {
                 Toast.makeText(context,"poprawne dane",Toast.LENGTH_LONG).show()
+                val newFragment = CurentEventFragment.newInstance("","")
+
+
+                val transaction = fragmentManager!!.beginTransaction()
+                transaction.replace(R.id.body, newFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
             }
             else
             {
@@ -192,6 +200,28 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
         return view
     }
 
+
+
+    private fun  tiemPicker(){
+
+        var c:Calendar = Calendar.getInstance();
+       var mHour = c.get(Calendar.HOUR_OF_DAY);
+       var mMinute = c.get(Calendar.MINUTE);
+        var timePickerDialog = TimePickerDialog(activity,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,TimePickerDialog.OnTimeSetListener { view, mHour, mMinute ->
+            tv_date.append(" "+mHour.toString()+" "+mMinute.toString())
+
+
+            presenter!!.model.date+=" "+mHour.toString()+" "+mMinute.toString()
+            tv_ico_calendar.setTextColor(ContextCompat.getColor(context!!, R.color.button_color_not_choice_alternative_green))
+
+
+        },mHour, mMinute, false)
+
+        timePickerDialog.show()
+
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -199,7 +229,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
 
         if(presenter!!.model.latitude!=0.0)
         {
-            tv_ico_maps.setTextColor(ContextCompat.getColor(context!!,R.color.button_color))
+            tv_ico_maps.setTextColor(ContextCompat.getColor(context!!,R.color.button_color_not_choice_alternative_green))
             textView5.setText("Miejsce wybrano")
         }
 
@@ -210,7 +240,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
                 presenter!!.model.date=="Data:"
             }
             else {
-                tv_ico_calendar.setTextColor(ContextCompat.getColor(context!!, R.color.button_color))
+                tv_ico_calendar.setTextColor(ContextCompat.getColor(context!!, R.color.button_color_not_choice_alternative_green))
             }
         }
 

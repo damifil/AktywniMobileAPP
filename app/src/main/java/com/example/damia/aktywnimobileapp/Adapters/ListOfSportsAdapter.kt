@@ -39,10 +39,10 @@ class ListOfSportsAdapter (val items: Array<SportObject>, val context: Context,v
             notifyDataSetChanged()
         })*/
         if (ListOfSportIndex.row_index === position) {
-            holder.tvIco.setTextColor(Color.parseColor("#000000"))
+            holder.tvIco.setTextColor(context.resources.getColor(R.color.button_color_not_choice_alternative_green))
 
         } else {
-            holder.tvIco.setTextColor(Color.parseColor("#ffffff"))
+            holder.tvIco.setTextColor(context.resources.getColor(R.color.button_color))
         }
     }
 

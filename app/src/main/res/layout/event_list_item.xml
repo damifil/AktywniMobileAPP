@@ -29,7 +29,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/text_color_alternative_green"/>
 
             <TextView
                 android:id="@+id/event_list_description"
@@ -59,6 +60,7 @@
             android:layout_centerInParent="true"
             android:id="@+id/event_list_ico"
             android:textSize="80sp"
+            android:textColor="@color/text_color_alternative_green"
              />
     </RelativeLayout>
     <View

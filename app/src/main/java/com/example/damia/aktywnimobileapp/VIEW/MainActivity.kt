@@ -12,7 +12,7 @@ import com.example.damia.aktywnimobileapp.API.addFragment
 import com.example.damia.aktywnimobileapp.API.replaceFragment
 
 
-class MainActivity : AppCompatActivity(), EventChatFragment.OnFragmentInteractionListener, TopPanel.OnFragmentInteractionListener, EventFragment.OnFragmentInteractionListener,EventAddkFragment.OnFragmentInteractionListener, EventSearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, FreindsFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(),CurentEventFragment.OnFragmentInteractionListener, EventChatFragment.OnFragmentInteractionListener, TopPanel.OnFragmentInteractionListener, EventFragment.OnFragmentInteractionListener,EventAddkFragment.OnFragmentInteractionListener, EventSearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, FreindsFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener {
 
 
 
