@@ -31,7 +31,7 @@
                 android:layout_marginTop="8dp"
                 android:textSize="14sp"
                 android:text="sdgsfhdgjfgsdagsdasdaf"
-                android:background="@color/text_color_alternative"/>
+                android:background="@drawable/rounded_corner"/>
         </LinearLayout>
 
 

@@ -23,7 +23,7 @@ import android.widget.LinearLayout
 
 
 
-class EventChatListAdapter(val items: ArrayList<ChatValue>, val context: Context): RecyclerView.Adapter<ViewHolderChat>()
+class EventChatListAdapter(val items: MutableList<ChatValue>, val context: Context): RecyclerView.Adapter<ViewHolderChat>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderChat  {
         return ViewHolderChat (LayoutInflater.from(context).inflate(R.layout.event_chat_list_item, parent, false))
@@ -35,14 +35,17 @@ class EventChatListAdapter(val items: ArrayList<ChatValue>, val context: Context
         if(items.get(position).isMineName)
         {
             val llp = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
-            llp.setMargins(100, 0, 0, 10)
+            llp.setMargins(100, 0, 20, 10)
             holder.textchat.layoutParams=llp
+            holder.userName.layoutParams=llp
         }
         else
         {
             val llp = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
-            llp.setMargins(10, 0, 0, 100)
+            llp.setMargins(20, 0, 100, 10)
             holder.textchat.layoutParams=llp
+            holder.userName.layoutParams=llp
+
         }
     }
 

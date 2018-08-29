@@ -5,12 +5,20 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.damia.aktywnimobileapp.Adapters.EventChatListAdapter
+import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
+import com.example.damia.aktywnimobileapp.MODEL.ChatValue
+import com.example.damia.aktywnimobileapp.MODEL.EventListItem
 
 import com.example.damia.aktywnimobileapp.R
+import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.android.synthetic.main.fragment_event_chat.*
+import kotlinx.android.synthetic.main.fragment_event_chat.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,20 +51,54 @@ class EventChatFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        var rootView = inflater.inflate(R.layout.fragment_event_chat, container, false)
+        var arr:MutableList<ChatValue> = ArrayList()
+//////
+        var a1= ChatValue()
+        var a2= ChatValue()
+        a1.nameUser="jasiek"
+        a2.nameUser="ja"
+        a1.chatmessage="hello"
+        a2.chatmessage="hello there"
+        a1.isMineName=false
+        a2.isMineName=true
+        arr.add(a1)
+        arr.add(a2)
+
+/////////
 
 
+        var rv=rootView.findViewById(R.id.rv_event_list_chat) as RecyclerView
+        rv.layoutManager = LinearLayoutManager(context)
 
-        return inflater.inflate(R.layout.fragment_event_chat, container, false)
+        var adapter=EventChatListAdapter(arr,context!!)
+        rootView.button2.setOnClickListener()
+        {
+            val a3= ChatValue()
+
+            a3.nameUser="ja"
+            a3.chatmessage="dodana wiadomosc"
+            a3.isMineName=true
+            arr.add(a3)
+            adapter.notifyDataSetChanged()
+        }
+
+        rv.rv_event_list_chat.adapter = adapter
+
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var i=0;
+
+
+
+
         val runnableCode = object: Runnable {
             override fun run() {
-                czas.setText(i.toString())
-                i++
+
+
                 handler.postDelayed(this, 1000)
             }
         }

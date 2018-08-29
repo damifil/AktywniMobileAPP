@@ -17,4 +17,5 @@
     <color name="text_color_alternative">#FFFFFF</color>
     <color name="text_color">#1B3544</color>
     <color name="backgroundSecondColor">#c8ddd9</color>
+    <color name="background_chat_input">#FFFFFF</color>
 </resources>

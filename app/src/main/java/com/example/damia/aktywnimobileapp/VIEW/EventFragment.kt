@@ -116,7 +116,7 @@ class EventFragment : Fragment() {
 
 
         var rv=rootView.findViewById(R.id.rv_event_list) as RecyclerView
-        rv.layoutManager = LinearLayoutManager(activity)
+        rv.layoutManager = LinearLayoutManager(context)
 
 
 
