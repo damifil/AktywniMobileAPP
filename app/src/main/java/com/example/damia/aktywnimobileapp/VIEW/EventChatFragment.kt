@@ -13,7 +13,9 @@ import android.view.ViewGroup
 import com.example.damia.aktywnimobileapp.Adapters.EventChatListAdapter
 import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
 import com.example.damia.aktywnimobileapp.MODEL.ChatValue
+import com.example.damia.aktywnimobileapp.MODEL.EventChatModel
 import com.example.damia.aktywnimobileapp.MODEL.EventListItem
+import com.example.damia.aktywnimobileapp.PRESENTER.EventChatPresenter
 
 import com.example.damia.aktywnimobileapp.R
 import kotlinx.android.synthetic.main.fragment_event.view.*
@@ -36,14 +38,16 @@ private const val ARG_PARAM2 = "param2"
  */
 class EventChatFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+    private var eventId: Int? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    var adapter:EventChatListAdapter?=null
     var handler: Handler = Handler()
+    var presenter:EventChatPresenter?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
+            eventId = it.getInt(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
     }
@@ -52,40 +56,27 @@ class EventChatFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_event_chat, container, false)
-        var arr:MutableList<ChatValue> = ArrayList()
-//////
-        var a1= ChatValue()
-        var a2= ChatValue()
-        a1.nameUser="jasiek"
-        a2.nameUser="ja"
-        a1.chatmessage="hello"
-        a2.chatmessage="hello there"
-        a1.isMineName=false
-        a2.isMineName=true
-        arr.add(a1)
-        arr.add(a2)
 
-/////////
-
+        presenter= EventChatPresenter(this)
 
         var rv=rootView.findViewById(R.id.rv_event_list_chat) as RecyclerView
         rv.layoutManager = LinearLayoutManager(context)
 
-        var adapter=EventChatListAdapter(arr,context!!)
+        adapter=EventChatListAdapter(presenter!!.model.chatList,context!!)
         rootView.button2.setOnClickListener()
         {
-            val a3= ChatValue()
-
-            a3.nameUser="ja"
-            a3.chatmessage="dodana wiadomosc"
-            a3.isMineName=true
-            arr.add(a3)
-            adapter.notifyDataSetChanged()
+          presenter!!.sendMessage(editText2.text.toString())
+            editText2.setText("")
         }
 
         rv.rv_event_list_chat.adapter = adapter
 
         return rootView
+    }
+
+    fun Notify()
+    {
+        adapter!!.notifyDataSetChanged()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -152,10 +143,10 @@ class EventChatFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: Int, param2: String) =
                 EventChatFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
+                        putInt(ARG_PARAM1, param1)
                         putString(ARG_PARAM2, param2)
                     }
                 }

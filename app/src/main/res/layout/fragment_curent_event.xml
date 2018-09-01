@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="mod"
+            type="com.example.damia.aktywnimobileapp.CurentEventModel"
+            />
+    </data>
+<FrameLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,11 +23,13 @@
         android:layout_height="match_parent"
         android:layout_margin="20dp">
 
+
         <TextView
             android:id="@+id/TVName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="nazwa wydarzenia"
+            android:text="@={mod.name}"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="136dp"
-            android:text="ico"
+            android:text="@={mod.icoText}"
             app:layout_constraintStart_toEndOf="@+id/TVName"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,12 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:text="Data"
+            android:text="@={mod.date}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TVName" />
 
         <TextView
-            android:id="@+id/TVPlace"
+            android:id="@+id/TVIcoPlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -55,9 +65,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text=""
+            android:text="@={mod.describe}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TVPlace" />
+            app:layout_constraintTop_toBottomOf="@+id/TVIcoPlace" />
 
         <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/BTChat"
@@ -70,7 +80,10 @@
             app:layout_constraintEnd_toStartOf="@+id/BTUsers"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            fancy:fb_fontIconResource="&#xf086;" />
+            fancy:fb_text=""
+            fancy:fb_fontIconResource="&#xf086;"
+            fancy:fb_fontIconSize="50dp"
+            />
 
         <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/BTUsers"
@@ -80,8 +93,12 @@
             android:background="@color/button_color_not_choice_alternative_green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            fancy:fb_fontIconResource="&#xf0c0;" />
+            fancy:fb_fontIconResource="&#xf0c0;"
+            fancy:fb_text=""
+            fancy:fb_fontIconSize="50dp"
+            />
 
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
+</layout>

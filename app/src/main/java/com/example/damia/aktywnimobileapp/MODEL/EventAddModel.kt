@@ -29,6 +29,15 @@ fun isCorrectData():Boolean
     }
     return false
 }
+    fun resetData()
+    {
+         longitude=0.0
+         latitude=0.0
+         description=""
+         eventName=""
+         date="Data:"
+    }
+
 }
 class SportObject(val nam:String, val icoText:String)
 {

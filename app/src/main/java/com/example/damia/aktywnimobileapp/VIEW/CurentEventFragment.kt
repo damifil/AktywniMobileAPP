@@ -1,14 +1,19 @@
 package com.example.damia.aktywnimobileapp.VIEW
 
 import android.content.Context
+import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.Toast
+import com.example.damia.aktywnimobileapp.CurentEventModel
 import com.example.damia.aktywnimobileapp.R
+import com.example.damia.aktywnimobileapp.databinding.FragmentCurentEventBinding
+import kotlinx.android.synthetic.main.fragment_curent_event.*
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +34,8 @@ class CurentEventFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-
+    var model: CurentEventModel = CurentEventModel()
+    var   binding: FragmentCurentEventBinding?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,7 +47,24 @@ class CurentEventFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_curent_event, container, false)
+
+
+        binding  = DataBindingUtil.inflate<FragmentCurentEventBinding>(inflater,R.layout.fragment_curent_event,container,false)
+        binding!!.mod=model
+
+        return binding!!.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        BTChat.setOnClickListener {
+
+            val newFragment = EventChatFragment.newInstance(model.eventID,"")
+            val transaction = fragmentManager!!.beginTransaction()
+            transaction.replace(R.id.body, newFragment)
+            transaction.commit()
+
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

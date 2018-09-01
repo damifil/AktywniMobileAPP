@@ -5,7 +5,7 @@ import com.example.damia.aktywnimobileapp.API.EnumChoice;
 import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI;
 import com.example.damia.aktywnimobileapp.API.Valdiation;
 import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi;
-import com.example.damia.aktywnimobileapp.MODEL.RegisterModel;
+import com.example.damia.aktywnimobileapp.RegisterModel;
 import com.example.damia.aktywnimobileapp.VIEW.RegisterActivity;
 import com.google.gson.Gson;
 

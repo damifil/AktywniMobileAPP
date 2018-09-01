@@ -1,14 +1,10 @@
 package com.example.damia.aktywnimobileapp.PRESENTER;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-
 import com.example.damia.aktywnimobileapp.API.CyptographyApi;
 import com.example.damia.aktywnimobileapp.API.EnumChoice;
 import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI;
 import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi;
-import com.example.damia.aktywnimobileapp.MODEL.LoginModel;
+import com.example.damia.aktywnimobileapp.LoginModel;
 import com.example.damia.aktywnimobileapp.VIEW.LoginActivity;
 import com.google.gson.Gson;
 

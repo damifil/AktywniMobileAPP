@@ -13,4 +13,20 @@ class EventChatPresenter(context: EventChatFragment)
         this.context2 = context
         this.model = EventChatModel()
     }
+
+    fun request()
+    {
+        if(false)
+        {
+            context2.Notify()
+        }
+    }
+
+    fun sendMessage(message:String)
+    {
+        //send message
+
+        request()
+    }
+
 }

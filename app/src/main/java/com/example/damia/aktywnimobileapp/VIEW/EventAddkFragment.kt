@@ -143,8 +143,29 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
 
             val dpd = DatePickerDialog(activity,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
-                tv_date.setText("Data: "+dayOfMonth + " " + monthOfYear+" "+year)
-                presenter!!.model.date="Data: "+dayOfMonth + " " + monthOfYear+" "+year
+                var day=""
+                var month=""
+                if(dayOfMonth<10)
+                {
+                    day="0"+dayOfMonth
+                }
+                else
+                {
+                    day=dayOfMonth.toString()
+                }
+
+                if(monthOfYear<10)
+                {
+                    month="0"+monthOfYear
+                }
+                else
+                {
+                    month=monthOfYear.toString()
+                }
+
+
+                tv_date.setText("Data: "+day + "." + month+"."+year)
+                presenter!!.model.date="Data: "+dayOfMonth + "." + monthOfYear+"."+year
 
                 tiemPicker()
             }, year, month, day)
@@ -174,10 +195,9 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
         btn.setOnClickListener(){
             if(presenter!!.model.isCorrectData())
             {
-                Toast.makeText(context,"poprawne dane",Toast.LENGTH_LONG).show()
                 val newFragment = CurentEventFragment.newInstance("","")
-
-
+                presenter!!.model.resetData()
+                sharedPreferenceApi.set(context!!, Klaxon().toJsonString(presenter!!.model),EnumChoice.EventAddPresenter)
                 val transaction = fragmentManager!!.beginTransaction()
                 transaction.replace(R.id.body, newFragment)
                 transaction.addToBackStack(null)
@@ -204,18 +224,18 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
 
     private fun  tiemPicker(){
 
-        var c:Calendar = Calendar.getInstance();
-       var mHour = c.get(Calendar.HOUR_OF_DAY);
-       var mMinute = c.get(Calendar.MINUTE);
+        var c:Calendar = Calendar.getInstance()
+       var mHour = c.get(Calendar.HOUR_OF_DAY)
+       var mMinute = c.get(Calendar.MINUTE)
         var timePickerDialog = TimePickerDialog(activity,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,TimePickerDialog.OnTimeSetListener { view, mHour, mMinute ->
-            tv_date.append(" "+mHour.toString()+" "+mMinute.toString())
+            tv_date.append("  "+mHour.toString()+":"+mMinute.toString())
 
 
-            presenter!!.model.date+=" "+mHour.toString()+" "+mMinute.toString()
+            presenter!!.model.date+=" "+mHour.toString()+":"+mMinute.toString()
             tv_ico_calendar.setTextColor(ContextCompat.getColor(context!!, R.color.button_color_not_choice_alternative_green))
 
 
-        },mHour, mMinute, false)
+        },mHour, mMinute, true)
 
         timePickerDialog.show()
 

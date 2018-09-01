@@ -105,8 +105,8 @@ class MainActivity : AppCompatActivity(),CurentEventFragment.OnFragmentInteracti
                 tvEventLogo.setTextColor(ContextCompat.getColor(this, R.color.button_color_not_choice))
                 tvHomeLogo.setTextColor(ContextCompat.getColor(this, R.color.button_color_not_choice))
                 tvFriendsLogo.setTextColor(ContextCompat.getColor(this, R.color.button_color_not_choice))
-                //replaceFragment(HistoryFragment.newInstance(), R.id.body)
-                replaceFragment(EventChatFragment.newInstance("",""), R.id.body)
+                replaceFragment(HistoryFragment.newInstance(), R.id.body)
+
             }
 
         }

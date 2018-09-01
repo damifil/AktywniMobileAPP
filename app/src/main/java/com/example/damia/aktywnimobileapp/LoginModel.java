@@ -1,4 +1,4 @@
-package com.example.damia.aktywnimobileapp.MODEL;
+package com.example.damia.aktywnimobileapp;
 public class LoginModel {
 
     public String login="";
