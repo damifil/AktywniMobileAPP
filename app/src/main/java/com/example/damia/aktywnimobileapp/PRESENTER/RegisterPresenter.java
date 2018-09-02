@@ -64,7 +64,7 @@ public class RegisterPresenter {
         toSend.put("Password", model.password);
 
         try {
-            new HTTPRequestAPI(this, "account/register", "RegisterResult", toSend).execute();
+            new HTTPRequestAPI(this, "account/register", "RegisterResult", toSend,"").execute();
         }catch (Exception e){}
     }
     }

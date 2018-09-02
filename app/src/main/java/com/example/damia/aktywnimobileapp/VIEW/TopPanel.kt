@@ -7,17 +7,14 @@ import android.graphics.Typeface.BOLD
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
-import com.example.damia.aktywnimobileapp.API.CyptographyApi
 import com.example.damia.aktywnimobileapp.API.EnumChoice
 import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi
-
 import com.example.damia.aktywnimobileapp.R
-import java.util.*
+import android.widget.PopupMenu
+import android.widget.Toast
+import android.view.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,9 +37,6 @@ class TopPanel : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
     }
 
 
@@ -78,10 +72,33 @@ class TopPanel : Fragment() {
         val tvSettings = view.findViewById(R.id.TVFSettings) as TextView
         tvSettings.setTypeface(tf)
         tvSettings.setOnClickListener {
-            val intent = Intent(context, LoginActivity::class.java)
-            sharedPreferenceApi.set(context!!, "", EnumChoice.token)
-            startActivity(intent)
-            activity!!.finish()
+
+
+
+
+            val popup = PopupMenu(context, tvSettings)
+            popup.getMenuInflater()
+                    .inflate(R.menu.popup_menu, popup.getMenu())
+
+            popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+              override  fun onMenuItemClick(item: MenuItem): Boolean {
+                  if(item.title=="Wyloguj")
+                  {
+                      val intent = Intent(context, LoginActivity::class.java)
+                      sharedPreferenceApi.set(context!!, "", EnumChoice.token)
+                      startActivity(intent)
+                      activity!!.finish()
+                  }
+                  else
+                  {
+                      Toast.makeText(context,"Kliknieto "+item.title,Toast.LENGTH_SHORT).show()
+                  }
+                    return true
+                }
+            })
+
+            popup.show()
+
 
         }
     }

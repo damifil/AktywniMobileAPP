@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
       <!--  <activity android:name=".VIEW.LoginActivity"> -->
-        <activity android:name=".VIEW.MainActivity" >
+        <activity android:name=".VIEW.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".VIEW.RegisterActivity" />
-       <!-- <activity android:name=".VIEW.MainActivity" />-->
+        <activity android:name=".VIEW.MainActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB6qNKtrE0SHQcEirGSsNrMItpAxaHiakc"/>

@@ -11,7 +11,7 @@ import com.example.damia.aktywnimobileapp.R
 enum class EnumChoice(val value:String)
 {
     // do przejrzenia co potrzebne
-    ip("ipserwer"),password("password"),
+    ip("ipserwer"),password("password"),n("ttt"),
     login("login"),nameuser("name"),surname("surname"),
     isLogin("isLogin"),isAdmin("role"),choiceLogin("choiceLogin"),choiceLock("choiceLock"),
     publicKey("publicKey"),loginModel("loginModel"),registerModel("registerModel"),token("token"),expireData("expires"),EventAddPresenter("eventAddP");
@@ -62,7 +62,7 @@ object sharedPreferenceApi {
         sharedPref = context.getSharedPreferences(context.getString(R.string.SPName), Context.MODE_PRIVATE)
         editor = sharedPref!!.edit()
         editor!!.putString(choise.value, value)
-        editor!!.commit()
+        editor!!.apply()
     }
 
 }

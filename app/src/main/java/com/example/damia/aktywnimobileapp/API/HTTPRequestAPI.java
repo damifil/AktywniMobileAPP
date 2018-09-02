@@ -28,21 +28,33 @@ public class HTTPRequestAPI extends
     HashMap DataToSend;
     String methodName;
     Object presenter;
+    String token;
+    String requestType;
 
-    public HTTPRequestAPI(Object presenter,String url,String methodName,HashMap DataToSend) {
+    public HTTPRequestAPI(Object presenter,String url,String methodName,HashMap DataToSend,String token, String requestType) {
 
         this.urlString="http://192.168.137.1:5000/"+url;
         this.DataToSend=DataToSend;
         this.methodName=methodName;
         this.presenter=presenter;
+        this.token=token;
+        this.requestType=requestType;
     }
 
+
+    public HTTPRequestAPI(Object presenter,String url,String methodName,HashMap DataToSend,String token) {
+        this.urlString="http://192.168.137.1:5000/"+url;
+        this.DataToSend=DataToSend;
+        this.methodName=methodName;
+        this.presenter=presenter;
+        this.token=token;
+        this.requestType="POST";
+    }
 
     @Override
     protected String doInBackground(Void... params) {
         String response = "";
         try {
-
             response = performPostCall(urlString, DataToSend);
         } catch (Exception e) {
         }
@@ -60,6 +72,7 @@ public class HTTPRequestAPI extends
         }
     }
 
+
     public String performPostCall(String requestURL,
                                   HashMap<String, String> postDataParams) {
 
@@ -70,20 +83,39 @@ public class HTTPRequestAPI extends
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");////
+            conn.setRequestMethod(requestType);
             conn.setRequestProperty("Content-Type","application/json;charset=utf-8");
             conn.setRequestProperty("Accept","application/json");
+            if(token!="")
+            {
+                conn.setRequestProperty("Authorization", "Bearer "+token);
+            }
             conn.setDoInput(true);
-            conn.setDoOutput(true);
-            OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString(postDataParams));
+
+
+            Log.i("requestAAAA",requestURL);
+            Log.i("requestAAAA",token);
+            Log.i("requestAAAA",requestType);
+            Log.i("requestAAAA",getPostDataString(postDataParams));
+
+
+
+            if(requestType.equals("POST"))
+            {
+                conn.setDoOutput(true);
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
             writer.flush();
             writer.close();
-            os.close();
+                os.close();
+            }
+
 
             int responseCode = conn.getResponseCode();
+            Log.i("AAAAs",Integer.toString(responseCode));
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 String line;
                 BufferedReader br = new BufferedReader(new InputStreamReader(

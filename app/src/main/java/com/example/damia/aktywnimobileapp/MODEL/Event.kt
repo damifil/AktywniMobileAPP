@@ -11,7 +11,9 @@ class Event
     var eventName:String=""
     var date:Date?=null
     var listOfMembers:List<User>?=null
-
+    var dateCreated:Date?=null
+    var objectID:Int=0
+    var eventID:Int=0
     // 0 - event w którym uczestnik nie jest
     // 1- evwent w któym uczestnik jest
     //2 event w którym nie jest i jest premium

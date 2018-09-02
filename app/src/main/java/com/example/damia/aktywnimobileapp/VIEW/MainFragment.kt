@@ -140,7 +140,11 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
 
                 if(fromMain!!) {
-                    Toast.makeText(mcontext, marker.title + "'s button clicked!", Toast.LENGTH_SHORT).show()
+                    val newFragment = CurentEventFragment.newInstance(marker.title,"")
+                    val transaction = fragmentManager!!.beginTransaction()
+                    transaction.replace(R.id.body, newFragment)
+                      transaction.addToBackStack(null)
+                    transaction.commit()
                 }
                 else {
                     Toast.makeText(mcontext, "kontynujemy tworzenie", Toast.LENGTH_SHORT).show()

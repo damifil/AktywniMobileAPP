@@ -40,6 +40,7 @@ import java.text.DateFormat
 import java.util.*
 import com.example.damia.aktywnimobileapp.MODEL.EventAddModel
 import com.google.gson.Gson
+import kotlin.math.min
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,7 +63,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
     private var listener: OnFragmentInteractionListener? = null
     private var adapter:RecyclerView.Adapter<RecyclerView.ViewHolder>?=null
     private var presenter:EventAddPresenter?=null
-    private var partItem:SportObject= SportObject("Baseball","\uf433")
+    var partItem:SportObject= SportObject("Baseball","\uf433",2)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -164,8 +165,9 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
                 }
 
 
-                tv_date.setText("Data: "+day + "." + month+"."+year)
-                presenter!!.model.date="Data: "+dayOfMonth + "." + monthOfYear+"."+year
+
+                presenter!!.model.date=year.toString() + "." + month+"."+day
+                tv_date.setText("Data: "+presenter!!.model.date)
 
                 tiemPicker()
             }, year, month, day)
@@ -193,15 +195,14 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
         val btn = view.findViewById(R.id.btCreate) as Button
 
         btn.setOnClickListener(){
+
+            presenter!!.model.description=editText.text.toString()
+            presenter!!.model.eventName=ETName.text.toString()
+
             if(presenter!!.model.isCorrectData())
             {
-                val newFragment = CurentEventFragment.newInstance("","")
-                presenter!!.model.resetData()
-                sharedPreferenceApi.set(context!!, Klaxon().toJsonString(presenter!!.model),EnumChoice.EventAddPresenter)
-                val transaction = fragmentManager!!.beginTransaction()
-                transaction.replace(R.id.body, newFragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
+
+            presenter!!.request()
             }
             else
             {
@@ -230,8 +231,26 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
         var timePickerDialog = TimePickerDialog(activity,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,TimePickerDialog.OnTimeSetListener { view, mHour, mMinute ->
             tv_date.append("  "+mHour.toString()+":"+mMinute.toString())
 
+            var minute=""
+            var hour=""
+            if(mMinute<10)
+            {
+                minute="0"+mMinute
+            }
+            else
+            {
+                minute=mMinute.toString()
+            }
+            if(mHour<10)
+            {
+                hour="0"+mHour.toString()
+            }
+            else
+            {
+                hour=mHour.toString()
+            }
 
-            presenter!!.model.date+=" "+mHour.toString()+":"+mMinute.toString()
+            presenter!!.model.date+=" "+hour+":"+minute
             tv_ico_calendar.setTextColor(ContextCompat.getColor(context!!, R.color.button_color_not_choice_alternative_green))
 
 

@@ -1,5 +1,4 @@
 package com.example.damia.aktywnimobileapp.PRESENTER;
-
 import com.example.damia.aktywnimobileapp.API.CyptographyApi;
 import com.example.damia.aktywnimobileapp.API.EnumChoice;
 import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI;
@@ -7,6 +6,7 @@ import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi;
 import com.example.damia.aktywnimobileapp.LoginModel;
 import com.example.damia.aktywnimobileapp.VIEW.LoginActivity;
 import com.google.gson.Gson;
+
 
 import org.json.JSONObject;
 
@@ -25,11 +25,12 @@ public class LoginPresenter {
         {
             model= new LoginModel();
         }
+ try {
+     if (!CyptographyApi.decrypt(sharedPreferenceApi.INSTANCE.getString(context, EnumChoice.token)).equals("")) {
 
-        if(sharedPreferenceApi.INSTANCE.getString(context,EnumChoice.token)!="")
-        {
-            context.goToHomeView();
-        }
+         context.goToHomeView();
+     }
+ }catch (Exception e){}
 
 
     }
@@ -60,20 +61,23 @@ public class LoginPresenter {
         toSend.put("UserLogin", model.login);
         toSend.put("password", model.password);
         try {
-            new HTTPRequestAPI(this, "account/login", "loginResult", toSend).execute();
+            new HTTPRequestAPI(this, "account/login", "loginResult", toSend,"").execute();
         }catch (Exception e){}
     }
 
     public void loginResult(String result)
     {
-        try {
-            JSONObject object = new JSONObject(result);
-            sharedPreferenceApi.INSTANCE.set(context, CyptographyApi.encrypt(object.getString("token")), EnumChoice.token);
-            sharedPreferenceApi.INSTANCE.set(context, object.getString("expires"), EnumChoice.expireData);
-            sharedPreferenceApi.INSTANCE.set(context, object.getString("role"), EnumChoice.isAdmin);
-        }catch (Exception e){}
 
-        if(!result.isEmpty())
+        try {
+
+            JSONObject object = new JSONObject(result);
+            JSONObject info= new JSONObject(object.getString("info"));
+            sharedPreferenceApi.INSTANCE.set(context, CyptographyApi.encrypt(info.getString("token")), EnumChoice.token);
+            sharedPreferenceApi.INSTANCE.set(context, info.getString("expires"), EnumChoice.expireData);
+            sharedPreferenceApi.INSTANCE.set(context, info.getString("role"), EnumChoice.isAdmin);
+
+
+        if(object.getString("response").equals("True"))
         {
             try {
                 sharedPreferenceApi.INSTANCE.set(context, "", EnumChoice.loginModel);
@@ -85,6 +89,7 @@ public class LoginPresenter {
         {
             context.showTooltip();
         }
+        }catch (Exception e){}
     }
 
 
