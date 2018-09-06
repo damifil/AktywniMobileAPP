@@ -62,6 +62,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var infoTitle: TextView? = null
     private var infoSnippet: TextView? = null
     private var score: TextView? = null
+    private var event:String=""
     private var infoButton: Button? = null
     private var infoButtonListener: OnInfoWindowElemTouchListener? = null
     private var mapWrapperLayout: MapWrapperLayout? = null
@@ -71,6 +72,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         super.onCreate(savedInstanceState)
         arguments?.let {
             fromMain = it.getBoolean("fromMain")
+            event=it.getString("event")
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(mcontext!!)
@@ -82,7 +84,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         mView = inflater.inflate(R.layout.fragment_main, container, false)
 
         this.infoWindow = inflater.inflate(R.layout.info_window, null) as ViewGroup
-        presenter = MainFragmentPresenter(this,fromMain!!)
+        presenter = MainFragmentPresenter(this,fromMain!!,event)
         return mView
     }
 
@@ -233,7 +235,16 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         @JvmStatic
         fun newInstance(fm:Boolean) =
                 MainFragment().apply {
-                    arguments = Bundle().apply {putBoolean("fromMain",fm)}
+                    arguments = Bundle().apply {putBoolean("fromMain",fm)
+                        putString("event","")
+                    }
+                }
+        @JvmStatic
+        fun newInstance(fm:String) =
+                MainFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("event",fm)
+                        putBoolean("fromMain",false)}
                 }
     }
 

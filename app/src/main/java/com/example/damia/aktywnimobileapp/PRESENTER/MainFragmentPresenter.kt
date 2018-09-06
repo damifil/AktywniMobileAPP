@@ -3,6 +3,7 @@ package com.example.damia.aktywnimobileapp.PRESENTER
 import android.content.Context
 import android.util.Log
 import android.view.View
+import com.beust.klaxon.Klaxon
 import com.example.damia.aktywnimobileapp.MODEL.Event
 import com.example.damia.aktywnimobileapp.MODEL.MainFragmentModel
 import com.example.damia.aktywnimobileapp.VIEW.MainFragment
@@ -15,17 +16,21 @@ import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI
 import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi
 import org.json.JSONArray
 import org.json.JSONObject
+import com.google.gson.Gson
 
 
-class MainFragmentPresenter(context: MainFragment, fromMain: Boolean) {
+
+
+class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:String) {
     val model: MainFragmentModel
     val context2: MainFragment
-
+    val fromMain:Boolean
+    val event:String
     init {
         this.context2 = context
         this.model = MainFragmentModel()
-
-
+        this.fromMain=fromMain
+        this.event=event
     }
 
     fun result(result: String) {
@@ -66,16 +71,22 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean) {
     }
 
     fun setEvent() {
-        val toSend = HashMap<String, String>()
-        try {
-            HTTPRequestAPI(this, "event", "result", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "GET").execute()
-        } catch (e: Exception) {
+        if(event.equals("")) {
+            val toSend = HashMap<String, String>()
+            try {
+                HTTPRequestAPI(this, "event", "result", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "GET").execute()
+            } catch (e: Exception) {
+            }
+        }
+        else
+        {
+        var ev:Event=Klaxon().parse<Event>(event)!!
+            model.listOfEvents.add(ev)
+            setMarkers()
         }
     }
 
     fun setMarkers() {
-Log.i("hhhh2",model.listOfEvents.size.toString())
-        Log.i("hhhh3",model.listOfEvents.first().longitude.toString())
         for (item in model.listOfEvents) {
             context2.setMarker(item.latitude!!, item.longitude!!, item.eventName, item.typeOfSport)
         }

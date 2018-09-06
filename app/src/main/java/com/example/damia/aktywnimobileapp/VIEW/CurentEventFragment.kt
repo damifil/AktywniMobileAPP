@@ -2,13 +2,16 @@ package com.example.damia.aktywnimobileapp.VIEW
 
 import android.content.Context
 import android.databinding.DataBindingUtil
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import com.beust.klaxon.Klaxon
 import com.example.damia.aktywnimobileapp.CurentEventModel
 import com.example.damia.aktywnimobileapp.PRESENTER.CurentEventPresenter
 import com.example.damia.aktywnimobileapp.R
@@ -58,6 +61,23 @@ class CurentEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val tf = Typeface.createFromAsset(context!!.assets,
+                "fonts/fa-solid-900.ttf")
+
+        var tvMapIco = view.findViewById(R.id.TVMapIco) as TextView
+        tvMapIco.setTypeface(tf)
+        tvMapIco.setText("\uf279")
+
+        tvMapIco.setOnClickListener{
+
+            val newFragment = MainFragment.newInstance(Klaxon().toJsonString(presenter!!.model))
+            val transaction = fragmentManager!!.beginTransaction()
+            transaction.replace(R.id.body, newFragment)
+            transaction.commit()
+        }
+
+
         BTChat.setOnClickListener {
 
             val newFragment = EventChatFragment.newInstance(presenter!!.model.eventID,"")
