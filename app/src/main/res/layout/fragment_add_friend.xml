@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VIEW.AddFriendFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lista twoich wydarzeń"
+            android:textStyle="bold" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_friend_add_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etLoginSearch" />
+
+        <EditText
+            android:id="@+id/etLoginSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:ems="10"
+            android:hint="wyszukja..."
+            android:inputType="textPersonName"
+            android:text=""
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

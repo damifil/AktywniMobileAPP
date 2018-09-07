@@ -71,16 +71,19 @@ public class LoginPresenter {
         try {
 
             JSONObject object = new JSONObject(result);
-            JSONObject info= new JSONObject(object.getString("info"));
-            sharedPreferenceApi.INSTANCE.set(context, CyptographyApi.encrypt(info.getString("token")), EnumChoice.token);
-            sharedPreferenceApi.INSTANCE.set(context, info.getString("expires"), EnumChoice.expireData);
-            sharedPreferenceApi.INSTANCE.set(context, info.getString("role"), EnumChoice.isAdmin);
+
+
 
 
         if(object.getString("response").equals("True"))
         {
             try {
+                JSONObject info= new JSONObject(object.getString("info"));
+                sharedPreferenceApi.INSTANCE.set(context, CyptographyApi.encrypt(info.getString("token")), EnumChoice.token);
+                sharedPreferenceApi.INSTANCE.set(context, info.getString("expires"), EnumChoice.expireData);
+                sharedPreferenceApi.INSTANCE.set(context, info.getString("role"), EnumChoice.isAdmin);
                 sharedPreferenceApi.INSTANCE.set(context, "", EnumChoice.loginModel);
+                sharedPreferenceApi.INSTANCE.set(context,model.login,EnumChoice.choiceLogin);
             }catch (Exception ex){}
             model.ResetData();
             context.goToHomeView();

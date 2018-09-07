@@ -6,15 +6,18 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.damia.aktywnimobileapp.Adapters.AddFriendListAdapter
 import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
-import com.example.damia.aktywnimobileapp.Adapters.FriendListAdapter
-import com.example.damia.aktywnimobileapp.PRESENTER.FriendsPresenter
+import com.example.damia.aktywnimobileapp.PRESENTER.AddFriendPresenter
 
 import com.example.damia.aktywnimobileapp.R
-import kotlinx.android.synthetic.main.fragment_freinds.*
+import kotlinx.android.synthetic.main.fragment_add_friend.*
+import kotlinx.android.synthetic.main.fragment_event.*
 import mehdi.sakout.fancybuttons.FancyButton
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,18 +28,18 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [FreindsFragment.OnFragmentInteractionListener] interface
+ * [AddFriendFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [FreindsFragment.newInstance] factory method to
+ * Use the [AddFriendFragment.newInstance] factory method to
  * create an instance of this fragment.
  *
  */
-class FreindsFragment : Fragment() {
+class AddFriendFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-    private var presenter:FriendsPresenter?=null
+    private var presenter:AddFriendPresenter?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -47,31 +50,43 @@ class FreindsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        var rootView = inflater.inflate(R.layout.fragment_freinds, container, false)
+        var rootView = inflater.inflate(R.layout.fragment_add_friend, container, false)
 
-        var rv=rootView.findViewById(R.id.rv_friend_list) as RecyclerView
+        var rv=rootView.findViewById(R.id.rv_friend_add_list) as RecyclerView
         rv.layoutManager = LinearLayoutManager(context)
 
-        val buttonAdd = rootView.findViewById(R.id.btn_add) as FancyButton
-        buttonAdd.setOnClickListener(object : View.OnClickListener {
 
-            override fun onClick(v: View) {
-                val newFragment = AddFriendFragment.newInstance("","")
-                val transaction = fragmentManager!!.beginTransaction()
-                transaction.replace(R.id.body, newFragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
-        })
 
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter= FriendsPresenter(this)
-        presenter!!.init()
+        presenter=AddFriendPresenter(this)
+
+
+        etLoginSearch.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+
+            presenter!!.search(s.toString())
+            }
+        })
+
+
+
+    }
+
+    fun setAdapter() {
+        rv_event_list.adapter = AddFriendListAdapter(presenter!!.model.userList, context!!)
+        rv_event_list.adapter.notifyDataSetChanged()
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,12 +106,6 @@ class FreindsFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
-    }
-
-    fun setAdapter()
-    {
-        rv_friend_list.adapter = FriendListAdapter(presenter!!.model.friendsList,context!!)
-        rv_friend_list.adapter.notifyDataSetChanged()
     }
 
     /**
@@ -122,14 +131,15 @@ class FreindsFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment FreindsFragment.
+         * @return A new instance of fragment AddFriendFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance() =
-                FreindsFragment().apply {
+        fun newInstance(param1: String, param2: String) =
+                AddFriendFragment().apply {
                     arguments = Bundle().apply {
-
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
                     }
                 }
     }

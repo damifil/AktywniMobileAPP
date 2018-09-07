@@ -1,6 +1,7 @@
 package com.example.damia.aktywnimobileapp
 
 import android.databinding.ObservableField
+import com.example.damia.aktywnimobileapp.MODEL.User
 import java.util.*
 
 class CurentEventModel
@@ -23,7 +24,14 @@ class CurentEventModel
 
     var name: ObservableField<String> = ObservableField()
 
+    //0 -nie jet
+    //1 jest uzytkownikem
+    //2 jesst adminem
+    var userStatus:Int=0
 
     var isComercial:Boolean=false
     var icoText:ObservableField<String> = ObservableField()
+
+    var userList:MutableList<User> = arrayListOf()
+
 }

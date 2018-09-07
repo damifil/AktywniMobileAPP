@@ -25,18 +25,20 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
     val model: MainFragmentModel
     val context2: MainFragment
     val fromMain:Boolean
-    val event:String
+    var eventString:String
     init {
         this.context2 = context
         this.model = MainFragmentModel()
         this.fromMain=fromMain
-        this.event=event
+        this.eventString=event
     }
 
     fun result(result: String) {
         var root = JSONObject(result)
 
         var jsonArray = JSONArray(root.getString("info"))
+        Log.i("HHHH",jsonArray.toString())
+
         for (i in 0..(jsonArray.length() - 1)) {
             try {
                 val event = jsonArray.getJSONObject(i)
@@ -67,11 +69,13 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
             } catch (e: Exception) {
             }
         }
+        Log.i("HHHH",model.listOfEvents.size.toString())
         setMarkers()
     }
 
-    fun setEvent() {
-        if(event.equals("")) {
+    fun setEvent(event:String) {
+        this.eventString=event
+        if(eventString.equals("")) {
             val toSend = HashMap<String, String>()
             try {
                 HTTPRequestAPI(this, "event", "result", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "GET").execute()

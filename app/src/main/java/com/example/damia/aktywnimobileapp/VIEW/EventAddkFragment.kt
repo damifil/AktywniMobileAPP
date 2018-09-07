@@ -143,7 +143,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
             val day = c.get(Calendar.DAY_OF_MONTH)
 
             val dpd = DatePickerDialog(activity,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-
+               var monthYear=monthOfYear+1
                 var day=""
                 var month=""
                 if(dayOfMonth<10)
@@ -155,13 +155,13 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener{
                     day=dayOfMonth.toString()
                 }
 
-                if(monthOfYear<10)
+                if(monthYear<10)
                 {
-                    month="0"+monthOfYear
+                    month="0"+monthYear
                 }
                 else
                 {
-                    month=monthOfYear.toString()
+                    month=monthYear.toString()
                 }
 
 

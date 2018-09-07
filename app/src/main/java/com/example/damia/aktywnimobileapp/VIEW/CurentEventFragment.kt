@@ -38,8 +38,8 @@ class CurentEventFragment : Fragment() {
     private var eventName: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-   var presenter:CurentEventPresenter?=null
-    var   binding: FragmentCurentEventBinding?=null
+    var presenter: CurentEventPresenter? = null
+    var binding: FragmentCurentEventBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -52,11 +52,43 @@ class CurentEventFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-        presenter=CurentEventPresenter(this,eventName!!)
-        binding  = DataBindingUtil.inflate(inflater,R.layout.fragment_curent_event,container,false)
-        binding!!.mod=presenter!!.model
+        presenter = CurentEventPresenter(this, eventName!!)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_curent_event, container, false)
+        binding!!.mod = presenter!!.model
 
         return binding!!.root
+    }
+
+    fun setIco(userStatus: Int) {
+        val tf = Typeface.createFromAsset(context!!.assets,
+                "fonts/fa-solid-900.ttf")
+        TVIco.setTypeface(tf)
+        TVIcoChangeEvent.setTypeface(tf)
+        when (userStatus) {
+            0 -> {
+                TVIco.setText("\uf274")
+                TVIco.setOnClickListener{
+                    presenter!!.joinEvent()
+                }
+            }
+            1 -> {
+                TVIco.setText("\uf273")
+                TVIco.setOnClickListener{
+                    presenter!!.exceptEvent()
+                }
+            }
+            2 -> {
+                TVIco.setText("\uf272")
+                TVIco.setOnClickListener{
+                presenter!!.deleteEvent()
+                }
+                TVIcoChangeEvent.setText("\uf303")
+                TVIcoChangeEvent.setOnClickListener{
+                presenter!!.changeEvent()
+                }
+            }
+
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,7 +101,7 @@ class CurentEventFragment : Fragment() {
         tvMapIco.setTypeface(tf)
         tvMapIco.setText("\uf279")
 
-        tvMapIco.setOnClickListener{
+        tvMapIco.setOnClickListener {
 
             val newFragment = MainFragment.newInstance(Klaxon().toJsonString(presenter!!.model))
             val transaction = fragmentManager!!.beginTransaction()
@@ -80,7 +112,7 @@ class CurentEventFragment : Fragment() {
 
         BTChat.setOnClickListener {
 
-            val newFragment = EventChatFragment.newInstance(presenter!!.model.eventID,"")
+            val newFragment = EventChatFragment.newInstance(presenter!!.model.eventID, "")
             val transaction = fragmentManager!!.beginTransaction()
             transaction.replace(R.id.body, newFragment)
             transaction.commit()

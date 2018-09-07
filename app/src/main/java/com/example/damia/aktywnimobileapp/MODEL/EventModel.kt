@@ -4,7 +4,7 @@ import com.example.damia.aktywnimobileapp.VIEW.MainFragment
 
 class EventModel
 {
-
+var eventList:ArrayList<EventListItem> = ArrayList()
 
 }
 

@@ -187,7 +187,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
             markerHandle = googleMap.addMarker(marker)
         }
         getLocalization()
-        presenter!!.setEvent()
+        presenter!!.setEvent(event)
     }
 
     fun setMarker(latitude: Double, longitude: Double, title: String, description: String) {

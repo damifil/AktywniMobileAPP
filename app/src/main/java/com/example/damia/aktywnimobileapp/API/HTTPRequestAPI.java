@@ -101,7 +101,7 @@ public class HTTPRequestAPI extends
 
 
 
-            if(requestType.equals("POST"))
+            if(!requestType.equals("GET"))
             {
                 conn.setDoOutput(true);
                 OutputStream os = conn.getOutputStream();

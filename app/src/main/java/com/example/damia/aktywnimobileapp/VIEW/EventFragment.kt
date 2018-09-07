@@ -25,8 +25,7 @@ import android.support.design.R.id.container
 import mehdi.sakout.fancybuttons.FancyButton
 import android.os.Build
 import android.annotation.TargetApi
-
-
+import com.example.damia.aktywnimobileapp.PRESENTER.EventPresenter
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -46,7 +45,7 @@ private const val ARG_PARAM2 = "param2"
 class EventFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var listener: OnFragmentInteractionListener? = null
-
+    private var presenter:EventPresenter?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -120,22 +119,8 @@ class EventFragment : Fragment() {
 
 
 
-        var arr:ArrayList<EventListItem> = ArrayList()
-//////
-        var a1= EventListItem("dd","Dsd","dsdf","\uf206")
-        var a2=EventListItem("dsdfd","Dsd","dsdf","\uf206")
-        arr.add(a1)
-        arr.add(a2)
-        arr.add(a2)
-        arr.add(a2)
-        arr.add(a2)
-        arr.add(a2)
-        arr.add(a2)
-        arr.add(a2)
-/////////
 
 
-        rv.rv_event_list.adapter = EventListAdapter(arr,context!!)
 
         val buttonSearch =     rootView.findViewById(R.id.btn_search) as FancyButton
         buttonSearch.setOnClickListener(object : View.OnClickListener {
@@ -176,8 +161,16 @@ class EventFragment : Fragment() {
         return rootView
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter= EventPresenter(this)
+        presenter!!.downloadEvents()
+    }
 
-
+    fun setAdapter() {
+        rv_event_list.adapter = EventListAdapter(presenter!!.model.eventList, context!!)
+        rv_event_list.adapter.notifyDataSetChanged()
+    }
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)

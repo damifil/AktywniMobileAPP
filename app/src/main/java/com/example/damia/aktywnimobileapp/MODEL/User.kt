@@ -6,5 +6,7 @@ class User
     var isAdminEvent:String=""
     var userRating:String=""
     var isFriend:Boolean=false
-
+    var eventID:Int=0
+    var isAccepted:Boolean=false
+    var userID:Int=0
 }
