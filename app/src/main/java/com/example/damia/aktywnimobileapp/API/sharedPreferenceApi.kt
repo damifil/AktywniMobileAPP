@@ -14,7 +14,7 @@ enum class EnumChoice(val value:String)
     ip("ipserwer"),password("password"),n("ttt"),
     login("login"),nameuser("name"),surname("surname"),
     isLogin("isLogin"),isAdmin("role"),choiceLogin("choiceLogin"),choiceLock("choiceLock"),
-    publicKey("publicKey"),loginModel("loginModel"),registerModel("registerModel"),token("token"),expireData("expires"),EventAddPresenter("eventAddP");
+    publicKey("publicKey"),loginModel("loginModel"),friendList("friendList"),  registerModel("registerModel"),token("token"),expireData("expires"),EventAddPresenter("eventAddP");
 }
 
 

@@ -3,6 +3,7 @@ package com.example.damia.aktywnimobileapp.VIEW
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -40,6 +41,19 @@ class AddFriendFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
     private var presenter:AddFriendPresenter?=null
+
+
+    var delay: Long = 1000 // 1 seconds after user stops typing
+    var last_text_edit: Long = 0
+    var handler = Handler()
+
+    private val input_finish_checker = Runnable {
+        if (System.currentTimeMillis() > last_text_edit + delay - 500) {
+           presenter!!.search(etLoginSearch.text.toString())
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -63,11 +77,18 @@ class AddFriendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter=AddFriendPresenter(this)
+        presenter!!.init()
 
 
         etLoginSearch.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(s: Editable) {}
+            override fun afterTextChanged(s: Editable) {
+                if (s.toString().length > 0) {
+                    last_text_edit = System.currentTimeMillis();
+                    handler.postDelayed(input_finish_checker, delay);
+                }
+
+            }
 
             override fun beforeTextChanged(s: CharSequence, start: Int,
                                            count: Int, after: Int) {
@@ -75,8 +96,8 @@ class AddFriendFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-
-            presenter!!.search(s.toString())
+                handler.removeCallbacks(input_finish_checker)
+           // presenter!!.search(s.toString())
             }
         })
 
@@ -85,8 +106,8 @@ class AddFriendFragment : Fragment() {
     }
 
     fun setAdapter() {
-        rv_event_list.adapter = AddFriendListAdapter(presenter!!.model.userList, context!!)
-        rv_event_list.adapter.notifyDataSetChanged()
+        rv_friend_add_list.adapter = AddFriendListAdapter(presenter!!.model.userList, context!!)
+        rv_friend_add_list.adapter.notifyDataSetChanged()
     }
 
     // TODO: Rename method, update argument and hook method into UI event

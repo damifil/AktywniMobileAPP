@@ -50,16 +50,22 @@ class FriendsPresenter(activity:FreindsFragment)
             for(i in 0..jsonArray.length()-1)
             {
                 val item = jsonArray.getJSONObject(i)
+                val user=User()
+                user.login=item.getString("login")
+                user.userID=item.getInt("userId")
+                user.userRating=item.getString("rate")
                 if(item.getBoolean("isAccepted"))
                 {
-                    val user=User()
-                    user.login=item.getString("login")
-                    user.userID=item.getInt("userid")
-                    user.userRating=item.getString("rate")
-                    model.friendsList.add(user)
+                  user.isAccepted=true
                 }
+                model.friendsList.add(user)
             }
+            model.friendsList.sortBy { it.isAccepted }
+
+            sharedPreferenceApi.set(activity.context!!,Klaxon().toJsonString(model.friendsList),EnumChoice.friendList)
             activity.setAdapter()
+            var a=Klaxon().toJsonString(model.friendsList)
+            var b=1
 
         } else {
         Toast.makeText(activity.context,"Wystapil problem podczas pobierania lsity przyjaciol",Toast.LENGTH_LONG).show()

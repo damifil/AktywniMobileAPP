@@ -64,11 +64,14 @@ public class HTTPRequestAPI extends
     @Override
     protected void onPostExecute(String response) {
 
-        java.lang.reflect.Method method;
+        Log.i("AAAAresp","resp"+response);
+        if(!methodName.equals(""))
+        {java.lang.reflect.Method method;
         try {
             method = presenter.getClass().getMethod(methodName, String.class);
             method.invoke(presenter, response);
         }catch(Exception ex){
+        }
         }
     }
 

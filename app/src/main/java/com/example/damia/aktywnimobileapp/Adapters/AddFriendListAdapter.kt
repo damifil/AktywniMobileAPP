@@ -2,18 +2,22 @@ package com.example.damia.aktywnimobileapp.Adapters
 
 import android.content.Context
 import android.graphics.Typeface
+import android.provider.Contacts.PresenceColumns.INVISIBLE
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.damia.aktywnimobileapp.API.CyptographyApi
+import com.example.damia.aktywnimobileapp.API.EnumChoice
+import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI
+import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi
 import com.example.damia.aktywnimobileapp.MODEL.User
 import com.example.damia.aktywnimobileapp.R
 import kotlinx.android.synthetic.main.friends_list_item.view.*
 import kotlinx.android.synthetic.main.search_friend_item.view.*
 import java.util.ArrayList
-
-
+import java.util.HashMap
 
 
 class AddFriendListAdapter(val items: ArrayList<User>, val context: Context): RecyclerView.Adapter<ViewHolderFriendAdd>()
@@ -34,14 +38,27 @@ class AddFriendListAdapter(val items: ArrayList<User>, val context: Context): Re
 
         holder?.tvIco.setTypeface(tf)
         holder?.tvIco.text="\uf067"
-
-        holder?.tvIco.setOnClickListener {
-
-            Toast.makeText(context,"ico click "+ items[position].userID, Toast.LENGTH_LONG).show()
+        if(!items.get(position).isFriend) {
+            holder?.tvIco.setOnClickListener {
+                val toSend = HashMap<String, String>()
+                toSend["friendID"] = items.get(position).userID.toString()
+                try {
+                    HTTPRequestAPI(this, "friend/addFriend", "", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context, EnumChoice.token)), "POST").execute()
+                } catch (e: Exception) {
+                }
+                holder?.tvIco.visibility = View.INVISIBLE
+                Toast.makeText(context, "ico click " + items[position].userID, Toast.LENGTH_LONG).show()
+            }
+        }
+        else
+        {
+            holder?.tvIco.visibility = View.INVISIBLE
         }
 
 
     }
+
+
 
     override fun getItemCount(): Int {
         return items.size
