@@ -11,6 +11,7 @@ import com.example.damia.aktywnimobileapp.MODEL.EventAddModel
 import com.example.damia.aktywnimobileapp.R
 import com.example.damia.aktywnimobileapp.VIEW.CurentEventFragment
 import com.example.damia.aktywnimobileapp.VIEW.EventAddkFragment
+import com.example.damia.aktywnimobileapp.VIEW.MainActivity
 import org.json.JSONObject
 import java.util.HashMap
 
@@ -51,6 +52,12 @@ class EventAddPresenter(context: EventAddkFragment) {
                   transaction.replace(R.id.body, newFragment)
                   transaction.addToBackStack(null)
                   transaction.commit()
+
+
+
+
+
+
         } else {
 
             Toast.makeText(context2.context,root.getString("error"),Toast.LENGTH_SHORT).show()

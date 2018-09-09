@@ -17,6 +17,7 @@ import com.example.damia.aktywnimobileapp.PRESENTER.CurentEventPresenter
 import com.example.damia.aktywnimobileapp.R
 import com.example.damia.aktywnimobileapp.databinding.FragmentCurentEventBinding
 import kotlinx.android.synthetic.main.fragment_curent_event.*
+
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,6 +56,7 @@ class CurentEventFragment : Fragment() {
         presenter = CurentEventPresenter(this, eventName!!)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_curent_event, container, false)
         binding!!.mod = presenter!!.model
+
 
         return binding!!.root
     }

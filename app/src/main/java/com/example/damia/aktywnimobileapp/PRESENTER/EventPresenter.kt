@@ -29,8 +29,7 @@ class EventPresenter(val activity: EventFragment) {
             val jsonArray: JSONArray = root.getJSONArray("info")
             for (i in 0..jsonArray.length() - 1) {
                 val item = jsonArray.getJSONObject(i)
-                Log.i("HHHH",sports.valueOf("id"+item.getString("disciplineId")).toString())
-                val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date"),  sports.valueOf("id"+item.getString("disciplineId")).toString()  )
+                val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date"), sports.values()[item.getInt("disciplineId")-2].ico   )
                 event.eventID = item.getInt("eventId")
                 model.eventList.add(event)
             }
@@ -40,7 +39,7 @@ class EventPresenter(val activity: EventFragment) {
 
     fun setList()
     {
-
+        activity.setAdapter()
     }
 
 

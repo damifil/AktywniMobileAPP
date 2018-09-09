@@ -15,7 +15,7 @@ import com.example.damia.aktywnimobileapp.API.replaceFragment
 class MainActivity : AppCompatActivity(),CurentEventFragment.OnFragmentInteractionListener, EventChatFragment.OnFragmentInteractionListener
         , TopPanel.OnFragmentInteractionListener, EventFragment.OnFragmentInteractionListener,EventAddkFragment.OnFragmentInteractionListener
         , EventSearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, FreindsFragment.OnFragmentInteractionListener
-        , HistoryFragment.OnFragmentInteractionListener, AddFriendFragment.OnFragmentInteractionListener {
+        , HistoryFragment.OnFragmentInteractionListener, AddFriendFragment.OnFragmentInteractionListener,UserProfileFragment.OnFragmentInteractionListener {
 
 
 
@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity(),CurentEventFragment.OnFragmentInteracti
         tvFriendsLogo.setOnClickListener {
             changeMenuChoise(tvHomeLogo, tvEventLogo, tvFriendsLogo, tvHistoryLogo,3)
             choice=3
+            val newFragment = CurentEventFragment.newInstance(" ","")
+
         }
         tvHomeLogo.setOnClickListener {
             changeMenuChoise(tvHomeLogo, tvEventLogo, tvFriendsLogo, tvHistoryLogo,1)

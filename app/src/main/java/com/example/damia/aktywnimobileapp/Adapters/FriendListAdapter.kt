@@ -10,25 +10,32 @@ import com.example.damia.aktywnimobileapp.R
 import java.util.ArrayList
 import android.view.View
 import android.widget.Toast
+import com.example.damia.aktywnimobileapp.API.*
 import com.example.damia.aktywnimobileapp.MODEL.User
+import com.example.damia.aktywnimobileapp.VIEW.CurentEventFragment
+import com.example.damia.aktywnimobileapp.VIEW.MainActivity
+import com.example.damia.aktywnimobileapp.VIEW.UserProfileFragment
 
 import kotlinx.android.synthetic.main.friends_list_item.view.*
+import org.json.JSONObject
+import java.util.HashMap
 
 class FriendListAdapter(val items: ArrayList<User>, val context: Context) : RecyclerView.Adapter<ViewHolderFriend>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFriend {
         return ViewHolderFriend(LayoutInflater.from(context).inflate(R.layout.friends_list_item, parent, false))
     }
 
+
     override fun onBindViewHolder(holder: ViewHolderFriend, position: Int) {
 
 
         holder?.tvName.text = items.get(position).login
-        if (items.get(position).isAccepted) {
-            holder?.tvName.setOnClickListener {
-                Toast.makeText(context, "name user click " + items[position].userID, Toast.LENGTH_LONG).show()
+        holder?.tvName.setOnClickListener {
 
-            }
-        } else {
+            val newFragment = UserProfileFragment.newInstance(items[position].userID.toString(), "")
+            (context as MainActivity).replaceFragment(newFragment, R.id.body)
+        }
+        if (!items.get(position).isAccepted) {
             holder?.tvName.setTextColor(Color.parseColor("#A0A0A0"))
         }
         val tf = Typeface.createFromAsset(context.assets,
@@ -39,10 +46,14 @@ class FriendListAdapter(val items: ArrayList<User>, val context: Context) : Recy
         if (items.get(position).isAccepted) {
             holder?.tvIco.setOnClickListener {
 
+               // val newFragment = UserProfileFragment.newInstance(items[position].userID.toString(), "")
+              //  (context as MainActivity).replaceFragment(newFragment, R.id.body)
                 Toast.makeText(context, "ico click " + items[position].userID, Toast.LENGTH_LONG).show()
             }
-        }else{
+        } else {
             holder?.tvIco.setTextColor(Color.parseColor("#A0A0A0"))
+            holder?.tvIco.text = ""
+
         }
 
 

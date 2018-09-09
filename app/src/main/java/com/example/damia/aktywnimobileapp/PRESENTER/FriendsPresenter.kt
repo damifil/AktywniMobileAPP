@@ -64,8 +64,7 @@ class FriendsPresenter(activity:FreindsFragment)
 
             sharedPreferenceApi.set(activity.context!!,Klaxon().toJsonString(model.friendsList),EnumChoice.friendList)
             activity.setAdapter()
-            var a=Klaxon().toJsonString(model.friendsList)
-            var b=1
+
 
         } else {
         Toast.makeText(activity.context,"Wystapil problem podczas pobierania lsity przyjaciol",Toast.LENGTH_LONG).show()

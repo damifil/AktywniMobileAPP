@@ -2,8 +2,6 @@ package com.example.damia.aktywnimobileapp.PRESENTER
 
 import android.util.Log
 import android.widget.Toast
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.Klaxon
 import com.example.damia.aktywnimobileapp.API.CyptographyApi
 import com.example.damia.aktywnimobileapp.API.EnumChoice
 import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI
@@ -14,7 +12,6 @@ import com.example.damia.aktywnimobileapp.VIEW.AddFriendFragment
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.HashMap
-import kotlin.concurrent.fixedRateTimer
 
 class AddFriendPresenter(fragment: AddFriendFragment) {
     var model = AddFriendModel()

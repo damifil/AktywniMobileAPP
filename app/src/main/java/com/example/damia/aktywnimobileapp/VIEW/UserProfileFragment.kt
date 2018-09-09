@@ -1,21 +1,17 @@
 package com.example.damia.aktywnimobileapp.VIEW
 
 import android.content.Context
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
-import com.example.damia.aktywnimobileapp.Adapters.FriendListAdapter
-import com.example.damia.aktywnimobileapp.PRESENTER.FriendsPresenter
+import android.widget.TextView
+import com.example.damia.aktywnimobileapp.PRESENTER.UserProfilPresenter
 
 import com.example.damia.aktywnimobileapp.R
-import kotlinx.android.synthetic.main.fragment_freinds.*
-import mehdi.sakout.fancybuttons.FancyButton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,22 +21,22 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [FreindsFragment.OnFragmentInteractionListener] interface
+ * [UserProfileFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [FreindsFragment.newInstance] factory method to
+ * Use the [UserProfileFragment.newInstance] factory method to
  * create an instance of this fragment.
  *
  */
-class FreindsFragment : Fragment() {
+class UserProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+    private var userID: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-    private var presenter:FriendsPresenter?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
+            userID = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
     }
@@ -48,32 +44,7 @@ class FreindsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        var rootView = inflater.inflate(R.layout.fragment_freinds, container, false)
-
-        var rv=rootView.findViewById(R.id.rv_friend_list) as RecyclerView
-        rv.layoutManager = LinearLayoutManager(context)
-
-        val buttonAdd = rootView.findViewById(R.id.btn_add) as FancyButton
-        buttonAdd.setOnClickListener(object : View.OnClickListener {
-
-            override fun onClick(v: View) {
-                val newFragment = AddFriendFragment.newInstance("","")
-                val transaction = fragmentManager!!.beginTransaction()
-                transaction.replace(R.id.body, newFragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
-        })
-
-        return rootView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter= FriendsPresenter(this)
-        presenter!!.init()
-        TVFriendsInactiveListText.visibility=View.INVISIBLE
-        rv_friend_inActive_list.visibility=View.INVISIBLE
+        return inflater.inflate(R.layout.fragment_user_profile, container, false)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -95,12 +66,20 @@ class FreindsFragment : Fragment() {
         listener = null
     }
 
-    fun setAdapter()
-    {
-        rv_friend_list.adapter = FriendListAdapter(presenter!!.model.friendsList,context!!)
-        rv_friend_list.adapter.notifyDataSetChanged()
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val presenter= UserProfilPresenter(this)
+        presenter.model.userID=userID!!.toInt()
+        presenter.downloadData()
 
+        val tf = Typeface.createFromAsset(context!!.assets,
+                "fonts/fa-solid-900.ttf")
+        var tvIco = view.findViewById(R.id.icoAddDelete) as TextView
+        tvIco.setTypeface(tf)
+        tvIco.setOnClickListener {
+            presenter.clickIco()
+        }
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -124,14 +103,15 @@ class FreindsFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment FreindsFragment.
+         * @return A new instance of fragment UserProfileFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance() =
-                FreindsFragment().apply {
+        fun newInstance(param1: String, param2: String) =
+                UserProfileFragment().apply {
                     arguments = Bundle().apply {
-
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
                     }
                 }
     }
