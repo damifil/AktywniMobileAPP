@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.event_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.android.synthetic.main.list_of_sports_item.view.*
 import android.widget.LinearLayout
-
+import com.example.damia.aktywnimobileapp.PRESENTER.EventChatPresenter
 
 
 class EventChatListAdapter(val items: MutableList<ChatValue>, val context: Context): RecyclerView.Adapter<ViewHolderChat>()
@@ -31,23 +31,25 @@ class EventChatListAdapter(val items: MutableList<ChatValue>, val context: Conte
 
     override fun onBindViewHolder(holder: ViewHolderChat , position: Int) {
         holder.textchat.setText(items.get(position).chatmessage)
-        holder.userName.setText(items.get(position).nameUser)
+        holder.userName.setText(items.get(position).nameUser+"\n"+items.get(position).date)
         if(items.get(position).isMineName)
         {
             val llp = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
-            llp.setMargins(100, 0, 20, 10)
+            llp.setMargins(200, 0, 20, 10)
             holder.textchat.layoutParams=llp
             holder.userName.layoutParams=llp
         }
         else
         {
             val llp = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
-            llp.setMargins(20, 0, 100, 10)
+            llp.setMargins(20, 0, 200, 10)
             holder.textchat.layoutParams=llp
             holder.userName.layoutParams=llp
 
         }
     }
+
+
 
     override fun getItemCount(): Int {
         return items.size

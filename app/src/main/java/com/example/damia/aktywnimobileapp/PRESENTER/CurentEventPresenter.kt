@@ -63,7 +63,7 @@ class CurentEventPresenter(context: CurentEventFragment, eventName: String) {
                 userObj.isAccepted = user.getBoolean("isAccepted")
                 userObj.login = user.getString("login")
                 model.userList.add(userObj)
-                if (userObj.login == sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin)) {
+                if (userObj.login.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin),true)) {
                     if( userObj.isAccepted)
                     {
                        //warunek czy jest adminem   model.userStatus=2

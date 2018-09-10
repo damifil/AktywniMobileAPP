@@ -11,14 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.damia.aktywnimobileapp.Adapters.EventChatListAdapter
-import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
-import com.example.damia.aktywnimobileapp.MODEL.ChatValue
-import com.example.damia.aktywnimobileapp.MODEL.EventChatModel
-import com.example.damia.aktywnimobileapp.MODEL.EventListItem
 import com.example.damia.aktywnimobileapp.PRESENTER.EventChatPresenter
 
 import com.example.damia.aktywnimobileapp.R
-import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.android.synthetic.main.fragment_event_chat.*
 import kotlinx.android.synthetic.main.fragment_event_chat.view.*
 
@@ -41,9 +36,10 @@ class EventChatFragment : Fragment() {
     private var eventId: Int? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-    var adapter:EventChatListAdapter?=null
+    var adapter: EventChatListAdapter? = null
     var handler: Handler = Handler()
-    var presenter:EventChatPresenter?=null
+    var presenter: EventChatPresenter? = null
+    var lastPosition: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -57,45 +53,55 @@ class EventChatFragment : Fragment() {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_event_chat, container, false)
 
-        presenter= EventChatPresenter(this)
-
-        var rv=rootView.findViewById(R.id.rv_event_list_chat) as RecyclerView
+        presenter = EventChatPresenter(this)
+        presenter!!.model.eventId = eventId!!.toInt()
+        var rv = rootView.findViewById(R.id.rv_event_list_chat) as RecyclerView
         rv.layoutManager = LinearLayoutManager(context)
 
-        adapter=EventChatListAdapter(presenter!!.model.chatList,context!!)
+        adapter = EventChatListAdapter(presenter!!.model.chatList, context!!)
         rootView.button2.setOnClickListener()
         {
-          presenter!!.sendMessage(editText2.text.toString())
+            presenter!!.sendMessage(editText2.text.toString())
             editText2.setText("")
         }
 
+
         rv.rv_event_list_chat.adapter = adapter
+
 
         return rootView
     }
 
-    fun Notify()
-    {
+    fun Notify() {
+        var listLinearLayoutManager:LinearLayoutManager=rv_event_list_chat.layoutManager as LinearLayoutManager
+        if (presenter!!.model.lastchatListSize==-1 ||presenter!!.model.lastchatListSize-1<= listLinearLayoutManager.findLastCompletelyVisibleItemPosition() ) {
+            rv_event_list_chat.scrollToPosition(presenter!!.model.chatList.size - 1)
+        }
         adapter!!.notifyDataSetChanged()
+        presenter!!.model.lastchatListSize= presenter!!.model.chatList.size
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
-
-
-        val runnableCode = object: Runnable {
+        presenter!!.downloadLatestMessage()
+        val runnableCode = object : Runnable {
             override fun run() {
-
-
-                handler.postDelayed(this, 1000)
+                presenter!!.updateChat()
+                handler.postDelayed(this, 3000)
             }
         }
         handler.post(runnableCode)
 
+        rv_event_list_chat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val totalItemCount = recyclerView!!.layoutManager.itemCount
+                presenter!!.downloadBeforeMessage()
+            }
+        })
+
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
