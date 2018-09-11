@@ -3,7 +3,7 @@ package com.example.damia.aktywnimobileapp.MODEL
 class User
 {
     var login:String=""
-    var isAdminEvent:String=""
+    var isAdminEvent:Boolean=false
     var userRating:String=""
     var isFriend:Boolean=false
     var eventID:Int=0

@@ -4,11 +4,22 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.beust.klaxon.Klaxon
+import com.example.damia.aktywnimobileapp.API.EnumChoice
+import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi
+import com.example.damia.aktywnimobileapp.Adapters.FriendListAdapter
+import com.example.damia.aktywnimobileapp.Adapters.UserEventAdapter
+import com.example.damia.aktywnimobileapp.PRESENTER.EventUsersPresenter
 
 import com.example.damia.aktywnimobileapp.R
+import kotlinx.android.synthetic.main.fragment_event_users.*
+import kotlinx.android.synthetic.main.fragment_freinds.*
+import mehdi.sakout.fancybuttons.FancyButton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,22 +37,59 @@ private const val ARG_PARAM2 = "param2"
  */
 class EventUsersFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private var listener: OnFragmentInteractionListener? = null
 
+    private var adminLogin: String? = null
+    private var eventId: Int? = null
+    private var listener: OnFragmentInteractionListener? = null
+    var presenter:EventUsersPresenter?=null
+    var eventName=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            adminLogin = it.getString(ARG_PARAM1)
+            eventId = it.getInt(ARG_PARAM2)
+            eventName= it.getString("eventName")
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_event_users, container, false)
+
+        var rootView = inflater.inflate(R.layout.fragment_event_users, container, false)
+
+        var rv=rootView.findViewById(R.id.rv_users_list) as RecyclerView
+        rv.layoutManager = LinearLayoutManager(context)
+
+        val buttonAdd = rootView.findViewById(R.id.btn_add) as FancyButton
+        buttonAdd.setOnClickListener(object : View.OnClickListener {
+
+            override fun onClick(v: View) {
+                sharedPreferenceApi.set(context!!, Klaxon().toJsonString(presenter!!.model.friendsList), EnumChoice.usersEvent)
+                val newFragment = AddFriendFragment.newInstance(presenter!!.model.eventID.toString(),"")
+                val transaction = fragmentManager!!.beginTransaction()
+                transaction.replace(R.id.body, newFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+        })
+
+
+        return rootView
+    }
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter=EventUsersPresenter(this,eventId!!,adminLogin!!)
+        TVTitleUsersEvent.text="Uczestnicy wydarzenia: "+eventName
+    }
+
+    fun setAdapter()
+    {
+        rv_users_list.adapter = UserEventAdapter(presenter!!.model.friendsList,context!!,presenter!!)   //FriendListAdapter(presenter!!.model.friendsList,context!!,presenter!!)
+        rv_users_list.adapter.notifyDataSetChanged()
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,11 +138,12 @@ class EventUsersFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: String, param2: Int,param3:String) =
                 EventUsersFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        putInt(ARG_PARAM2, param2)
+                        putString("eventName",param3)
                     }
                 }
     }

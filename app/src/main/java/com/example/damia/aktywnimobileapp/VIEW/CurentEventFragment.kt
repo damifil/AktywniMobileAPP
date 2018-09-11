@@ -117,7 +117,7 @@ class CurentEventFragment : Fragment() {
 
         }
         BTUsers.setOnClickListener{
-            val newFragment = EventUsersFragment.newInstance(presenter!!.model.eventID.toString(), presenter!!.model.name.get()!!)
+            val newFragment = EventUsersFragment.newInstance(presenter!!.model.adminLogin,presenter!!.model.eventID,presenter!!.model.name.get()!!.removeRange(0,11))
             val transaction = fragmentManager!!.beginTransaction()
             transaction.replace(R.id.body, newFragment)
             transaction.commit()

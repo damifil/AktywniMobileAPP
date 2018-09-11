@@ -37,7 +37,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class AddFriendFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+    var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
     private var presenter:AddFriendPresenter?=null
@@ -77,6 +77,7 @@ class AddFriendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter=AddFriendPresenter(this)
+        presenter!!.model.eventId=param1!!
         presenter!!.init()
 
 
@@ -106,7 +107,7 @@ class AddFriendFragment : Fragment() {
     }
 
     fun setAdapter() {
-        rv_friend_add_list.adapter = AddFriendListAdapter(presenter!!.model.userList, context!!)
+        rv_friend_add_list.adapter = AddFriendListAdapter(presenter!!.model.userList, context!!,param1!!)
         rv_friend_add_list.adapter.notifyDataSetChanged()
     }
 

@@ -36,7 +36,7 @@
         android:id="@+id/TVICoChatFriend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="icomessage"
+        android:text=""
         android:layout_weight="0.1"
         android:layout_gravity="right"
         android:textSize="20sp"

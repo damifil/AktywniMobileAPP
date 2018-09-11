@@ -11,8 +11,8 @@ import com.example.damia.aktywnimobileapp.R
 enum class EnumChoice(val value:String)
 {
     // do przejrzenia co potrzebne
-    ip("ipserwer"),password("password"),n("ttt"),
-    login("login"),nameuser("name"),surname("surname"),
+    ip("ipserwer"),password("password"),
+    login("login"),nameuser("name"),surname("surname"),usersEvent("userEventList"),
     isLogin("isLogin"),isAdmin("role"),choiceLogin("choiceLogin"),choiceLock("choiceLock"),
     publicKey("publicKey"),loginModel("loginModel"),friendList("friendList"),  registerModel("registerModel"),token("token"),expireData("expires"),EventAddPresenter("eventAddP");
 }

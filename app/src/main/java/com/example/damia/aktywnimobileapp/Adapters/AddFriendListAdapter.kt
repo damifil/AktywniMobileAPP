@@ -20,7 +20,7 @@ import java.util.ArrayList
 import java.util.HashMap
 
 
-class AddFriendListAdapter(val items: ArrayList<User>, val context: Context): RecyclerView.Adapter<ViewHolderFriendAdd>()
+class AddFriendListAdapter(val items: ArrayList<User>, val context: Context, val eventId:String): RecyclerView.Adapter<ViewHolderFriendAdd>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFriendAdd {
         return ViewHolderFriendAdd(LayoutInflater.from(context).inflate(R.layout.search_friend_item, parent, false))
@@ -36,32 +36,40 @@ class AddFriendListAdapter(val items: ArrayList<User>, val context: Context): Re
 
         holder?.tvIco.setTypeface(tf)
         holder?.tvIco.text="\uf067"
-        if(!items.get(position).isFriend) {
+        if(!items.get(position).isFriend || !eventId.equals("")) {
+
+            if(eventId.equals("")) {
             holder?.tvIco.setOnClickListener {
-                val toSend = HashMap<String, String>()
-                toSend["friendID"] = items.get(position).userID.toString()
-                try {
-                    HTTPRequestAPI(this, "friend/addFriend", "", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context, EnumChoice.token)), "POST").execute()
-                } catch (e: Exception) {
+                    val toSend = HashMap<String, String>()
+                    toSend["friendID"] = items.get(position).userID.toString()
+                    try {
+                        HTTPRequestAPI(this, "friend/addFriend", "", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context, EnumChoice.token)), "POST").execute()
+                    } catch (e: Exception) {
+                    }
+                    holder?.tvIco.visibility = View.INVISIBLE
                 }
-                holder?.tvIco.visibility = View.INVISIBLE
-                Toast.makeText(context, "ico click " + items[position].userID, Toast.LENGTH_LONG).show()
+            }else{
+                holder?.tvIco.setOnClickListener {
+                    val toSend = HashMap<String, String>()
+                    toSend["EventId"]=eventId
+                    toSend["UserId"] = items.get(position).userID.toString()
+                    try {
+                        HTTPRequestAPI(this, "userEvent/add", "", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context, EnumChoice.token)), "POST").execute()
+                    } catch (e: Exception) {
+                    }
+                    holder?.tvIco.visibility = View.INVISIBLE
+                }
             }
         }
         else
         {
             holder?.tvIco.visibility = View.INVISIBLE
         }
-
-
     }
-
-
 
     override fun getItemCount(): Int {
         return items.size
     }
-
 }
 
 class ViewHolderFriendAdd (view: View) : RecyclerView.ViewHolder(view) {
