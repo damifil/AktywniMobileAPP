@@ -6,6 +6,7 @@ class EventListItem(name: String, description: String, data: String, sport: Stri
     var data = ""
     var sport = ""
     var eventID:Int=0
+    var adminLogin=""
     init {
         this.name = name
         this.data = data

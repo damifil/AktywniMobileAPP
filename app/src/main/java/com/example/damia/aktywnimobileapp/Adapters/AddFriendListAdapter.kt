@@ -30,8 +30,6 @@ class AddFriendListAdapter(val items: ArrayList<User>, val context: Context): Re
         holder?.tvName.text=items.get(position).login
 
         holder?.tvName.setOnClickListener{
-            Toast.makeText(context,"name user click "+ items[position].userID, Toast.LENGTH_LONG).show()
-
         }
         val tf = Typeface.createFromAsset(context.assets,
                 "fonts/fa-solid-900.ttf")

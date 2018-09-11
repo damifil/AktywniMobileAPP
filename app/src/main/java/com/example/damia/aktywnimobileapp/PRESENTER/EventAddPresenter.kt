@@ -25,39 +25,99 @@ class EventAddPresenter(context: EventAddkFragment) {
         this.model = EventAddModel()
     }
 
-    fun request() {
+    fun initEventChange()
+    {
         val toSend = HashMap<String, String>()
-        toSend["Name"] = model.eventName
-        toSend["Date"] = model.date
-        toSend["DisciplineId"] = context2.partItem.idEvent.toString()
-        toSend["Description"] = model.description
-        toSend["GeographicalCoordinates"] = model.longitude.toString() + ';' + model.latitude
-
-
         try {
-            HTTPRequestAPI(this, "event/add", "resultRequest", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token))).execute()
+            HTTPRequestAPI(this, "event/"+model.eventId, "initEventChangeRequestResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)),"GET").execute()
         } catch (e: Exception) {
         }
-
     }
 
+    fun initEventChangeRequestResult(result:String)
+    {
+        val jsonObject= JSONObject(result)
+        if(jsonObject.getBoolean("response"))
+        {
+            val item= jsonObject.getJSONObject("info")
+            model.date=item.getString("date")
+            model.description=item.getString("description")
+            model.eventName=item.getString("name")
+            model.longitude= item.getString("geographicalCoordinates").split(';')[0].toDouble()
+            model.latitude=item.getString("geographicalCoordinates").split(';')[1].toDouble()
+            context2.partItemClicked(model.Sports[item.getInt("disciplineId")-2])
+            context2.updateData()
+        }
+    }
+
+    fun request() {
+        var toSend = HashMap<String, String>()
+        if(model.eventId<=0) {
+
+            toSend["Name"] = model.eventName
+            toSend["Date"] = model.date
+            toSend["DisciplineId"] = context2.partItem.idEvent.toString()
+            toSend["Description"] = model.description
+            toSend["GeographicalCoordinates"] = model.longitude.toString() + ';' + model.latitude
+
+
+            try {
+                HTTPRequestAPI(this, "event/add", "resultRequest", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token))).execute()
+            } catch (e: Exception) {
+            }
+        }
+        else
+        {
+            toSend["NewName"]=model.eventName
+            try {
+                HTTPRequestAPI(this, "event/changeName/"+model.eventId, "changeResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)),"PUT").execute()
+            } catch (e: Exception) {
+            }
+
+            toSend = HashMap<String, String>()
+
+            toSend["NewDescription"]=model.description
+            try {
+                HTTPRequestAPI(this, "changeDescritpion/"+model.eventId, "changeResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)),"PUT").execute()
+            } catch (e: Exception) {
+            }
+
+            toSend = HashMap<String, String>()
+
+            toSend["NewDate"]=model.date
+            try {
+                HTTPRequestAPI(this, "changeDate/"+model.eventId, "changeResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)),"PUT").execute()
+            } catch (e: Exception) {
+            }
+            toSend = HashMap<String, String>()
+            toSend["NewGeographicalCoordinates"]=model.longitude.toString() + ';' + model.latitude
+            try {
+                HTTPRequestAPI(this, "changeGeographicalCoordinates/"+model.eventId, "changeResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)),"PUT").execute()
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    fun changeResult(result:String)
+    {
+        val jObj=JSONObject(result)
+        if(!jObj.getBoolean("response"))
+        {
+            Toast.makeText(context2.context,jObj.getString("error"),Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     fun resultRequest(result: String) {
-        Log.i("aaaaaddresponse",result)
         val root = JSONObject(result)
         if (root.getString("response").equals("True")) {
-               val newFragment = CurentEventFragment.newInstance(model.eventName,"")
+                    val newFragment = CurentEventFragment.newInstance(model.eventName,"")
                   model.resetData()
                   sharedPreferenceApi.set(context2.context!!, Klaxon().toJsonString(model),EnumChoice.EventAddPresenter)
                   val transaction = context2.fragmentManager!!.beginTransaction()
                   transaction.replace(R.id.body, newFragment)
                   transaction.addToBackStack(null)
                   transaction.commit()
-
-
-
-
-
-
         } else {
 
             Toast.makeText(context2.context,root.getString("error"),Toast.LENGTH_SHORT).show()

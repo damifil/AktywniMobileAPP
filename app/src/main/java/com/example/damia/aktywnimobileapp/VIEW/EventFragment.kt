@@ -145,7 +145,7 @@ class EventFragment : Fragment() {
 
             override fun onClick(v: View) {
                 isBack=2
-                val newFragment = EventAddkFragment.newInstance(0.0,0.0)
+                val newFragment = EventAddkFragment.newInstance(0.0,0.0,-1)
                 val transaction = fragmentManager!!.beginTransaction()
                 transaction.replace(R.id.body, newFragment)
                 transaction.addToBackStack(null)

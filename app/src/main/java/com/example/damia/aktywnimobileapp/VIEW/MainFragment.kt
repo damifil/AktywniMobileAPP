@@ -150,7 +150,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 }
                 else {
                     Toast.makeText(mcontext, "kontynujemy tworzenie", Toast.LENGTH_SHORT).show()
-                    val newFragment = EventAddkFragment.newInstance(position.latitude,position.longitude)
+                    val newFragment = EventAddkFragment.newInstance(position.latitude,position.longitude,-1) //nieistotny 3 parametr i tak odczyta z sharedpreference model
                     val transaction = fragmentManager!!.beginTransaction()
                     transaction.replace(R.id.body, newFragment)
                     //  transaction.addToBackStack(null)

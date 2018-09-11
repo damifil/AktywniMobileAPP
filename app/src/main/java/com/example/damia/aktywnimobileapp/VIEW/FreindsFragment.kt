@@ -3,6 +3,7 @@ package com.example.damia.aktywnimobileapp.VIEW
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -53,6 +54,10 @@ class FreindsFragment : Fragment() {
         var rv=rootView.findViewById(R.id.rv_friend_list) as RecyclerView
         rv.layoutManager = LinearLayoutManager(context)
 
+
+        var rv2=rootView.findViewById(R.id.rv_friend_inActive_list) as RecyclerView
+        rv2.layoutManager = LinearLayoutManager(context)
+
         val buttonAdd = rootView.findViewById(R.id.btn_add) as FancyButton
         buttonAdd.setOnClickListener(object : View.OnClickListener {
 
@@ -70,10 +75,11 @@ class FreindsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter= FriendsPresenter(this)
-        presenter!!.init()
         TVFriendsInactiveListText.visibility=View.INVISIBLE
         rv_friend_inActive_list.visibility=View.INVISIBLE
+        presenter= FriendsPresenter(this)
+        presenter!!.init()
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -97,8 +103,32 @@ class FreindsFragment : Fragment() {
 
     fun setAdapter()
     {
-        rv_friend_list.adapter = FriendListAdapter(presenter!!.model.friendsList,context!!)
+        rv_friend_list.adapter = FriendListAdapter(presenter!!.model.friendsList,context!!,presenter!!)
         rv_friend_list.adapter.notifyDataSetChanged()
+    }
+
+    fun setAdapterInvitations()
+    {
+        if(presenter!!.model.friendsInactive.any()) {
+            TVFriendsInactiveListText.visibility = View.VISIBLE
+            rv_friend_inActive_list.visibility = View.VISIBLE
+
+            val params =  rv_friend_inActive_list.getLayoutParams()
+            params.height = 300
+            rv_friend_inActive_list.setLayoutParams(params)
+            TVFriendsInactiveListText.setLayoutParams(ConstraintLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT))
+            rv_friend_inActive_list.adapter = FriendListAdapter(presenter!!.model.friendsInactive, context!!,presenter!!)
+            rv_friend_inActive_list.adapter.notifyDataSetChanged()
+        }
+        else
+        {
+            TVFriendsInactiveListText.visibility=View.INVISIBLE
+            rv_friend_inActive_list.visibility=View.INVISIBLE
+            val params =  rv_friend_inActive_list.getLayoutParams()
+            params.height = 0
+            rv_friend_inActive_list.setLayoutParams(params)
+            TVFriendsInactiveListText.height=0
+        }
     }
 
     /**

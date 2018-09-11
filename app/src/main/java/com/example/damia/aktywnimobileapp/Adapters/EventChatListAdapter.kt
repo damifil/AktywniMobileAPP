@@ -31,13 +31,14 @@ class EventChatListAdapter(val items: MutableList<ChatValue>, val context: Conte
 
     override fun onBindViewHolder(holder: ViewHolderChat , position: Int) {
         holder.textchat.setText(items.get(position).chatmessage)
-        holder.userName.setText(items.get(position).nameUser+"\n"+items.get(position).date)
+
         if(items.get(position).isMineName)
         {
             val llp = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
             llp.setMargins(200, 0, 20, 10)
             holder.textchat.layoutParams=llp
             holder.userName.layoutParams=llp
+            holder.userName.setText(items.get(position).date)
         }
         else
         {
@@ -45,6 +46,7 @@ class EventChatListAdapter(val items: MutableList<ChatValue>, val context: Conte
             llp.setMargins(20, 0, 200, 10)
             holder.textchat.layoutParams=llp
             holder.userName.layoutParams=llp
+            holder.userName.setText(items.get(position).nameUser+"\n"+items.get(position).date)
 
         }
     }

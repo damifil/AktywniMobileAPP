@@ -33,5 +33,5 @@ class CurentEventModel
     var icoText:ObservableField<String> = ObservableField()
 
     var userList:MutableList<User> = arrayListOf()
-
+    var adminLogin=""
 }

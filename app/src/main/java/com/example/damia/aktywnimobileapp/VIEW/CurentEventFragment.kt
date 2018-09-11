@@ -10,15 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.beust.klaxon.Klaxon
-import com.example.damia.aktywnimobileapp.CurentEventModel
 import com.example.damia.aktywnimobileapp.PRESENTER.CurentEventPresenter
 import com.example.damia.aktywnimobileapp.R
 import com.example.damia.aktywnimobileapp.databinding.FragmentCurentEventBinding
 import kotlinx.android.synthetic.main.fragment_curent_event.*
-
-import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
 class CurentEventFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var eventName: String? = null
-    private var param2: String? = null
+    private var adminLogin: String? = null
     private var listener: OnFragmentInteractionListener? = null
     var presenter: CurentEventPresenter? = null
     var binding: FragmentCurentEventBinding? = null
@@ -45,7 +41,7 @@ class CurentEventFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             eventName = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            adminLogin = it.getString(ARG_PARAM2)
         }
     }
 
@@ -53,7 +49,7 @@ class CurentEventFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-        presenter = CurentEventPresenter(this, eventName!!)
+        presenter = CurentEventPresenter(this, eventName!!,adminLogin!!)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_curent_event, container, false)
         binding!!.mod = presenter!!.model
 
@@ -114,11 +110,17 @@ class CurentEventFragment : Fragment() {
 
         BTChat.setOnClickListener {
 
-            val newFragment = EventChatFragment.newInstance(presenter!!.model.eventID, "")
+            val newFragment = EventChatFragment.newInstance(presenter!!.model.eventID.toString(), "",presenter!!.model.name.get()!!)
             val transaction = fragmentManager!!.beginTransaction()
             transaction.replace(R.id.body, newFragment)
             transaction.commit()
 
+        }
+        BTUsers.setOnClickListener{
+            val newFragment = EventUsersFragment.newInstance(presenter!!.model.eventID.toString(), presenter!!.model.name.get()!!)
+            val transaction = fragmentManager!!.beginTransaction()
+            transaction.replace(R.id.body, newFragment)
+            transaction.commit()
         }
     }
 

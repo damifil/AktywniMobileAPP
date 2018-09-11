@@ -11,19 +11,21 @@ import com.example.damia.aktywnimobileapp.CurentEventModel
 import com.example.damia.aktywnimobileapp.MODEL.User
 import com.example.damia.aktywnimobileapp.R
 import com.example.damia.aktywnimobileapp.VIEW.CurentEventFragment
+import com.example.damia.aktywnimobileapp.VIEW.EventAddkFragment
 import com.example.damia.aktywnimobileapp.VIEW.MainFragment
 import kotlinx.android.synthetic.main.fragment_curent_event.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.HashMap
 
-class CurentEventPresenter(context: CurentEventFragment, eventName: String) {
+class CurentEventPresenter(context: CurentEventFragment, eventName: String, adminLogin:String) {
     var model: CurentEventModel
     val context2: CurentEventFragment
 
     init {
         this.context2 = context
         this.model = CurentEventModel()
+        model.adminLogin=adminLogin
         val toSend = HashMap<String, String>()
         try {
             HTTPRequestAPI(this, "event/name/" + eventName, "initResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "GET").execute()
@@ -64,11 +66,12 @@ class CurentEventPresenter(context: CurentEventFragment, eventName: String) {
                 userObj.login = user.getString("login")
                 model.userList.add(userObj)
                 if (userObj.login.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin),true)) {
-                    if( userObj.isAccepted)
+                    if(userObj.isAccepted)
                     {
-                       //warunek czy jest adminem   model.userStatus=2
-                        model.userStatus=1
-
+                        if(userObj.login.equals(model.adminLogin))
+                            model.userStatus=2
+                        else
+                            model.userStatus=1
                     }
                     else
                     {
@@ -147,7 +150,7 @@ class CurentEventPresenter(context: CurentEventFragment, eventName: String) {
     {
         val toSend = HashMap<String, String>()
         try {
-            HTTPRequestAPI(this, "event/remove/"+model.eventID, "deleteEventResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "POST").execute()
+            HTTPRequestAPI(this, "event/remove/"+model.eventID, "deleteEventResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "DELETE").execute()
         } catch (e: Exception) {
         }
 
@@ -172,6 +175,9 @@ class CurentEventPresenter(context: CurentEventFragment, eventName: String) {
 
     fun changeEvent()
     {
-
+        val newFragment = EventAddkFragment.newInstance(model.latitude,model.longitude,model.eventID)
+        val transaction = context2.fragmentManager!!.beginTransaction()
+        transaction.replace(R.id.body, newFragment)
+        transaction.commit()
     }
 }

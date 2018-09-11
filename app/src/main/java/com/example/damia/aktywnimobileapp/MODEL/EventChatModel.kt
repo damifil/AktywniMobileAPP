@@ -3,8 +3,10 @@ package com.example.damia.aktywnimobileapp.MODEL
 class EventChatModel
 {
     var chatList:MutableList<ChatValue> = arrayListOf()
-    var eventId=0
+    var eventIdOrUserName=""
     var lastchatListSize=0
+    var userId=""
+    var eventName=""
 }
 
 class ChatValue

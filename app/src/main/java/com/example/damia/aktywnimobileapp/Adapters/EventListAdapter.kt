@@ -40,7 +40,7 @@ class EventListAdapter(val items: ArrayList<EventListItem>, val context: Context
         holder?.tvIco.setTypeface(tf)
         holder?.tvIco.text = items.get(position).sport
         holder.itemView.setOnClickListener {
-            val newFragment = CurentEventFragment.newInstance(items.get(position).name, "")
+            val newFragment = CurentEventFragment.newInstance(items.get(position).name, items.get(position).adminLogin)
             (context as MainActivity).replaceFragment(newFragment, R.id.body)
         }
     }

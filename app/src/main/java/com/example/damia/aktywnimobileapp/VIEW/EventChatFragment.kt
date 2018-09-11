@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_event_chat.view.*
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
+private const val ARG_PARAM3 = "param3"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
@@ -33,8 +33,9 @@ private const val ARG_PARAM2 = "param2"
  */
 class EventChatFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var eventId: Int? = null
-    private var param2: String? = null
+    private var eventId: String? = null
+    private var userId: String = ""
+    private var eventName=""
     private var listener: OnFragmentInteractionListener? = null
     var adapter: EventChatListAdapter? = null
     var handler: Handler = Handler()
@@ -43,8 +44,9 @@ class EventChatFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            eventId = it.getInt(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            eventId = it.getString(ARG_PARAM1)
+            userId = it.getString(ARG_PARAM2)
+            eventName=it.getString(ARG_PARAM3)
         }
     }
 
@@ -54,7 +56,9 @@ class EventChatFragment : Fragment() {
         var rootView = inflater.inflate(R.layout.fragment_event_chat, container, false)
 
         presenter = EventChatPresenter(this)
-        presenter!!.model.eventId = eventId!!.toInt()
+        presenter!!.model.eventIdOrUserName = eventId!!
+        presenter!!.model.userId=userId
+        presenter!!.model.eventName=eventName
         var rv = rootView.findViewById(R.id.rv_event_list_chat) as RecyclerView
         rv.layoutManager = LinearLayoutManager(context)
 
@@ -115,7 +119,10 @@ class EventChatFragment : Fragment() {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
-
+    fun setTitle(title:String)
+    {
+        textView3.text=title
+    }
     override fun onDetach() {
         super.onDetach()
         listener = null
@@ -149,11 +156,12 @@ class EventChatFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: Int, param2: String) =
+        fun newInstance(param1: String, param2: String,param3:String) =
                 EventChatFragment().apply {
                     arguments = Bundle().apply {
-                        putInt(ARG_PARAM1, param1)
+                        putString(ARG_PARAM1, param1)
                         putString(ARG_PARAM2, param2)
+                        putString(ARG_PARAM3,param3)
                     }
                 }
     }

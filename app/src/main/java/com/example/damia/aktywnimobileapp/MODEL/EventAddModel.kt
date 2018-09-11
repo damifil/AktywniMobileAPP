@@ -21,6 +21,9 @@ class EventAddModel( var longitude:Double=0.0,
             SportObject("Jeździectwo","\uf3f7",13),
             SportObject("Biegi","\uf554",14)
     )
+    var eventId=0
+
+
 fun isCorrectData():Boolean
 {
     if(longitude>0.0 && description!="" && eventName!="" && date!="" && date!="Data:")

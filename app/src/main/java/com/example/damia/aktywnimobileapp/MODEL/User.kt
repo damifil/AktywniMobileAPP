@@ -9,4 +9,5 @@ class User
     var eventID:Int=0
     var isAccepted:Boolean=false
     var userID:Int=0
+    var isFromInvite=false
 }

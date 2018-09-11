@@ -15,7 +15,8 @@ import com.example.damia.aktywnimobileapp.API.replaceFragment
 class MainActivity : AppCompatActivity(),CurentEventFragment.OnFragmentInteractionListener, EventChatFragment.OnFragmentInteractionListener
         , TopPanel.OnFragmentInteractionListener, EventFragment.OnFragmentInteractionListener,EventAddkFragment.OnFragmentInteractionListener
         , EventSearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, FreindsFragment.OnFragmentInteractionListener
-        , HistoryFragment.OnFragmentInteractionListener, AddFriendFragment.OnFragmentInteractionListener,UserProfileFragment.OnFragmentInteractionListener {
+        , HistoryFragment.OnFragmentInteractionListener, AddFriendFragment.OnFragmentInteractionListener,UserProfileFragment.OnFragmentInteractionListener
+        , EventUsersFragment.OnFragmentInteractionListener   {
 
 
 

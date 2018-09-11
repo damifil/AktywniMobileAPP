@@ -31,6 +31,7 @@ class EventPresenter(val activity: EventFragment) {
                 val item = jsonArray.getJSONObject(i)
                 val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date"), sports.values()[item.getInt("disciplineId")-2].ico   )
                 event.eventID = item.getInt("eventId")
+                event.adminLogin=item.getString("adminLogin")
                 model.eventList.add(event)
             }
         }
