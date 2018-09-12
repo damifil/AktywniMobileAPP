@@ -1,5 +1,8 @@
 package com.example.damia.aktywnimobileapp.PRESENTER
 
+import android.app.PendingIntent.getActivity
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.view.View
 import android.widget.Toast
 import com.example.damia.aktywnimobileapp.API.CyptographyApi
@@ -8,11 +11,15 @@ import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI
 import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi
 import com.example.damia.aktywnimobileapp.MODEL.User
 import com.example.damia.aktywnimobileapp.MODEL.UserProfilModel
+import com.example.damia.aktywnimobileapp.R
+import com.example.damia.aktywnimobileapp.VIEW.AddFriendFragment
+import com.example.damia.aktywnimobileapp.VIEW.LoginActivity
 import com.example.damia.aktywnimobileapp.VIEW.UserProfileFragment
 import kotlinx.android.synthetic.main.fragment_user_profile.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.util.HashMap
+import android.support.v4.content.ContextCompat.startActivity
+
 
 class UserProfilPresenter(val fragment: UserProfileFragment) {
 
@@ -20,10 +27,16 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
 
     fun downloadData() {
         val toSend = HashMap<String, String>()
-
-        try {
-            HTTPRequestAPI(this, "user/profile/" + model.userID, "downloadResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
-        } catch (e: Exception) {
+        if (model.userID < 0) {
+            try {
+                HTTPRequestAPI(this, "user", "downloadResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
+            } catch (e: Exception) {
+            }
+        } else {
+            try {
+                HTTPRequestAPI(this, "user/profile/" + model.userID, "downloadResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
+            } catch (e: Exception) {
+            }
         }
     }
 
@@ -48,7 +61,7 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
     }
 
     fun setData() {
-        fragment.textView7.text =  model.profilName
+        fragment.textView7.text = model.profilName
         fragment.textView8.text = "Ocena użytkownika: " + model.userRating.toString()
         fragment.textView4.text = "Opis:\n" + model.userDescribe
     }
@@ -82,17 +95,21 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
 
     fun clickIco() {
         val toSend = HashMap<String, String>()
-        if (model.isFriend) {
-            try {
-                HTTPRequestAPI(this, "friend/" + model.userID, "deleteAddUserResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "DELETE").execute()
-            } catch (e: Exception) {
-            }
+        if (model.profilName.equals(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.choiceLogin), true)) {
+            //przejscie do nowego widoku
+            Toast.makeText(fragment.context!!, "Edycja", Toast.LENGTH_SHORT).show()
         } else {
-            try {
-                HTTPRequestAPI(this, "friend/" + model.userID, "deleteAddUserResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "PUT").execute()
-            } catch (e: Exception) {
+            if (model.isFriend) {
+                try {
+                    HTTPRequestAPI(this, "friend/" + model.userID, "deleteAddUserResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "DELETE").execute()
+                } catch (e: Exception) {
+                }
+            } else {
+                try {
+                    HTTPRequestAPI(this, "friend/" + model.userID, "deleteAddUserResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "PUT").execute()
+                } catch (e: Exception) {
+                }
             }
-
         }
     }
 
@@ -107,15 +124,34 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
     }
 
 
+    fun deleteAccount(result: String) {
+        if (JSONObject(result).getBoolean("response")) {
+            sharedPreferenceApi.set(fragment.context!!, "", EnumChoice.token)
+            val intent = Intent(fragment.activity, LoginActivity::class.java)
+            fragment.startActivity(intent)
+        }
+    }
+
     fun updateIco() {
-        if (model.isFriend) {
-            fragment.icoAddDelete.text = "\uf503"
+        if (model.profilName.equals(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.choiceLogin), true)) {
+            fragment.icoAddDelete.text = "\uf4ff"
+            val toSend = HashMap<String, String>()
+            fragment.button3.setOnClickListener {
+                try {
+                    HTTPRequestAPI(this, "account/delete", "deleteAccount", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "DELETE").execute()
+                } catch (e: Exception) {
+                }
+            }
         } else {
-            if(model.isAcceptedFriend)
-            fragment.icoAddDelete.text = "\uf234"
-            else
-            {
-                fragment.icoAddDelete.visibility= View.INVISIBLE
+            fragment.button3.visibility = View.INVISIBLE
+            if (model.isFriend) {
+                fragment.icoAddDelete.text = "\uf503"
+            } else {
+                if (model.isAcceptedFriend)
+                    fragment.icoAddDelete.text = "\uf234"
+                else {
+                    fragment.icoAddDelete.visibility = View.INVISIBLE
+                }
             }
         }
     }

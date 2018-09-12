@@ -11,7 +11,10 @@ import com.example.damia.aktywnimobileapp.MODEL.sports
 import com.example.damia.aktywnimobileapp.VIEW.EventFragment
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.HashMap
+import java.text.SimpleDateFormat
+import java.util.*
+
+
 
 class EventPresenter(val activity: EventFragment) {
     var model= EventModel()
@@ -29,10 +32,17 @@ class EventPresenter(val activity: EventFragment) {
             val jsonArray: JSONArray = root.getJSONArray("info")
             for (i in 0..jsonArray.length() - 1) {
                 val item = jsonArray.getJSONObject(i)
-                val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date"), sports.values()[item.getInt("disciplineId")-2].ico   )
+                val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date").replace('T',' '), sports.values()[item.getInt("disciplineId")-2].ico   )
                 event.eventID = item.getInt("eventId")
                 event.adminLogin=item.getString("adminLogin")
-                model.eventList.add(event)
+
+                val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                val date: Date = df.parse(event.data)
+                val currentTime = Calendar.getInstance().time
+
+                if(!currentTime.after(date)) {
+                    model.eventList.add(event)
+                }
             }
         }
         setList()

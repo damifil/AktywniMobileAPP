@@ -89,9 +89,18 @@ class TopPanel : Fragment() {
                       startActivity(intent)
                       activity!!.finish()
                   }
+                  else if(item.title=="Mój profil")
+                  {
+                      val newFragment = UserProfileFragment.newInstance("-1","")
+                      val transaction = fragmentManager!!.beginTransaction()
+                      transaction.replace(R.id.body, newFragment)
+                      transaction.addToBackStack(null)
+                      transaction.commit()
+                  }
                   else
                   {
                       Toast.makeText(context,"Kliknieto "+item.title,Toast.LENGTH_SHORT).show()
+
                   }
                     return true
                 }
