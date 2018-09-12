@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_user_profile.*
 import org.json.JSONObject
 import java.util.HashMap
 import android.support.v4.content.ContextCompat.startActivity
+import com.example.damia.aktywnimobileapp.VIEW.EditAccountFragment
 
 
 class UserProfilPresenter(val fragment: UserProfileFragment) {
@@ -96,8 +97,12 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
     fun clickIco() {
         val toSend = HashMap<String, String>()
         if (model.profilName.equals(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.choiceLogin), true)) {
-            //przejscie do nowego widoku
-            Toast.makeText(fragment.context!!, "Edycja", Toast.LENGTH_SHORT).show()
+
+            val newFragment = EditAccountFragment.newInstance("","")
+            val transaction = fragment.fragmentManager!!.beginTransaction()
+            transaction.replace(R.id.body, newFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         } else {
             if (model.isFriend) {
                 try {
