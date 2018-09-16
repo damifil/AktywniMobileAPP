@@ -162,6 +162,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
             val newFragment = MainFragment.newInstance(false)
             val transaction = fragmentManager!!.beginTransaction()
+            transaction.addToBackStack(null)
             transaction.replace(R.id.body, newFragment)
             transaction.commit()
         }
@@ -182,7 +183,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         }
 
 
-        rv.rv_list_sport.adapter = ListOfSportsAdapter(presenter!!.model.Sports, context!!, { partItem: SportObject -> partItemClicked(partItem) })
+        rv.rv_list_sport.adapter = ListOfSportsAdapter(presenter!!.model.Sports, context!!, true, { partItem: SportObject -> partItemClicked(partItem) })
 
         adapter = rv.rv_list_sport.adapter
 

@@ -17,8 +17,11 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Lista twoich wydarzeń"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvListInvitation" />
 
 
         <mehdi.sakout.fancybuttons.FancyButton
@@ -27,7 +30,7 @@
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/rv_event_list"
+            app:layout_constraintEnd_toStartOf="@+id/rv_event_list_search"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             fancy:fb_borderColor="#FFFFFF"
@@ -57,7 +60,7 @@
             fancy:fb_textColor="#FFFFFF" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_event_list"
+            android:id="@+id/rv_event_list_search"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
@@ -67,6 +70,25 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/TVListIvitation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Lista zaproszeń"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvListInvitation"
+            android:layout_width="328dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TVListIvitation" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

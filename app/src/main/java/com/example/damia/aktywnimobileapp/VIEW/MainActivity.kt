@@ -72,9 +72,9 @@ class MainActivity : AppCompatActivity(),CurentEventFragment.OnFragmentInteracti
 
     }
 
-   override fun onBackPressed() {
+   //override fun onBackPressed() {
 
-    }
+    //}
 
 
 

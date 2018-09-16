@@ -187,6 +187,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="Rejestracja"
+            android:textColor="@color/text_color_alternative"
             android:gravity="center"
             android:padding="20dp"
             app:layout_constraintEnd_toEndOf="parent"

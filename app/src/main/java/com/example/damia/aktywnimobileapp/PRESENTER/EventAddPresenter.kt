@@ -43,8 +43,8 @@ class EventAddPresenter(context: EventAddkFragment) {
             model.date=item.getString("date")
             model.description=item.getString("description")
             model.eventName=item.getString("name")
-            model.longitude= item.getString("geographicalCoordinates").split(';')[0].toDouble()
-            model.latitude=item.getString("geographicalCoordinates").split(';')[1].toDouble()
+            model.longitude= item.getString("longitude").toDouble()//("geographicalCoordinates").split(';')[0].toDouble()
+            model.latitude=item.getString("latitude").toDouble()//getString("geographicalCoordinates").split(';')[1].toDouble()
             context2.partItemClicked(model.Sports[item.getInt("disciplineId")-2])
             context2.updateData()
         }
@@ -58,7 +58,9 @@ class EventAddPresenter(context: EventAddkFragment) {
             toSend["Date"] = model.date
             toSend["DisciplineId"] = context2.partItem.idEvent.toString()
             toSend["Description"] = model.description
-            toSend["GeographicalCoordinates"] = model.longitude.toString() + ';' + model.latitude
+            toSend["longitude"]=model.longitude.toString()
+            toSend["latitude"]=model.latitude.toString()
+          //  toSend["GeographicalCoordinates"] = model.longitude.toString() + ';' + model.latitude
 
 
             try {

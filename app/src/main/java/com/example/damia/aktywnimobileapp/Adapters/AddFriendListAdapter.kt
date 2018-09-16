@@ -47,6 +47,8 @@ class AddFriendListAdapter(val items: ArrayList<User>, val context: Context, val
                     } catch (e: Exception) {
                     }
                     holder?.tvIco.visibility = View.INVISIBLE
+                items.removeAt(position)
+                notifyItemRangeRemoved(position,1)
                 }
             }else{
                 holder?.tvIco.setOnClickListener {
@@ -58,6 +60,8 @@ class AddFriendListAdapter(val items: ArrayList<User>, val context: Context, val
                     } catch (e: Exception) {
                     }
                     holder?.tvIco.visibility = View.INVISIBLE
+                    items.removeAt(position)
+                    notifyItemRangeRemoved(position,1)
                 }
             }
         }

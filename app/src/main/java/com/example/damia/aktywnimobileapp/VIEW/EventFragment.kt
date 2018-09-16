@@ -1,6 +1,5 @@
 package com.example.damia.aktywnimobileapp.VIEW
 
-import android.animation.Animator
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -10,18 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
-import com.example.damia.aktywnimobileapp.MODEL.EventListItem
 
 import com.example.damia.aktywnimobileapp.R
 import kotlinx.android.synthetic.main.fragment_event.*
 import android.support.v7.widget.RecyclerView
 import android.view.ViewAnimationUtils
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.Button
-import kotlinx.android.synthetic.main.fragment_event.view.*
-import android.animation.AnimatorListenerAdapter
-import android.content.Intent
-import android.support.design.R.id.container
 import mehdi.sakout.fancybuttons.FancyButton
 import android.os.Build
 import android.annotation.TargetApi
@@ -45,7 +37,7 @@ private const val ARG_PARAM2 = "param2"
 class EventFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var listener: OnFragmentInteractionListener? = null
-    private var presenter:EventPresenter?=null
+    private var presenter: EventPresenter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -53,7 +45,7 @@ class EventFragment : Fragment() {
         }
     }
 
-    private var isBack:Int=0
+    private var isBack: Int = 0
 
     private fun show(view: View) {
         // get the center for the clipping circle
@@ -76,24 +68,22 @@ class EventFragment : Fragment() {
     // To hide a previously visible view using this effect:
 
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         var rootView = inflater.inflate(R.layout.fragment_event, container, false)
 
-        if(isBack>0)
-        {
+     /*   if (isBack > 0) {
             rootView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
 
                 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                 override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
                     v.removeOnLayoutChangeListener(this)
-                   // val button = rootView.findViewById(R.id.btn_search) as FancyButton
-                  //  val point = getPointOfView(button)
+                    // val button = rootView.findViewById(R.id.btn_search) as FancyButton
+                    //  val point = getPointOfView(button)
 
-                    val cy =  0
-                    val cx = if (isBack==2)  0 else rootView.getWidth()
+                    val cy = 0
+                    val cx = if (isBack == 2) 0 else rootView.getWidth()
                     // get the final radius for the clipping circle
                     val finalRadius = Math.max(rootView.getWidth(), rootView.getHeight())
 
@@ -107,45 +97,37 @@ class EventFragment : Fragment() {
                     anim.start()
                 }
             })
-            isBack=0
-        }
+            isBack = 0
+        }*/
 
 
+        var rv = rootView.findViewById(R.id.rv_event_list_search) as RecyclerView
+        rv.layoutManager = LinearLayoutManager(context)
 
-
-
-        var rv=rootView.findViewById(R.id.rv_event_list) as RecyclerView
+        rv = rootView.findViewById(R.id.rvListInvitation) as RecyclerView
         rv.layoutManager = LinearLayoutManager(context)
 
 
-
-
-
-
-        val buttonSearch =     rootView.findViewById(R.id.btn_search) as FancyButton
+        val buttonSearch = rootView.findViewById(R.id.btn_search) as FancyButton
         buttonSearch.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(v: View) {
-               isBack=1
+                isBack = 1
                 val newFragment = EventSearchFragment()
                 val transaction = fragmentManager!!.beginTransaction()
-
-
                 transaction.replace(R.id.body, newFragment)
                 transaction.addToBackStack(null)
-
-
                 transaction.commit()
             }
         })
 
 
-        val buttonAdd =     rootView.findViewById(R.id.btn_add) as FancyButton
+        val buttonAdd = rootView.findViewById(R.id.btn_add) as FancyButton
         buttonAdd.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(v: View) {
-                isBack=2
-                val newFragment = EventAddkFragment.newInstance(0.0,0.0,-1)
+                isBack = 2
+                val newFragment = EventAddkFragment.newInstance(0.0, 0.0, -1)
                 val transaction = fragmentManager!!.beginTransaction()
                 transaction.replace(R.id.body, newFragment)
                 transaction.addToBackStack(null)
@@ -159,19 +141,26 @@ class EventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter= EventPresenter(this)
+        presenter = EventPresenter(this)
         presenter!!.downloadEvents()
     }
 
     fun setAdapter() {
-        rv_event_list.adapter = EventListAdapter(presenter!!.model.eventList, context!!)
-        rv_event_list.adapter.notifyDataSetChanged()
+        rv_event_list_search.adapter = EventListAdapter(presenter!!.model.eventList, context!!)
+        rv_event_list_search.adapter.notifyDataSetChanged()
     }
+
+    fun setAdapter2() {
+        rvListInvitation.adapter = EventListAdapter(presenter!!.model.eventInvitationList, context!!)
+        rvListInvitation.adapter.notifyDataSetChanged()
+    }
+
+
+
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }
-
 
 
     override fun onAttach(context: Context) {
@@ -187,9 +176,6 @@ class EventFragment : Fragment() {
         super.onDetach()
         listener = null
     }
-
-
-
 
 
     /**

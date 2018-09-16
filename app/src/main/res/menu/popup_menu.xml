@@ -5,10 +5,6 @@
         android:title="Mój profil"/>
 
     <item
-        android:id="@+id/two"
-        android:title="ustawienia"/>
-
-    <item
         android:id="@+id/three"
         android:title="Wyloguj"/>
 

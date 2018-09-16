@@ -18,10 +18,17 @@ import kotlinx.android.synthetic.main.list_of_sports_item.view.*
 internal object ListOfSportIndex {
      var row_index=0
 }
-class ListOfSportsAdapter (val items: Array<SportObject>, val context: Context,val clickListener: (SportObject) -> Unit):  RecyclerView.Adapter<ViewHolder2>()
+
+
+class ListOfSportsAdapter (val items: Array<SportObject>, val context: Context, val defaultSet:Boolean,  val clickListener: (SportObject) -> Unit):  RecyclerView.Adapter<ViewHolder2>()
 {
 
-
+init {
+    if (!defaultSet)
+    {
+        ListOfSportIndex.row_index=-1
+    }
+}
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder2 {
         return ViewHolder2(LayoutInflater.from(context).inflate(R.layout.list_of_sports_item, parent, false))
     }
@@ -38,12 +45,17 @@ class ListOfSportsAdapter (val items: Array<SportObject>, val context: Context,v
             row_index = position
             notifyDataSetChanged()
         })*/
+
         if (ListOfSportIndex.row_index === position) {
             holder.tvIco.setTextColor(context.resources.getColor(R.color.button_color_not_choice_alternative_green))
 
         } else {
             holder.tvIco.setTextColor(context.resources.getColor(R.color.button_color))
         }
+
+
+
+
     }
 
     override fun getItemCount(): Int {
@@ -58,7 +70,13 @@ class ViewHolder2 (view: View) : RecyclerView.ViewHolder(view) {
         tvIco.text = part.code
         tvIco.setOnClickListener{
             clickListener(part)
-            ListOfSportIndex.row_index=position
+            if(ListOfSportIndex.row_index==position)
+            {
+                ListOfSportIndex.row_index=-1
+            }
+            else {
+                ListOfSportIndex.row_index = position
+            }
         }
     }
 

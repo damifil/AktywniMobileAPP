@@ -64,7 +64,14 @@ class EventChatPresenter(context: EventChatFragment) {
                 val item = jsonArray.getJSONObject(i)
                 val chatValue = ChatValue()
                 chatValue.chatmessage = item.getString("content")
-                chatValue.nameUser = item.getString("login")
+                if(model.eventIdOrUserName.equals(item.getString("userFromId")))
+                {
+                    chatValue.nameUser =    item.getString("login")
+                }
+                else
+                {
+                    chatValue.nameUser =  sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin)
+                }
                 chatValue.isMineName = chatValue.nameUser.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin), true)
                 chatValue.messageId = item.getInt("messageId")
                 chatValue.date = item.getString("date").replace('T', ' ', true).dropLast(3)
@@ -91,7 +98,14 @@ class EventChatPresenter(context: EventChatFragment) {
                 val item = jsonArray.getJSONObject(i)
                 val chatValue = ChatValue()
                 chatValue.chatmessage = item.getString("content")
-                chatValue.nameUser = item.getString("login")
+                if(model.eventIdOrUserName.equals(item.getString("userFromId")))
+                {
+                    chatValue.nameUser =    item.getString("login")
+                }
+                else
+                {
+                    chatValue.nameUser =  sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin)
+                }
                 chatValue.isMineName = chatValue.nameUser.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin), true)
                 chatValue.messageId = item.getInt("messageId")
                 chatValue.date = item.getString("date").replace('T', ' ', true).dropLast(3)
@@ -136,7 +150,14 @@ class EventChatPresenter(context: EventChatFragment) {
                 val item = jsonArray.getJSONObject(i)
                 val chatValue = ChatValue()
                 chatValue.chatmessage = item.getString("content")
-                chatValue.nameUser = item.getString("login")
+                if(model.eventIdOrUserName.equals(item.getString("userFromId")))
+                {
+                    chatValue.nameUser =    item.getString("login")
+                }
+                else
+                {
+                    chatValue.nameUser =  sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin)
+                }
                 chatValue.isMineName = chatValue.nameUser.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin), true)
                 chatValue.messageId = item.getInt("messageId")
                 chatValue.date = item.getString("date").replace('T', ' ', true).dropLast(3)

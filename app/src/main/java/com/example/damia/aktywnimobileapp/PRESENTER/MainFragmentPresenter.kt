@@ -37,7 +37,6 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
         var root = JSONObject(result)
 
         var jsonArray = JSONArray(root.getString("info"))
-        Log.i("HHHH",jsonArray.toString())
 
         for (i in 0..(jsonArray.length() - 1)) {
             try {
@@ -53,8 +52,8 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
                 eventToAdd.typeOfSport = event.getString("disciplineId")
                 eventToAdd.eventName = event.getString("name")
                 eventToAdd.description = event.getString("description")
-                eventToAdd.longitude = event.getString("geographicalCoordinates").split(';')[0].toDouble()
-                eventToAdd.latitude = event.getString("geographicalCoordinates").split(';')[1].toDouble()
+                eventToAdd.latitude = event.getString("latitude").toDouble()//("geographicalCoordinates").split(';')[0].toDouble()
+                eventToAdd.longitude = event.getString("longitude").toDouble()//("geographicalCoordinates").split(';')[1].toDouble()
                 eventToAdd.eventID = event.getInt("eventId")
                 eventToAdd.objectID = event.getInt("objectId")
 
@@ -69,7 +68,6 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
             } catch (e: Exception) {
             }
         }
-        Log.i("HHHH",model.listOfEvents.size.toString())
         setMarkers()
     }
 

@@ -15,15 +15,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-
 class EventPresenter(val activity: EventFragment) {
-    var model= EventModel()
+    var model = EventModel()
     fun downloadEvents() {
         val toSend = HashMap<String, String>()
         try {
             HTTPRequestAPI(this, "event/my", "eventsListResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(activity.context!!, EnumChoice.token)), "GET").execute()
         } catch (e: Exception) {
         }
+
+        /* try {
+             HTTPRequestAPI(this, "event/my", "eventsListResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(activity.context!!, EnumChoice.token)), "GET").execute()
+         } catch (e: Exception) {
+         }*/
+
+
     }
 
     fun eventsListResult(result: String) {
@@ -32,15 +38,15 @@ class EventPresenter(val activity: EventFragment) {
             val jsonArray: JSONArray = root.getJSONArray("info")
             for (i in 0..jsonArray.length() - 1) {
                 val item = jsonArray.getJSONObject(i)
-                val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date").replace('T',' '), sports.values()[item.getInt("disciplineId")-2].ico   )
+                val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date").replace('T', ' '), sports.values()[item.getInt("disciplineId") - 2].ico)
                 event.eventID = item.getInt("eventId")
-                event.adminLogin=item.getString("adminLogin")
+                event.adminLogin = item.getString("adminLogin")
 
                 val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                 val date: Date = df.parse(event.data)
                 val currentTime = Calendar.getInstance().time
 
-                if(!currentTime.after(date)) {
+                if (!currentTime.after(date)) {
                     model.eventList.add(event)
                 }
             }
@@ -48,10 +54,40 @@ class EventPresenter(val activity: EventFragment) {
         setList()
     }
 
-    fun setList()
-    {
+    fun eventsListInvitationResult(result: String) {
+        val root = JSONObject(result)
+        if (root.getString("response").equals("True")) {
+            val jsonArray: JSONArray = root.getJSONArray("info")
+            for (i in 0..jsonArray.length() - 1) {
+                val item = jsonArray.getJSONObject(i)
+                val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date").replace('T', ' '), sports.values()[item.getInt("disciplineId") - 2].ico)
+                event.eventID = item.getInt("eventId")
+                event.adminLogin = item.getString("adminLogin")
+
+                val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                val date: Date = df.parse(event.data)
+                val currentTime = Calendar.getInstance().time
+
+                if (!currentTime.after(date)) {
+                    if (item.getBoolean("isAccepted"))
+                        model.eventList.add(event)
+                    else
+                        model.eventInvitationList.add(event)
+                }
+            }
+        }
+        setList2()
+        setList()
+    }
+
+
+    fun setList() {
         activity.setAdapter()
     }
 
+
+    fun setList2() {
+        activity.setAdapter()
+    }
 
 }

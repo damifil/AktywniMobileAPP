@@ -1,23 +1,23 @@
 package com.example.damia.aktywnimobileapp.VIEW
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 
 import com.example.damia.aktywnimobileapp.R
-import android.animation.Animator
 import android.graphics.Point
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
-import android.widget.Button
-import mehdi.sakout.fancybuttons.FancyButton
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
+import com.example.damia.aktywnimobileapp.Adapters.ListOfSportsAdapter
+import com.example.damia.aktywnimobileapp.MODEL.SportObject
+import com.example.damia.aktywnimobileapp.PRESENTER.EventSearchPresenter
+import kotlinx.android.synthetic.main.fragment_event_addk.view.*
+import kotlinx.android.synthetic.main.fragment_event_search.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,7 +39,8 @@ class EventSearchFragment : Fragment() {
     private var param1: Int? = null
     private var param2: Int? = null
     private var listener: OnFragmentInteractionListener? = null
-
+    var partItem: SportObject ?=null// SportObject("Baseball", "\uf433", 2)
+    private var adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -48,6 +49,15 @@ class EventSearchFragment : Fragment() {
         }
     }
 
+    fun partItemClicked(partItem: SportObject) {
+        if(partItem.equals(this.partItem))
+            this.partItem=null
+        else
+            this.partItem = partItem
+        adapter!!.notifyDataSetChanged()
+    }
+
+    var presenter:EventSearchPresenter?=null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -57,31 +67,39 @@ class EventSearchFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_event_search, container, false)
 
 
-        view.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+        val rv = view.findViewById(R.id.rv_list_sport) as RecyclerView
+        rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                v.removeOnLayoutChangeListener(this)
+        val rv2 = view.findViewById(R.id.rv_event_list_search) as RecyclerView
+        rv2.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
+        presenter= EventSearchPresenter(this)
 
-                val cy = view.getHeight()
-                val cx = 0
-                // get the final radius for the clipping circle
-                val finalRadius = Math.max(view.getWidth(), view.getHeight())
+        rv.rv_list_sport.adapter = ListOfSportsAdapter(presenter!!.model.Sports, context!!,false, { partItem: SportObject -> partItemClicked(partItem) })
+        adapter = rv.rv_list_sport.adapter
 
-                // create the animator for this view (the start radius is zero)
-                val anim = ViewAnimationUtils.createCircularReveal(view, cx, cy,
-                        100f, finalRadius.toFloat())
-                anim.duration = 500
-
-                // make the view visible and start the animation
-                view.setVisibility(View.VISIBLE)
-                anim.start()
-            }
-        })
 
 
         return view
+    }
+
+    fun setAdapter()
+    {
+        rv_event_list_search.adapter = EventListAdapter(presenter!!.model.eventList, context!!)
+        rv_event_list_search.adapter.notifyDataSetChanged()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        button4.setOnClickListener {
+            if(partItem!=null) {
+                presenter!!.search(ET_event_name.text.toString(), partItem!!.id)
+            }
+            else
+            {
+                presenter!!.search(ET_event_name.text.toString(), -1)
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

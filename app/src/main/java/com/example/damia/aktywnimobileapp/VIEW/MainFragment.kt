@@ -62,7 +62,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var infoTitle: TextView? = null
     private var infoSnippet: TextView? = null
     private var score: TextView? = null
-    private var event:String=""
+    private var event: String = ""
     private var infoButton: Button? = null
     private var infoButtonListener: OnInfoWindowElemTouchListener? = null
     private var mapWrapperLayout: MapWrapperLayout? = null
@@ -72,7 +72,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         super.onCreate(savedInstanceState)
         arguments?.let {
             fromMain = it.getBoolean("fromMain")
-            event=it.getString("event")
+            event = it.getString("event")
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(mcontext!!)
@@ -84,7 +84,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         mView = inflater.inflate(R.layout.fragment_main, container, false)
 
         this.infoWindow = inflater.inflate(R.layout.info_window, null) as ViewGroup
-        presenter = MainFragmentPresenter(this,fromMain!!,event)
+        presenter = MainFragmentPresenter(this, fromMain!!, event)
         return mView
     }
 
@@ -103,10 +103,10 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
                         markerHandle = mGoogleMap!!.addMarker(MarkerOptions().position(position).title("twoja pozycja"))
                         mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12f))
                     } else {
-                        val locationListener =  MyLocationListener()
+                        val locationListener = MyLocationListener()
                         val locationMangaer = mcontext!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                        locationMangaer.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10f,locationListener)
-                        locationMangaer.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10f,locationListener)
+                        locationMangaer.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10f, locationListener)
+                        locationMangaer.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10f, locationListener)
                     }
                 }
     }
@@ -119,7 +119,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         this.infoButton = infoWindow!!.findViewById(R.id.button) as Button
         mapWrapperLayout = mView!!.findViewById(R.id.map_relative_layout)
         mMapView = mView!!.findViewById(R.id.map)
-         if (mMapView != null) {
+        if (mMapView != null) {
             mMapView!!.onCreate(null)
             mMapView!!.onResume()
             mMapView!!.getMapAsync(this)
@@ -129,7 +129,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     override fun onMapReady(googleMap: GoogleMap) {
         MapsInitializer.initialize(mcontext)
-        var a= getArguments()!!.getBoolean("fromMain")
+        var a = getArguments()!!.getBoolean("fromMain")
         mGoogleMap = googleMap
         mapWrapperLayout!!.init(googleMap, getPixelsFromDp(mcontext!!, 59f))
         this.infoButtonListener = object : OnInfoWindowElemTouchListener(infoButton,
@@ -141,19 +141,19 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 val position = marker.position
 
 
-                if(fromMain!!) {
-                    val newFragment = CurentEventFragment.newInstance(marker.title,"")
+                val a =marker.title
+
+                if (fromMain!! && !marker.title.equals("Twoje wydarzenie")) {
+                    val newFragment = CurentEventFragment.newInstance(marker.title, "")
                     val transaction = fragmentManager!!.beginTransaction()
                     transaction.replace(R.id.body, newFragment)
-                      transaction.addToBackStack(null)
+                    transaction.addToBackStack(null)
                     transaction.commit()
-                }
-                else {
-                    Toast.makeText(mcontext, "kontynujemy tworzenie", Toast.LENGTH_SHORT).show()
-                    val newFragment = EventAddkFragment.newInstance(position.latitude,position.longitude,-1) //nieistotny 3 parametr i tak odczyta z sharedpreference model
+                } else {
+                    val newFragment = EventAddkFragment.newInstance(position.latitude, position.longitude, -1) //nieistotny 3 parametr i tak odczyta z sharedpreference model
                     val transaction = fragmentManager!!.beginTransaction()
                     transaction.replace(R.id.body, newFragment)
-                    //  transaction.addToBackStack(null)
+                    transaction.addToBackStack(null)
                     transaction.commit()
                 }
             }
@@ -233,21 +233,23 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     companion object {
         @JvmStatic
-        fun newInstance(fm:Boolean) =
-                MainFragment().apply {
-                    arguments = Bundle().apply {putBoolean("fromMain",fm)
-                        putString("event","")
-                    }
-                }
-        @JvmStatic
-        fun newInstance(fm:String) =
+        fun newInstance(fm: Boolean) =
                 MainFragment().apply {
                     arguments = Bundle().apply {
-                        putString("event",fm)
-                        putBoolean("fromMain",false)}
+                        putBoolean("fromMain", fm)
+                        putString("event", "")
+                    }
+                }
+
+        @JvmStatic
+        fun newInstance(fm: String) =
+                MainFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("event", fm)
+                        putBoolean("fromMain", false)
+                    }
                 }
     }
-
 
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
