@@ -37,7 +37,7 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
         var root = JSONObject(result)
 
         var jsonArray = JSONArray(root.getString("info"))
-
+        var eventList:MutableList<Event> = arrayListOf()
         for (i in 0..(jsonArray.length() - 1)) {
             try {
                 val event = jsonArray.getJSONObject(i)
@@ -64,10 +64,41 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
                     e.printStackTrace()
                 }
 
-                model.listOfEvents.add(eventToAdd)
+                //model.listOfEvents.add(eventToAdd)
+                eventList.add(eventToAdd)
             } catch (e: Exception) {
             }
         }
+
+
+        for(item in eventList)
+        {
+            if(!model.listOfEvents.any())
+            {
+                val listToAdd:MutableList<Event> = arrayListOf()
+                listToAdd.add(item)
+                model.listOfEvents.add(listToAdd)
+            }
+            else
+            {
+                var add=false
+                for(list in model.listOfEvents)
+                {
+                    if(list.first().latitude!!.equals(item.latitude)&& list.first().longitude!!.equals(item.longitude))
+                    {
+                        list.add(item)
+                        add=true
+                    }
+                }
+                if(!add)
+                {
+                    val listToAdd:MutableList<Event> = arrayListOf()
+                    listToAdd.add(item)
+                    model.listOfEvents.add(listToAdd)
+                }
+            }
+        }
+
         setMarkers()
     }
 
@@ -83,14 +114,25 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
         else
         {
         var ev:Event=Klaxon().parse<Event>(event)!!
-            model.listOfEvents.add(ev)
+            var lsit:MutableList<Event> = arrayListOf()
+            lsit.add(ev)
+            model.listOfEvents.add(lsit)
             setMarkers()
         }
     }
 
     fun setMarkers() {
-        for (item in model.listOfEvents) {
-            context2.setMarker(item.latitude!!, item.longitude!!, item.eventName, item.typeOfSport)
+        var i=0
+        for (list in model.listOfEvents) {
+            if(list.size>1)
+            {
+                context2.setMarker(list.first().latitude!!, list.first().longitude!!, "Wiele wydarzeń", "klinij by wyswietlic liste wydarzen")
+            }
+            else
+            {
+                context2.setMarker(list.first().latitude!!, list.first().longitude!!, list.first().eventName, list.first().typeOfSport)
+            }
+            i++
         }
     }
 

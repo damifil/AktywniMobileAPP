@@ -99,7 +99,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 mcontext!!.resources.getDrawable(R.drawable.round_but_red_sel, null)) //btn_default_pressed_holo_light
         {
             override fun onClickConfirmed(v: View, marker: Marker) {
-                Toast.makeText(mcontext, marker.title + "'s button clicked!", Toast.LENGTH_SHORT).show()
+
             }
         }
         this.infoButton!!.setOnTouchListener(infoButtonListener)

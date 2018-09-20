@@ -25,6 +25,7 @@ import com.example.damia.aktywnimobileapp.MapClass.OnInfoWindowElemTouchListener
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import android.widget.Toast
+import com.beust.klaxon.Klaxon
 import com.example.damia.aktywnimobileapp.API.MyLocationListener
 import com.example.damia.aktywnimobileapp.MapClass.MapWrapperLayout
 import com.example.damia.aktywnimobileapp.PRESENTER.MainFragmentPresenter
@@ -149,7 +150,13 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
                     transaction.replace(R.id.body, newFragment)
                     transaction.addToBackStack(null)
                     transaction.commit()
-                } else {
+                }else if(fromMain!! && !marker.title.equals("Wiele wydarzeń"))
+                {
+                   var aaa= presenter!!.model.listOfEvents.filter { LatLng(it.first().latitude!!, it.first().longitude!!)==marker.position }
+                    var strin= Klaxon().toJsonString(aaa)
+                }
+                else
+                {
                     val newFragment = EventAddkFragment.newInstance(position.latitude, position.longitude, -1) //nieistotny 3 parametr i tak odczyta z sharedpreference model
                     val transaction = fragmentManager!!.beginTransaction()
                     transaction.replace(R.id.body, newFragment)
