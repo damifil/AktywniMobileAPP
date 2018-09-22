@@ -33,7 +33,7 @@ public class HTTPRequestAPI extends
 
     public HTTPRequestAPI(Object presenter,String url,String methodName,HashMap DataToSend,String token, String requestType) {
 
-        this.urlString="http://192.168.137.1:5000/"+url;
+        this.urlString="http://192.168.137.1:5000/"+url.replaceAll(" ", "%20");
         this.DataToSend=DataToSend;
         this.methodName=methodName;
         this.presenter=presenter;
@@ -43,7 +43,7 @@ public class HTTPRequestAPI extends
 
 
     public HTTPRequestAPI(Object presenter,String url,String methodName,HashMap DataToSend,String token) {
-        this.urlString="http://192.168.137.1:5000/"+url;
+        this.urlString="http://192.168.137.1:5000/"+url.replaceAll(" ", "%20");
         this.DataToSend=DataToSend;
         this.methodName=methodName;
         this.presenter=presenter;
@@ -97,7 +97,7 @@ public class HTTPRequestAPI extends
             conn.setDoInput(true);
 
 
-            Log.i("requestAAAA",requestURL);
+            Log.i("requestAAAA",url.toURI().toString());
             Log.i("requestAAAA",token);
             Log.i("requestAAAA",requestType);
             Log.i("requestAAAA",getPostDataString(postDataParams));

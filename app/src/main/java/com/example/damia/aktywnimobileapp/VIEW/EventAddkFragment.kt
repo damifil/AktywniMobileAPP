@@ -64,9 +64,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         presenter = EventAddPresenter(this)
         val modelString = sharedPreferenceApi.getString(context!!, EnumChoice.EventAddPresenter)
 
-        if(sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
-            checkBoxPrivateEvent.visibility=View.INVISIBLE
-        }
+
         if (modelString != "") {
             presenter!!.model = Klaxon().parse<EventAddModel>(modelString)!!
         } else {
@@ -237,6 +235,10 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
+            checkBoxPrivateEvent.visibility=View.INVISIBLE
+        }
 
 
         if (presenter!!.model.eventId > 0) {

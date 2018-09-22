@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+<ScrollView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".VIEW.EventAddkFragment">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="500dp"
             android:layout_margin="20dp"
-
+            app:layout_constraintHorizontal_chainStyle="spread"
             >
 
             <TextView
@@ -33,9 +39,9 @@
 
             <EditText
                 android:id="@+id/editText"
-                android:layout_width="351dp"
+                android:layout_width="match_parent"
                 android:layout_height="111dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_bottom_left_line"
                 android:ems="10"
                 android:gravity="top"
@@ -112,26 +118,23 @@
             <EditText
                 android:id="@+id/ETName"
                 android:layout_width="wrap_content"
-                android:layout_height="44dp"
-                android:layout_marginTop="8dp"
-                android:ems="10"
+                android:layout_height="0dp"
                 android:hint="nazwa wydarzenia"
                 android:inputType="textPersonName"
+                android:padding="10dp"
                 android:text=""
-
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TVTitle" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btCreate"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Utwórz"
                 android:textColor="@color/text_color_alternative"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -146,5 +149,7 @@
 
 
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+
 </FrameLayout>
+</ScrollView>
+</android.support.v4.widget.NestedScrollView>

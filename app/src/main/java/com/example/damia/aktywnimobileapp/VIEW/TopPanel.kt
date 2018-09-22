@@ -27,6 +27,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.SpannableString
 import android.view.SubMenu
 import android.util.TypedValue
+import com.example.damia.aktywnimobileapp.R.color.text_color_alternative
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -127,7 +128,10 @@ class TopPanel : Fragment() {
 
             fun isUnreadResult(result: String) {
                 val root = JSONObject(result)
-                if (!root.getBoolean("info")) {
+                if (root.getBoolean("info")) {
+                    TVFMessage.setTextColor(resources.getColor(R.color.unread_button))
+
+
                     val tvMessage = view!!.findViewById(R.id.TVFMessage) as TextView
 
                     var tf = Typeface.createFromAsset(context?.assets,
@@ -165,6 +169,7 @@ class TopPanel : Fragment() {
         ico.setOnClickListener {
 
             ico.setTypeface(tf)
+            TVFMessage.setTextColor(resources.getColor(text_color_alternative))
             val popup = PopupMenu(context, ico)
             //   popup.getMenuInflater()
             //         .inflate(R.menu.popup_menu, popup.getMenu())

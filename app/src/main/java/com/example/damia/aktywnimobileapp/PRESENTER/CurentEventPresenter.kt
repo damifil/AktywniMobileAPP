@@ -26,9 +26,11 @@ class CurentEventPresenter(context: CurentEventFragment, eventName: String, admi
         this.context2 = context
         this.model = CurentEventModel()
         model.adminLogin=adminLogin
+
         val toSend = HashMap<String, String>()
+        toSend["Name"]=eventName
         try {
-            HTTPRequestAPI(this, "event/name/" + eventName, "initResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "GET").execute()
+            HTTPRequestAPI(this, "event/name/", "initResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "POST").execute()
         } catch (e: Exception) {
         }
     }

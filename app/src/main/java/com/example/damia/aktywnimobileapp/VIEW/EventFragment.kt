@@ -153,6 +153,7 @@ class EventFragment : Fragment() {
     fun setAdapter2() {
         rvListInvitation.adapter = EventListAdapter(presenter!!.model.eventInvitationList, context!!)
         rvListInvitation.adapter.notifyDataSetChanged()
+        rvListInvitation.visibility=View.VISIBLE
     }
 
 
