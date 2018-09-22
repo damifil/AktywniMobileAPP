@@ -1,10 +1,12 @@
 package com.example.damia.aktywnimobileapp.MODEL
 
-class EventAddModel( var longitude:Double=0.0,
+class EventAddModel( var longitude:Double=100000.0,
                      var latitude:Double=0.0,
                      var description:String="",
                      var eventName:String="",
-                     var date:String="Data:")
+                     var date:String="Data:",
+                     var isPrivate:Boolean=false
+)
 {
     val Sports: Array<SportObject> = arrayOf(
             SportObject("Baseball","\uf433",2),
@@ -26,7 +28,7 @@ class EventAddModel( var longitude:Double=0.0,
 
 fun isCorrectData():Boolean
 {
-    if(longitude>0.0 && description!="" && eventName!="" && date!="" && date!="Data:")
+    if(longitude!=100000.0 && description!="" && eventName!="" && date!="" && date!="Data:")
     {
         return true
     }

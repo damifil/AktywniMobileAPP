@@ -61,6 +61,8 @@ class EventAddPresenter(context: EventAddkFragment) {
             toSend["Description"] = model.description
             toSend["longitude"]=model.longitude.toString()
             toSend["latitude"]=model.latitude.toString()
+            toSend["IsPrivate"]=context2.checkBoxPrivateEvent.isChecked.toString()
+
           //  toSend["GeographicalCoordinates"] = model.longitude.toString() + ';' + model.latitude
 
             if(sharedPreferenceApi.getString(context2.context!!, EnumChoice.isAdmin).equals("uzytkownik")) {

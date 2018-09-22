@@ -60,7 +60,7 @@ class EventPresenter(val activity: EventFragment) {
             val jsonArray: JSONArray = root.getJSONArray("info")
             for (i in 0..jsonArray.length() - 1) {
                 val item = jsonArray.getJSONObject(i)
-                val event: EventListItem = EventListItem(item.getString("name"), " ", item.getString("date").replace('T', ' '), "")
+                val event: EventListItem = EventListItem(item.getString("eventName"), " ", item.getString("date").replace('T', ' '), "")
                 event.eventID = item.getInt("eventId")
 
 

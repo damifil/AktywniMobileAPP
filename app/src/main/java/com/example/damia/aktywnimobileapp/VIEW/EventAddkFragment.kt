@@ -72,7 +72,8 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             presenter!!.model.eventId = eventId
         }
 
-        if (latitude != 0.0 && longitude != 0.0) {
+
+        if (latitude != 100000.0 && longitude != 100000.0) {
             presenter!!.model.latitude = latitude!!
             presenter!!.model.longitude = longitude!!
         }
@@ -156,6 +157,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
         tvIco.setOnClickListener()
         {
+            presenter!!.model.isPrivate= checkBoxPrivateEvent.isChecked
 
             presenter!!.model.description = editText.text.toString()
             presenter!!.model.eventName = ETName.text.toString()
@@ -191,6 +193,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
         return view
     }
+
 
 
     fun updateData() {
@@ -238,6 +241,10 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
         if(sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
             checkBoxPrivateEvent.visibility=View.INVISIBLE
+        }
+        else
+        {
+            checkBoxPrivateEvent.isChecked=presenter!!.model.isPrivate
         }
 
 

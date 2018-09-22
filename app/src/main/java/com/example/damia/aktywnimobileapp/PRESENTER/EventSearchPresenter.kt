@@ -19,6 +19,7 @@ class EventSearchPresenter(fragment:EventSearchFragment)
     val fragment=fragment
     fun search(name:String,eventID:Int)
     {
+        model.eventList.clear()
         val toSend = HashMap<String, String>()
         if(!name.equals(""))
         {
