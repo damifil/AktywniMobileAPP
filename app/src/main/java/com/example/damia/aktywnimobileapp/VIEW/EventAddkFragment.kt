@@ -64,6 +64,9 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         presenter = EventAddPresenter(this)
         val modelString = sharedPreferenceApi.getString(context!!, EnumChoice.EventAddPresenter)
 
+        if(sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
+            checkBoxPrivateEvent.visibility=View.INVISIBLE
+        }
         if (modelString != "") {
             presenter!!.model = Klaxon().parse<EventAddModel>(modelString)!!
         } else {

@@ -4,14 +4,21 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.EventLog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.beust.klaxon.Klaxon
+import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
 import com.example.damia.aktywnimobileapp.MODEL.Event
+import com.example.damia.aktywnimobileapp.MODEL.EventListItem
+import com.example.damia.aktywnimobileapp.PRESENTER.ListOfEventFromMapPresenter
 
 import com.example.damia.aktywnimobileapp.R
+import kotlinx.android.synthetic.main.fragment_event.*
+import kotlinx.android.synthetic.main.fragment_list_of_event_from_map.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +39,7 @@ class ListOfEventFromMapFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-
+    private var presenter:ListOfEventFromMapPresenter?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,16 +48,36 @@ class ListOfEventFromMapFragment : Fragment() {
         }
     }
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_of_event_from_map, container, false)
+        var rootView = inflater.inflate(R.layout.fragment_list_of_event_from_map, container, false)
+
+
+
+        var rv = rootView.findViewById(R.id.rv_event_list_from_map) as RecyclerView
+        rv.layoutManager = LinearLayoutManager(context)
+
+        return rootView
+    }
+
+
+    fun setAdapter() {
+        rv_event_list_from_map.adapter = EventListAdapter(presenter!!.model.eventList, context!!)
+        rv_event_list_from_map.adapter.notifyDataSetChanged()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         var a=Klaxon().parse<MutableList<MutableList<Event>>>(param1!!)
-    
+         val fromMapList=Klaxon().parse<MutableList<MutableList<Event>>>(param1!!)
+        presenter= ListOfEventFromMapPresenter(this)
+        for (item in  fromMapList!!.first())
+        {
+            var eventListItem=EventListItem("","","","")
+            eventListItem.convertFromEvent(item)
+            presenter!!.model.eventList.add(eventListItem)
+        }
+        setAdapter()
     }
 
     // TODO: Rename method, update argument and hook method into UI event

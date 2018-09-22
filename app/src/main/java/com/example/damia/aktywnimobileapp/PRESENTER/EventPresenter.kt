@@ -24,10 +24,10 @@ class EventPresenter(val activity: EventFragment) {
         } catch (e: Exception) {
         }
 
-        /* try {
-             HTTPRequestAPI(this, "event/my", "eventsListResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(activity.context!!, EnumChoice.token)), "GET").execute()
+         try {
+             HTTPRequestAPI(this, "userEvent/myInvitations", "eventsInvitationsListResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(activity.context!!, EnumChoice.token)), "GET").execute()
          } catch (e: Exception) {
-         }*/
+         }
 
 
     }
@@ -54,30 +54,24 @@ class EventPresenter(val activity: EventFragment) {
         setList()
     }
 
-    fun eventsListInvitationResult(result: String) {
+    fun eventsInvitationsListResult(result: String) {
         val root = JSONObject(result)
         if (root.getString("response").equals("True")) {
             val jsonArray: JSONArray = root.getJSONArray("info")
             for (i in 0..jsonArray.length() - 1) {
                 val item = jsonArray.getJSONObject(i)
-                val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date").replace('T', ' '), sports.values()[item.getInt("disciplineId") - 2].ico)
+                val event: EventListItem = EventListItem(item.getString("name"), " ", item.getString("date").replace('T', ' '), "")
                 event.eventID = item.getInt("eventId")
-                event.adminLogin = item.getString("adminLogin")
+
 
                 val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                 val date: Date = df.parse(event.data)
                 val currentTime = Calendar.getInstance().time
-
-                if (!currentTime.after(date)) {
-                    if (item.getBoolean("isAccepted"))
-                        model.eventList.add(event)
-                    else
-                        model.eventInvitationList.add(event)
-                }
+                model.eventInvitationList.add(event)
             }
         }
         setList2()
-        setList()
+
     }
 
 
@@ -87,7 +81,7 @@ class EventPresenter(val activity: EventFragment) {
 
 
     fun setList2() {
-        activity.setAdapter()
+        activity.setAdapter2()
     }
 
 }

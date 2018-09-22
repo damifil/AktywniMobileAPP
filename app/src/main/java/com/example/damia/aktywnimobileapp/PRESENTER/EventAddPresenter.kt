@@ -12,6 +12,7 @@ import com.example.damia.aktywnimobileapp.R
 import com.example.damia.aktywnimobileapp.VIEW.CurentEventFragment
 import com.example.damia.aktywnimobileapp.VIEW.EventAddkFragment
 import com.example.damia.aktywnimobileapp.VIEW.MainActivity
+import kotlinx.android.synthetic.main.fragment_event_addk.*
 import org.json.JSONObject
 import java.util.HashMap
 
@@ -62,10 +63,21 @@ class EventAddPresenter(context: EventAddkFragment) {
             toSend["latitude"]=model.latitude.toString()
           //  toSend["GeographicalCoordinates"] = model.longitude.toString() + ';' + model.latitude
 
-
-            try {
-                HTTPRequestAPI(this, "event/add", "resultRequest", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token))).execute()
-            } catch (e: Exception) {
+            if(sharedPreferenceApi.getString(context2.context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
+                try {
+                    HTTPRequestAPI(this, "event/add", "resultRequest", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token))).execute()
+                } catch (e: Exception) {
+                }
+            }
+            else
+            {
+                val isPrivate:Boolean=context2.checkBoxPrivateEvent.isChecked
+                //dodanie czy jest prywatny
+                //zmiana http?
+                try {
+                    HTTPRequestAPI(this, "event/add", "resultRequest", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token))).execute()
+                } catch (e: Exception) {
+                }
             }
         }
         else

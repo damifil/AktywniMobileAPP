@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(),CurentEventFragment.OnFragmentInteracti
         , TopPanel.OnFragmentInteractionListener, EventFragment.OnFragmentInteractionListener,EventAddkFragment.OnFragmentInteractionListener
         , EventSearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, FreindsFragment.OnFragmentInteractionListener
         , HistoryFragment.OnFragmentInteractionListener, AddFriendFragment.OnFragmentInteractionListener,UserProfileFragment.OnFragmentInteractionListener
-        , EventUsersFragment.OnFragmentInteractionListener, EditAccountFragment.OnFragmentInteractionListener   {
+        , EventUsersFragment.OnFragmentInteractionListener, EditAccountFragment.OnFragmentInteractionListener , EventRatingsFragment.OnFragmentInteractionListener  {
 
 
 

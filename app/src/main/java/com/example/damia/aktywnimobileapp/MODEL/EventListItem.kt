@@ -14,4 +14,14 @@ class EventListItem(name: String, description: String, data: String, sport: Stri
         this.sport = sport
     }
 
+
+    fun convertFromEvent(event:Event)
+    {
+        name=event.eventName
+        description=event.description
+        data=event.date.toString()
+        sport=event.typeOfSport
+        eventID=event.eventID
+    }
+
 }

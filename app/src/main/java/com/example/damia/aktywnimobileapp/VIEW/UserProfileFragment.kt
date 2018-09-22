@@ -12,6 +12,11 @@ import android.widget.TextView
 import com.example.damia.aktywnimobileapp.PRESENTER.UserProfilPresenter
 
 import com.example.damia.aktywnimobileapp.R
+import android.content.Intent
+import com.example.damia.aktywnimobileapp.API.EnumChoice
+import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi
+import kotlinx.android.synthetic.main.fragment_user_profile.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,8 +76,16 @@ class UserProfileFragment : Fragment() {
             presenter.clickIco()
         }
 
-    }
+        if (!sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
+            TVPremium.text = ""
+        } else {
+            TVPremium.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.wp.pl"))
+                startActivity(browserIntent)
+            }
+        }
 
+    }
 
 
     interface OnFragmentInteractionListener {

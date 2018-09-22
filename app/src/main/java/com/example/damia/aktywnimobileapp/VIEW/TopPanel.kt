@@ -29,44 +29,25 @@ import android.view.SubMenu
 import android.util.TypedValue
 
 
-
-
-
-
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [TopPanel.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [TopPanel.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-
-class messageHeader
-{
-    var UserFromId=""
-    var UserLoginFrom=""
+class messageHeader {
+    var UserFromId = ""
+    var UserLoginFrom = ""
 }
 
 class TopPanel : Fragment() {
     // TODO: Rename and change types of parameters
     private var listener: OnFragmentInteractionListener? = null
-    private var messageList= ArrayList<messageHeader>()
+    private var messageList = ArrayList<messageHeader>()
     var handler: Handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-
-
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -79,55 +60,48 @@ class TopPanel : Fragment() {
         listener?.onFragmentInteraction(uri)
     }
 
-    override  fun onViewCreated(view:View ,savedInstanceState: Bundle? )
-    {
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var tf = Typeface.createFromAsset(context?.assets,
                 "fonts/Pacifico-Regular.ttf")
-        val tvLogo =  view.findViewById(R.id.TVFLogo)  as TextView
-        tvLogo.typeface=tf
+        val tvLogo = view.findViewById(R.id.TVFLogo) as TextView
+        tvLogo.typeface = tf
 
-         tf = Typeface.createFromAsset(context?.assets,
+        if(!sharedPreferenceApi.getString(context!!,EnumChoice.isAdmin).equals("uzytkownik"))
+        {
+            TVFLogo.text="Aktywni.pl\npremium"
+        }
+
+        tf = Typeface.createFromAsset(context?.assets,
                 "fonts/fa-solid-900.ttf")
         val tvIntent = view.findViewById(R.id.TVFIntence) as TextView
         tvIntent.setTypeface(tf)
-
 
 
         val tvSettings = view.findViewById(R.id.TVFSettings) as TextView
         tvSettings.setTypeface(tf)
         tvSettings.setOnClickListener {
 
-
-
-
             val popup = PopupMenu(context, tvSettings)
             popup.getMenuInflater()
                     .inflate(R.menu.popup_menu, popup.getMenu())
 
             popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-              override  fun onMenuItemClick(item: MenuItem): Boolean {
-                  if(item.title=="Wyloguj")
-                  {
-                      val intent = Intent(context, LoginActivity::class.java)
-                      sharedPreferenceApi.set(context!!, "", EnumChoice.token)
-                      startActivity(intent)
-                      activity!!.finish()
-                  }
-                  else if(item.title=="Mój profil")
-                  {
-                      val newFragment = UserProfileFragment.newInstance("-1","")
-                      val transaction = fragmentManager!!.beginTransaction()
-                      transaction.replace(R.id.body, newFragment)
-                      transaction.addToBackStack(null)
-                      transaction.commit()
-                  }
-                  else
-                  {
-                      Toast.makeText(context,"Kliknieto "+item.title,Toast.LENGTH_SHORT).show()
+                override fun onMenuItemClick(item: MenuItem): Boolean {
+                    if (item.title == "Wyloguj") {
+                        val intent = Intent(context, LoginActivity::class.java)
+                        sharedPreferenceApi.set(context!!, "", EnumChoice.token)
+                        startActivity(intent)
+                        activity!!.finish()
+                    } else if (item.title == "Mój profil") {
+                        val newFragment = UserProfileFragment.newInstance("-1", "")
+                        val transaction = fragmentManager!!.beginTransaction()
+                        transaction.replace(R.id.body, newFragment)
+                        transaction.addToBackStack(null)
+                        transaction.commit()
+                    } else {
+                        Toast.makeText(context, "Kliknieto " + item.title, Toast.LENGTH_SHORT).show()
 
-                  }
+                    }
                     return true
                 }
             })
@@ -151,10 +125,9 @@ class TopPanel : Fragment() {
                 handler.postDelayed(this, 10000)
             }
 
-            fun isUnreadResult(result:String)
-            {
-                val root=JSONObject(result)
-                if(!root.getBoolean("info")) {
+            fun isUnreadResult(result: String) {
+                val root = JSONObject(result)
+                if (!root.getBoolean("info")) {
                     val tvMessage = view!!.findViewById(R.id.TVFMessage) as TextView
 
                     var tf = Typeface.createFromAsset(context?.assets,
@@ -183,10 +156,9 @@ class TopPanel : Fragment() {
     }
 
 
-    fun messageHedersResult(result:String)
-    {
+    fun messageHedersResult(result: String) {
 
-        val ico=TVFMessage
+        val ico = TVFMessage
         var tf = Typeface.createFromAsset(context?.assets,
                 "fonts/fa-regular-400.ttf")
 
@@ -194,8 +166,8 @@ class TopPanel : Fragment() {
 
             ico.setTypeface(tf)
             val popup = PopupMenu(context, ico)
-         //   popup.getMenuInflater()
-           //         .inflate(R.menu.popup_menu, popup.getMenu())
+            //   popup.getMenuInflater()
+            //         .inflate(R.menu.popup_menu, popup.getMenu())
 
             val root = JSONObject(result)
             if (root.getBoolean("response")) {
@@ -214,7 +186,7 @@ class TopPanel : Fragment() {
             popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
                 override fun onMenuItemClick(item: MenuItem): Boolean {
 
-                    val friend = messageList.filter { it -> it.UserLoginFrom.equals(item.title) || ("*"+it.UserLoginFrom).equals(item.title)}
+                    val friend = messageList.filter { it -> it.UserLoginFrom.equals(item.title) || ("*" + it.UserLoginFrom).equals(item.title) }
 
                     val newFragment = EventChatFragment.newInstance(friend.first().UserLoginFrom, friend.first().UserFromId, "")
                     val transaction = fragmentManager!!.beginTransaction()
@@ -229,7 +201,6 @@ class TopPanel : Fragment() {
 //*/
         //update
     }
-
 
 
     override fun onAttach(context: Context) {
@@ -275,5 +246,5 @@ class TopPanel : Fragment() {
         @JvmStatic
         fun newInstance() =
                 TopPanel()
-                }
     }
+}
