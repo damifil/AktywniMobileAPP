@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:fancy="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+<FrameLayout
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".VIEW.EditAccountFragment">
@@ -10,7 +17,7 @@ tools:context=".VIEW.EditAccountFragment">
 
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="550dp"
     android:layout_margin="20dp">
 
 
@@ -20,6 +27,7 @@ tools:context=".VIEW.EditAccountFragment">
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Edycja profilu"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -113,7 +121,7 @@ tools:context=".VIEW.EditAccountFragment">
 
     <Button
         android:id="@+id/BTChange"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Zmień"
@@ -159,3 +167,4 @@ tools:context=".VIEW.EditAccountFragment">
 
 </android.support.constraint.ConstraintLayout>
 </FrameLayout>
+</ScrollView>

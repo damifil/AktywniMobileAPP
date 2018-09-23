@@ -129,7 +129,7 @@ class TopPanel : Fragment() {
             fun isUnreadResult(result: String) {
                 val root = JSONObject(result)
                 if (root.getBoolean("info")) {
-                    TVFMessage.setTextColor(resources.getColor(R.color.unread_button))
+                    TVFMessage.setTextColor(resources.getColor(R.color.yellow_color))
 
 
                     val tvMessage = view!!.findViewById(R.id.TVFMessage) as TextView

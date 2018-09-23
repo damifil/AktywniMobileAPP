@@ -17,6 +17,7 @@ import android.view.ViewAnimationUtils
 import mehdi.sakout.fancybuttons.FancyButton
 import android.os.Build
 import android.annotation.TargetApi
+import android.support.constraint.ConstraintSet
 import com.example.damia.aktywnimobileapp.PRESENTER.EventPresenter
 
 
@@ -143,6 +144,10 @@ class EventFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         presenter = EventPresenter(this)
         presenter!!.downloadEvents()
+       // val constraintSet2 = ConstraintSet()
+      //  constraintSet2.clone(cl_event)
+      //  constraintSet2.constrainHeight(R.id.rvListInvitation, 0)
+     //   constraintSet2.applyTo(cl_event)
     }
 
     fun setAdapter() {
@@ -154,6 +159,15 @@ class EventFragment : Fragment() {
         rvListInvitation.adapter = EventListAdapter(presenter!!.model.eventInvitationList, context!!)
         rvListInvitation.adapter.notifyDataSetChanged()
         rvListInvitation.visibility=View.VISIBLE
+        textView14.visibility=View.VISIBLE
+        val constraintSet2 = ConstraintSet()
+        constraintSet2.clone(cl_event)
+        constraintSet2.constrainHeight(R.id.rvListInvitation, 250)
+        constraintSet2.constrainHeight(R.id.rv_event_list_search, 0)
+        constraintSet2.constrainHeight(R.id.textView14,0)
+
+        constraintSet2.applyTo(cl_event)
+
     }
 
 

@@ -76,10 +76,13 @@ class UserProfileFragment : Fragment() {
             presenter.clickIco()
         }
 
-        if (!sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
-            TVPremium.text = ""
+        if (sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
+            button6.text = "przedłuż konto premium"
+            button6.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.wp.pl"))
+                startActivity(browserIntent)}
         } else {
-            TVPremium.setOnClickListener {
+            button6.setOnClickListener {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.wp.pl"))
                 startActivity(browserIntent)
             }

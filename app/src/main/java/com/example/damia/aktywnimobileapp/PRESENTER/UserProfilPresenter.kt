@@ -34,6 +34,7 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
             } catch (e: Exception) {
             }
         } else {
+            fragment.button6.visibility=View.INVISIBLE
             try {
                 HTTPRequestAPI(this, "user/profile/" + model.userID, "downloadResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
             } catch (e: Exception) {
@@ -55,7 +56,7 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
         downloadFriend()
         val jsonObject = JSONObject(result)
         model.profilName = jsonObject.getString("login")
-        model.userDescribe = jsonObject.getString("describe")
+        model.userDescribe = jsonObject.getString("description")
         model.userRating = jsonObject.getString("rate").toDouble()
         setData()
         downloadFriend()

@@ -22,7 +22,7 @@ class EditAccountPresenter(fragment: EditAccountFragment) {
     fun downloadResult(response: String) {
         val jsonObject = JSONObject(response)
 
-        model.description = jsonObject.getString("describe")
+        model.description = jsonObject.getString("description")
         model.email = jsonObject.getString("email")
         model.login = jsonObject.getString("login")
         model.role = jsonObject.getString("role")

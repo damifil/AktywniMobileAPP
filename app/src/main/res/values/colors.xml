@@ -15,7 +15,7 @@
     <color name="button_color_not_choice_alternative">#1B3544</color>
     <color name="button_color_not_choice_alternative_green">#00AA8D</color>
     <color name="button_color_choice_alternative">#00AA8D</color>
-
+    <color name="yellow_color">#FFFF00</color>
     <color name="unread_button">#7c0a02</color>
     <color name="text_color_alternative">#FFFFFF</color>
     <color name="text_color_alternative_green">#00AA8D</color>

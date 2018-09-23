@@ -70,7 +70,8 @@ class EventPresenter(val activity: EventFragment) {
                 model.eventInvitationList.add(event)
             }
         }
-        setList2()
+        if(model.eventInvitationList.size>0)
+            setList2()
 
     }
 
