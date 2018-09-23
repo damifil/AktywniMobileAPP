@@ -150,7 +150,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
                     transaction.replace(R.id.body, newFragment)
                     transaction.addToBackStack(null)
                     transaction.commit()
-                }else if(fromMain!! && !marker.title.equals("Wiele wydarzeń"))
+                }else if(fromMain!! && marker.title.equals("Wiele wydarzeń"))
                 {
                    var aaa= presenter!!.model.listOfEvents.filter { LatLng(it.first().latitude!!, it.first().longitude!!)==marker.position }
                     var strin= Klaxon().toJsonString(aaa)

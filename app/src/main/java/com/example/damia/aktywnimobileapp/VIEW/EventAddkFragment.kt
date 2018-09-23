@@ -38,6 +38,10 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     private var adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
     private var presenter: EventAddPresenter? = null
     private var eventId: Int = 0
+    private var eventName=""
+    private var eventData=""
+    private var disciplineID=-1
+    private var describe:String=""
     var partItem: SportObject = SportObject("Baseball", "\uf433", 2)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,10 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             latitude = it.getDouble("latitude")
             longitude = it.getDouble("longitude")
             eventId = it.getInt("eventId")
+            eventName=it.getString("eventName")
+            eventData=it.getString("eventDate")
+            disciplineID=it.getInt("disciplineID")
+            describe=it.getString("describe")
         }
     }
 
@@ -65,7 +73,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         val modelString = sharedPreferenceApi.getString(context!!, EnumChoice.EventAddPresenter)
 
 
-        if (modelString != "") {
+        if (modelString != "" && eventName.equals("")) {
             presenter!!.model = Klaxon().parse<EventAddModel>(modelString)!!
         } else {
             presenter = EventAddPresenter(this)
@@ -81,6 +89,20 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         {
             presenter!!.model.eventId=eventId
         }
+        if(!eventName.equals(""))
+        {
+            presenter!!.model.eventName=eventName
+        }
+        if(!describe.equals(""))
+        {
+            presenter!!.model.description=describe
+        }
+
+        if(disciplineID>0)
+        {
+            partItem = presenter!!.model.Sports[disciplineID-2]
+        }
+
 
         val view = inflater.inflate(R.layout.fragment_event_addk, container, false)
         view.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
@@ -185,15 +207,13 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             }
         }
 
-
-        rv.rv_list_sport.adapter = ListOfSportsAdapter(presenter!!.model.Sports, context!!, true, { partItem: SportObject -> partItemClicked(partItem) })
+        rv.rv_list_sport.adapter = ListOfSportsAdapter(presenter!!.model.Sports, context!!, true, disciplineID, { partItem: SportObject -> partItemClicked(partItem) })
 
         adapter = rv.rv_list_sport.adapter
 
 
         return view
     }
-
 
 
     fun updateData() {
@@ -251,7 +271,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         if (presenter!!.model.eventId > 0) {
             presenter!!.initEventChange()
         } else {
-            if (presenter!!.model.latitude != 0.0) {
+            if (presenter!!.model.latitude != 100000.0) {
                 tv_ico_maps.setTextColor(ContextCompat.getColor(context!!, R.color.button_color_not_choice_alternative_green))
                 textView5.setText("Miejsce wybrano")
             }
@@ -270,6 +290,11 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         }
     }
 
+
+    fun setData()
+    {
+
+    }
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
@@ -304,7 +329,23 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
                         putDouble("latitude", latitude)
                         putDouble("longitude", longitude)
                         putInt("eventId", eventId)
+                        putString("eventName","")
+                        putString("eventDate","")
                     }
                 }
+
+        fun newInstance(eventName:String, eventData:String,latitude: Double, longitude: Double,disciplineID:Int, describe:String) =
+                EventAddkFragment().apply {
+                    arguments = Bundle().apply {
+                        putDouble("latitude", latitude)
+                        putDouble("longitude", longitude)
+                        putInt("eventId", -1)
+                        putString("eventName",eventName)
+                        putString("eventDate",eventData)
+                        putInt("disciplineID",disciplineID)
+                        putString("describe",describe)
+                    }
+                }
+
     }
 }

@@ -17,9 +17,10 @@
         >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/ll_event_describe">
 
             <TextView
                 android:id="@+id/event_list_name"

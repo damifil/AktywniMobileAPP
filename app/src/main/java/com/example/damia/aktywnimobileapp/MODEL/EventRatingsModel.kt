@@ -2,6 +2,7 @@ package com.example.damia.aktywnimobileapp.MODEL
 
 class EventRatingsModel
 {
+    var eventID:String=""
   var comentList:ArrayList<Comment> = arrayListOf()
 }
 

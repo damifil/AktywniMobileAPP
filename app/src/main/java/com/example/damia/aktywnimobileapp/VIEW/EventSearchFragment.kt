@@ -75,7 +75,7 @@ class EventSearchFragment : Fragment() {
 
         presenter= EventSearchPresenter(this)
 
-        rv.rv_list_sport.adapter = ListOfSportsAdapter(presenter!!.model.Sports, context!!,false, { partItem: SportObject -> partItemClicked(partItem) })
+        rv.rv_list_sport.adapter = ListOfSportsAdapter(presenter!!.model.Sports, context!!,false, 0, { partItem: SportObject -> partItemClicked(partItem) })
         adapter = rv.rv_list_sport.adapter
 
 

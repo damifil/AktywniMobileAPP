@@ -13,17 +13,16 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_event_list_chat"
             android:layout_width="0dp"
-            android:layout_height="429dp"
+            android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/editText2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <TextView
             android:id="@+id/textView3"
@@ -55,9 +54,9 @@
             android:layout_margin="20dp"
             android:layout_marginBottom="12dp"
             android:ems="10"
-            android:inputType="textPersonName"
 
             android:hint="napisz"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button2"
             app:layout_constraintHorizontal_bias="0.5"

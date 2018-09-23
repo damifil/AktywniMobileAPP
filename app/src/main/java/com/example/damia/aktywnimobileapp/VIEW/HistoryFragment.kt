@@ -4,11 +4,17 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
+import com.example.damia.aktywnimobileapp.PRESENTER.HistoryPresenter
 
 import com.example.damia.aktywnimobileapp.R
+import kotlinx.android.synthetic.main.fragment_event.*
+import kotlinx.android.synthetic.main.fragment_history.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +35,7 @@ class HistoryFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-
+    private var presenter:HistoryPresenter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,8 +46,24 @@ class HistoryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false)
+
+        var rootView = inflater.inflate(R.layout.fragment_history, container, false)
+        var rv = rootView.findViewById(R.id.rv_history) as RecyclerView
+        rv.layoutManager = LinearLayoutManager(context)
+
+
+        return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter=HistoryPresenter(this)
+    }
+
+    fun setAdapter()
+    {
+        rv_history.adapter = EventListAdapter(presenter!!.model.historyList, context!!)
+        rv_history.adapter.notifyDataSetChanged()
     }
 
     // TODO: Rename method, update argument and hook method into UI event

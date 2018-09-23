@@ -20,13 +20,17 @@ internal object ListOfSportIndex {
 }
 
 
-class ListOfSportsAdapter (val items: Array<SportObject>, val context: Context, val defaultSet:Boolean,  val clickListener: (SportObject) -> Unit):  RecyclerView.Adapter<ViewHolder2>()
+class ListOfSportsAdapter (val items: Array<SportObject>, val context: Context, val defaultSet:Boolean, row_index:Int,  val clickListener: (SportObject) -> Unit):  RecyclerView.Adapter<ViewHolder2>()
 {
 
 init {
     if (!defaultSet)
     {
         ListOfSportIndex.row_index=-1
+    }
+    if(row_index>1)
+    {
+        ListOfSportIndex.row_index=row_index
     }
 }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder2 {

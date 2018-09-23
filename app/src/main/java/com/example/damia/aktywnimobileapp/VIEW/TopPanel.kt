@@ -20,14 +20,19 @@ import com.example.damia.aktywnimobileapp.API.CyptographyApi
 import com.example.damia.aktywnimobileapp.API.HTTPRequestAPI
 import kotlinx.android.synthetic.main.fragment_top_panel.*
 import org.json.JSONObject
-import java.util.HashMap
 import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.SpannableString
 import android.view.SubMenu
 import android.util.TypedValue
+import com.example.damia.aktywnimobileapp.MODEL.EventListItem
+import com.example.damia.aktywnimobileapp.MODEL.sports
 import com.example.damia.aktywnimobileapp.R.color.text_color_alternative
+import com.example.damia.aktywnimobileapp.R.color.yellow_color
+import org.json.JSONArray
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -45,7 +50,7 @@ class TopPanel : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     private var messageList = ArrayList<messageHeader>()
     var handler: Handler = Handler()
-
+    var eventList: ArrayList<EventListItem> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -123,7 +128,70 @@ class TopPanel : Fragment() {
                 } catch (e: Exception) {
                 }
 
-                handler.postDelayed(this, 10000)
+                try {
+                    HTTPRequestAPI(this, "notComments", "notComentsEvent", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context!!, EnumChoice.token)), "GET").execute()
+                } catch (e: Exception) {
+                }
+
+
+                handler.postDelayed(this, 30000)
+            }
+
+
+            fun notComentsEvent(result: String)
+            {
+                val ico = TVFIntence
+
+
+
+                val root= JSONObject(result)
+                if (root.getString("response").equals("True")) {
+                    ico.setTypeface(tf)
+                    val jsonArray: JSONArray = root.getJSONArray("info")
+                    if(jsonArray.length()>0){
+                        TVFMessage.setTextColor(resources.getColor(yellow_color))
+                    }
+                    else
+                    {
+                        TVFMessage.setTextColor(resources.getColor(text_color_alternative))
+                    }
+
+                    val popup = PopupMenu(context, ico)
+
+
+                    eventList.clear()
+                    for (i in 0..jsonArray.length() - 1) {
+                        val item = jsonArray.getJSONObject(i)
+                        val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date").replace('T',' '), sports.values()[item.getInt("disciplineId")-2].ico   )
+                        event.eventID = item.getInt("eventId")
+                        event.adminLogin=item.getString("adminLogin")
+
+                        eventList.add(event)
+
+                        ico.setOnClickListener {
+                                    popup.menu.add(event.name)
+
+                                }
+
+
+
+
+                    }
+                    popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+                        override fun onMenuItemClick(item: MenuItem): Boolean {
+
+                            val event = eventList.filter { it -> it.name.equals(item.title) }
+                            val newFragment = EventRatingsFragment.newInstance(event.first().eventID.toString(),"")
+                            val transaction = fragmentManager!!.beginTransaction()
+                            transaction.replace(R.id.body, newFragment)
+                            transaction.commit()
+                            return true
+                        }
+                    })
+
+                    popup.show()
+
+                }
             }
 
             fun isUnreadResult(result: String) {

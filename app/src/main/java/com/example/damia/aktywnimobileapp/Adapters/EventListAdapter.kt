@@ -11,16 +11,13 @@ import com.example.damia.aktywnimobileapp.R
 import java.util.ArrayList
 import android.view.View
 import android.widget.TextView
-import com.example.damia.aktywnimobileapp.VIEW.MainFragment
 import kotlinx.android.synthetic.main.event_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_event.view.*
 import android.support.v4.app.FragmentActivity
 import com.example.damia.aktywnimobileapp.API.replaceFragment
-import com.example.damia.aktywnimobileapp.VIEW.CurentEventFragment
-import com.example.damia.aktywnimobileapp.VIEW.EventFragment
-import com.example.damia.aktywnimobileapp.VIEW.MainActivity
 import com.example.damia.aktywnimobileapp.API.replaceFragment
 import android.support.v7.app.AppCompatActivity
+import com.example.damia.aktywnimobileapp.VIEW.*
 
 
 class EventListAdapter(val items: ArrayList<EventListItem>, val context: Context) : RecyclerView.Adapter<ViewHolder>() {
@@ -40,8 +37,13 @@ class EventListAdapter(val items: ArrayList<EventListItem>, val context: Context
         holder?.tvIco.setTypeface(tf)
         holder?.tvIco.text = items.get(position).sport
         holder.itemView.setOnClickListener {
-            val newFragment = CurentEventFragment.newInstance(items.get(position).name, items.get(position).adminLogin)
-            (context as MainActivity).replaceFragment(newFragment, R.id.body)
+            if (items.get(position).isEvent) {
+                val newFragment = CurentEventFragment.newInstance(items.get(position).name, items.get(position).adminLogin)
+                (context as MainActivity).replaceFragment(newFragment, R.id.body)
+            } else {
+                val newFragment= EventAddkFragment.newInstance(items.get(position).name,items.get(position).data , items.get(position).latitude, items.get(position).longitude,items.get(position).discipline,items.get(position).description)
+                (context as MainActivity).replaceFragment(newFragment, R.id.body)
+            }
         }
     }
 

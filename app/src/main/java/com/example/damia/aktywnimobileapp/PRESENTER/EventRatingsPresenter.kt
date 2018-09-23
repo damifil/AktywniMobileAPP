@@ -13,7 +13,17 @@ class EventRatingsPresenter(var fragment : EventRatingsFragment )
 val model= EventRatingsModel()
 
 
-    fun getListOfComments()
+    fun getListOfComments(eventID:String)
+    {
+        model.eventID=eventID
+        val toSend = HashMap<String, String>()
+        try {
+            HTTPRequestAPI(this, " userComment/event/"+model.eventID, "resultRequest", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
+        } catch (e: Exception) {
+        }
+
+    }
+    fun resultRequest(response:String)
     {
 
     }

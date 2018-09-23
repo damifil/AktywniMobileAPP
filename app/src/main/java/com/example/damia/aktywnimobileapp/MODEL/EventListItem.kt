@@ -7,6 +7,10 @@ class EventListItem(name: String, description: String, data: String, sport: Stri
     var sport = ""
     var eventID:Int=0
     var adminLogin=""
+    var isEvent=true
+    var longitude=0.0
+    var latitude = 0.0
+    var discipline:Int=-1
     init {
         this.name = name
         this.data = data

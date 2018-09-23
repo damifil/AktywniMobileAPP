@@ -48,7 +48,7 @@ class EventRatingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         presenter= EventRatingsPresenter(this)
-        presenter!!.getListOfComments()
+        presenter!!.getListOfComments(param1!!)
     }
 
     fun setAdapter()
