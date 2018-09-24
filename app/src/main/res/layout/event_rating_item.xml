@@ -8,9 +8,9 @@
 
     <TextView
         android:id="@+id/userName"
-        android:layout_width="wrap_content"
+        android:layout_width="299dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Użytkownik\njasiek"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,28 +18,32 @@
 
     <EditText
         android:id="@+id/userComment"
-        android:layout_width="332dp"
-        android:layout_height="133dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Komentarz"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userName" />
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
 
     <RatingBar
         android:id="@+id/ratingBar2"
-        android:layout_width="174dp"
+        android:layout_width="233dp"
         android:layout_height="59dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:isIndicator="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:isIndicator="false"
         android:numStars="5"
+        android:rating="5"
         android:stepSize="0.5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
 
 </android.support.constraint.ConstraintLayout>

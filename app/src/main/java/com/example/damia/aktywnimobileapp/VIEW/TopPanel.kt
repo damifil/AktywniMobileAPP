@@ -35,8 +35,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -129,7 +128,7 @@ class TopPanel : Fragment() {
                 }
 
                 try {
-                    HTTPRequestAPI(this, "notComments", "notComentsEvent", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context!!, EnumChoice.token)), "GET").execute()
+                    HTTPRequestAPI(this, "event/notComments", "notComentsEvent", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context!!, EnumChoice.token)), "GET").execute()
                 } catch (e: Exception) {
                 }
 
@@ -146,7 +145,7 @@ class TopPanel : Fragment() {
 
                 val root= JSONObject(result)
                 if (root.getString("response").equals("True")) {
-                    ico.setTypeface(tf)
+                   // ico.setTypeface(tf)
                     val jsonArray: JSONArray = root.getJSONArray("info")
                     if(jsonArray.length()>0){
                         TVFMessage.setTextColor(resources.getColor(yellow_color))
@@ -160,6 +159,10 @@ class TopPanel : Fragment() {
 
 
                     eventList.clear()
+                    if(jsonArray.length()>0)
+                    {
+                        ico.setTextColor( resources.getColor(R.color.yellow_color))
+                    }
                     for (i in 0..jsonArray.length() - 1) {
                         val item = jsonArray.getJSONObject(i)
                         val event: EventListItem = EventListItem(item.getString("name"), item.getString("description"), item.getString("date").replace('T',' '), sports.values()[item.getInt("disciplineId")-2].ico   )
@@ -168,28 +171,31 @@ class TopPanel : Fragment() {
 
                         eventList.add(event)
 
-                        ico.setOnClickListener {
+                      //  ico.setOnClickListener {
                                     popup.menu.add(event.name)
 
-                                }
+                    //            }
 
 
 
 
                     }
+
                     popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
                         override fun onMenuItemClick(item: MenuItem): Boolean {
 
                             val event = eventList.filter { it -> it.name.equals(item.title) }
-                            val newFragment = EventRatingsFragment.newInstance(event.first().eventID.toString(),"")
+                            val newFragment = EventRatingsFragment.newInstance(event.first().eventID.toString(),event.first().name)
                             val transaction = fragmentManager!!.beginTransaction()
                             transaction.replace(R.id.body, newFragment)
                             transaction.commit()
                             return true
                         }
                     })
+                    ico.setOnClickListener {
+                        popup.show()
+                    }
 
-                    popup.show()
 
                 }
             }
@@ -200,7 +206,7 @@ class TopPanel : Fragment() {
                     TVFMessage.setTextColor(resources.getColor(R.color.yellow_color))
 
 
-                    val tvMessage = view!!.findViewById(R.id.TVFMessage) as TextView
+                    val tvMessage = view.findViewById(R.id.TVFMessage) as TextView
 
                     var tf = Typeface.createFromAsset(context?.assets,
                             "fonts/fa-solid-900.ttf")

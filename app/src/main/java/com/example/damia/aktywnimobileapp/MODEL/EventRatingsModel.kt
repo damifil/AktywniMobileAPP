@@ -3,7 +3,7 @@ package com.example.damia.aktywnimobileapp.MODEL
 class EventRatingsModel
 {
     var eventID:String=""
-  var comentList:ArrayList<Comment> = arrayListOf()
+    var comentList:ArrayList<Comment> = arrayListOf()
 }
 
 class Comment
@@ -13,4 +13,5 @@ class Comment
     var Rate=-1
     var describe=""
     var isAdded=false
+    var login=""
 }

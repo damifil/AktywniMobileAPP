@@ -46,9 +46,12 @@ class EventRatingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        textView15.setText("Komentarze do wydarzenia\n"+param2)
         presenter= EventRatingsPresenter(this)
         presenter!!.getListOfComments(param1!!)
+        button5.setOnClickListener{
+            presenter!!.setRatings()
+        }
     }
 
     fun setAdapter()
