@@ -60,7 +60,7 @@ val model= EventRatingsModel()
             toSend["UserIdRated"]=coment.userIDRated.toString()
             toSend["EventId"]=coment.eventID.toString()
             toSend["Rate"]=coment.Rate.toString()
-            toSend["Describe "]=coment.describe
+            toSend["Describe"]=coment.describe
            if(coment.isAdded){
                try {
                    HTTPRequestAPI(this, "userComment/update", "addComent", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "PUT").execute()
