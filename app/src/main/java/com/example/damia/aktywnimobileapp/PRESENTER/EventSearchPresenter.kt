@@ -64,7 +64,7 @@ class EventSearchPresenter(fragment:EventSearchFragment)
         toSend["Name"]=name
         if(eventID<2)
         {
-            toSend["DisciplineId"] =""
+            toSend["DisciplineId"] ="0"
         }
         else {
             toSend["DisciplineId"] = eventID.toString()

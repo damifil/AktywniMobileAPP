@@ -53,7 +53,6 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
 
 
     fun downloadResult(result: String) {
-        downloadFriend()
         val jsonObject = JSONObject(result)
         model.profilName = jsonObject.getString("login")
         model.userDescribe = jsonObject.getString("description")
