@@ -1,5 +1,6 @@
 package com.example.damia.aktywnimobileapp.PRESENTER
 
+import android.text.format.Time
 import android.widget.Toast
 import com.example.damia.aktywnimobileapp.API.CyptographyApi
 import com.example.damia.aktywnimobileapp.API.EnumChoice
@@ -9,7 +10,14 @@ import com.example.damia.aktywnimobileapp.MODEL.ChatValue
 import com.example.damia.aktywnimobileapp.MODEL.EventChatModel
 import com.example.damia.aktywnimobileapp.VIEW.EventChatFragment
 import org.json.JSONObject
-import java.util.HashMap
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+
+
+
+
 
 class EventChatPresenter(context: EventChatFragment) {
     var model: EventChatModel
@@ -64,13 +72,10 @@ class EventChatPresenter(context: EventChatFragment) {
                 val item = jsonArray.getJSONObject(i)
                 val chatValue = ChatValue()
                 chatValue.chatmessage = item.getString("content")
-                if(model.eventIdOrUserName.equals(item.getString("userFromId")))
-                {
-                    chatValue.nameUser =    item.getString("login")
-                }
-                else
-                {
-                    chatValue.nameUser =  sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin)
+                if (model.eventIdOrUserName.equals(item.getString("userFromId"))) {
+                    chatValue.nameUser = item.getString("login")
+                } else {
+                    chatValue.nameUser = sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin)
                 }
                 chatValue.isMineName = chatValue.nameUser.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin), true)
                 chatValue.messageId = item.getInt("messageId")
@@ -163,7 +168,9 @@ class EventChatPresenter(context: EventChatFragment) {
                 chatValue.date = item.getString("date").replace('T', ' ', true).dropLast(3)
                 model.chatList.add(chatValue)
             }
-            model.chatList.sortBy { it.messageId }
+            val cmp = compareBy<ChatValue> { Date(it.date) }
+
+            model.chatList.sortWith(cmp)
             context2.Notify()
         } else {
             Toast.makeText(context2.context, "wsytapił problem podczas pobierania", Toast.LENGTH_LONG).show()
@@ -178,10 +185,21 @@ class EventChatPresenter(context: EventChatFragment) {
 
     fun sendMessage(message: String) {
         var toSend = HashMap<String, String>()
+        val chatvalue = ChatValue()
+        chatvalue.chatmessage=message
+        chatvalue.isMineName=true
+        val currentTime = Calendar.getInstance().time
 
+        val format1 = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val formatted = format1.format(currentTime)
+
+        chatvalue.date= formatted
+        model.chatList.add(chatvalue)
+        context2.Notify()
         if (model.userId.equals("")) {
             toSend["EventId"] = model.eventIdOrUserName.toString()
             toSend["Content"] = message
+
             try {
                 HTTPRequestAPI(this, "messageEvent/send", "sendMessageResponse", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "POST").execute()
             } catch (e: Exception) {

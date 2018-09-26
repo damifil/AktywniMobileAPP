@@ -113,9 +113,16 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
         }
         else
         {
-        var ev:Event=Klaxon().parse<Event>(event)!!
+            val eventToAdd= Event()
+            val jobject = JSONObject(event)
+
+            eventToAdd.latitude=jobject.getDouble("latitude")
+            eventToAdd.longitude=jobject.getDouble("longitude")
+            eventToAdd.description=jobject.getString("description")
+          //  event.latitude=
+        //var ev:Event=Klaxon().parse<Event>(event)!!
             var lsit:MutableList<Event> = arrayListOf()
-            lsit.add(ev)
+            lsit.add(eventToAdd)
             model.listOfEvents.add(lsit)
             setMarkers()
         }

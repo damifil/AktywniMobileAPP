@@ -331,6 +331,7 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
                         putInt("eventId", eventId)
                         putString("eventName","")
                         putString("eventDate","")
+                        putString("describe","")
                     }
                 }
 

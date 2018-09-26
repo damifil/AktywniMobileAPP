@@ -44,7 +44,8 @@ class CurentEventPresenter(context: CurentEventFragment, eventName: String, admi
             model.name.set("Wydarzenie:\n"+jobject.getString("name"))
             model.discipline = jobject.getInt("disciplineId")
             model.eventID = jobject.getInt("eventId")
-
+            model.latitude=jobject.getDouble("latitude")
+            model.longitude=jobject.getDouble("longitude")
             val toSend = HashMap<String, String>()
             try {
                 HTTPRequestAPI(this, "userEvent/" + model.eventID, "usersList", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(context2.context!!, EnumChoice.token)), "GET").execute()
@@ -84,10 +85,10 @@ class CurentEventPresenter(context: CurentEventFragment, eventName: String, admi
 
                 }
             }
-            if (model.userStatus==0)
+            if (model.userStatus!=0)
             {
-                context2.BTChat.visibility= View.INVISIBLE
-                context2.BTUsers.visibility=View.INVISIBLE
+                context2.BTChat.visibility= View.VISIBLE
+                context2.BTUsers.visibility=View.VISIBLE
             }
             context2.setIco(model.userStatus)
         } else {

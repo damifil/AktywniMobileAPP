@@ -6,11 +6,13 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.EventLog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.beust.klaxon.Klaxon
+import com.example.damia.aktywnimobileapp.MODEL.Event
 import com.example.damia.aktywnimobileapp.PRESENTER.CurentEventPresenter
 import com.example.damia.aktywnimobileapp.R
 import com.example.damia.aktywnimobileapp.databinding.FragmentCurentEventBinding
@@ -100,8 +102,11 @@ class CurentEventFragment : Fragment() {
         tvMapIco.setText("\uf279")
 
         tvMapIco.setOnClickListener {
-
-            val newFragment = MainFragment.newInstance(Klaxon().toJsonString(presenter!!.model))
+            val event= Event()
+            event.longitude=presenter!!.model.longitude
+            event.latitude=presenter!!.model.latitude
+            event.description=presenter!!.model.describe.get()!!
+            val newFragment = MainFragment.newInstance(Klaxon().toJsonString(event))
             val transaction = fragmentManager!!.beginTransaction()
             transaction.replace(R.id.body, newFragment)
             transaction.commit()
@@ -112,6 +117,7 @@ class CurentEventFragment : Fragment() {
 
             val newFragment = EventChatFragment.newInstance(presenter!!.model.eventID.toString(), "",presenter!!.model.name.get()!!)
             val transaction = fragmentManager!!.beginTransaction()
+            transaction.addToBackStack(null)
             transaction.replace(R.id.body, newFragment)
             transaction.commit()
 
@@ -119,7 +125,9 @@ class CurentEventFragment : Fragment() {
         BTUsers.setOnClickListener{
             val newFragment = EventUsersFragment.newInstance(presenter!!.model.adminLogin,presenter!!.model.eventID,presenter!!.model.name.get()!!.removeRange(0,11))
             val transaction = fragmentManager!!.beginTransaction()
+            transaction.addToBackStack(null)
             transaction.replace(R.id.body, newFragment)
+
             transaction.commit()
         }
     }

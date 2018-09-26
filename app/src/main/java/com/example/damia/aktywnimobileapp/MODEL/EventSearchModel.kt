@@ -18,7 +18,7 @@ class EventSearchModel
     )
     var eventId=0
 
-
+    var km=5
     var eventList: ArrayList<EventListItem> = ArrayList()
 
 }

@@ -1,5 +1,6 @@
 package com.example.damia.aktywnimobileapp.VIEW
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +19,19 @@ import com.example.damia.aktywnimobileapp.MODEL.SportObject
 import com.example.damia.aktywnimobileapp.PRESENTER.EventSearchPresenter
 import kotlinx.android.synthetic.main.fragment_event_addk.view.*
 import kotlinx.android.synthetic.main.fragment_event_search.*
+import android.widget.Toast
+import android.databinding.adapters.TextViewBindingAdapter.setTextSize
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+import android.databinding.adapters.SeekBarBindingAdapter.setOnSeekBarChangeListener
+import android.location.Location
+import android.location.LocationManager
+import com.example.damia.aktywnimobileapp.API.MyLocationListener
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,6 +53,8 @@ class EventSearchFragment : Fragment() {
     private var param1: Int? = null
     private var param2: Int? = null
     private var listener: OnFragmentInteractionListener? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var mcontext: Context? = null
     var partItem: SportObject ?=null// SportObject("Baseball", "\uf433", 2)
     private var adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +63,7 @@ class EventSearchFragment : Fragment() {
             param1 = it.getInt(ARG_PARAM1)
             param2 = it.getInt(ARG_PARAM2)
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(mcontext!!)
     }
 
     fun partItemClicked(partItem: SportObject) {
@@ -83,6 +100,27 @@ class EventSearchFragment : Fragment() {
         return view
     }
 
+     var latitude: Double? = null
+     var longitude: Double? = null
+    @SuppressLint("MissingPermission")
+    private fun getLocalization() {
+
+
+        fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        latitude = location.latitude
+                        longitude = location.longitude
+
+                    } else {
+                        val locationListener = MyLocationListener()
+                        val locationMangaer = mcontext!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                        locationMangaer.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10f, locationListener)
+                        locationMangaer.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10f, locationListener)
+                    }
+                }
+    }
+
     fun setAdapter()
     {
         rv_event_list_search.adapter = EventListAdapter(presenter!!.model.eventList, context!!)
@@ -99,7 +137,27 @@ class EventSearchFragment : Fragment() {
             {
                 presenter!!.search(ET_event_name.text.toString(), -1)
             }
+            getLocalization()
         }
+
+        seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                // TODO Auto-generated method stub
+
+                textView17.text=(progress+5).toString()+" km"
+
+
+            }
+        })
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -111,6 +169,7 @@ class EventSearchFragment : Fragment() {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
+            mcontext = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }

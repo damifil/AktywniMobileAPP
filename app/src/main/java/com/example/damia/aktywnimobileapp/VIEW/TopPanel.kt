@@ -187,6 +187,7 @@ class TopPanel : Fragment() {
                             val event = eventList.filter { it -> it.name.equals(item.title) }
                             val newFragment = EventRatingsFragment.newInstance(event.first().eventID.toString(),event.first().name)
                             val transaction = fragmentManager!!.beginTransaction()
+                            transaction.addToBackStack(null)
                             transaction.replace(R.id.body, newFragment)
                             transaction.commit()
                             return true
@@ -269,6 +270,7 @@ class TopPanel : Fragment() {
 
                     val newFragment = EventChatFragment.newInstance(friend.first().UserLoginFrom, friend.first().UserFromId, "")
                     val transaction = fragmentManager!!.beginTransaction()
+                    transaction.addToBackStack(null)
                     transaction.replace(R.id.body, newFragment)
                     transaction.commit()
                     return true

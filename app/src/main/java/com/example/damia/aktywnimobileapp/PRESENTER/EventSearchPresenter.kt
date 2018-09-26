@@ -8,6 +8,7 @@ import com.example.damia.aktywnimobileapp.MODEL.EventListItem
 import com.example.damia.aktywnimobileapp.MODEL.EventSearchModel
 import com.example.damia.aktywnimobileapp.MODEL.sports
 import com.example.damia.aktywnimobileapp.VIEW.EventSearchFragment
+import kotlinx.android.synthetic.main.fragment_event_search.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -21,7 +22,7 @@ class EventSearchPresenter(fragment:EventSearchFragment)
     {
         model.eventList.clear()
         val toSend = HashMap<String, String>()
-        if(!name.equals(""))
+       /* if(!name.equals(""))
         {
             if(eventID>-1)
             {
@@ -59,9 +60,24 @@ class EventSearchPresenter(fragment:EventSearchFragment)
         else
         {
             //nothing
+        }*/
+        toSend["Name"]=name
+        if(eventID<2)
+        {
+            toSend["DisciplineId"] =""
         }
+        else {
+            toSend["DisciplineId"] = eventID.toString()
+        }
+        toSend["Name"]=name
+        toSend["Distance"]=(fragment.seekBar.progress+5).toString()
+        toSend["Latitude"]=fragment.latitude.toString()
+        toSend["Longitude"]=fragment.longitude.toString()
 
-
+        try {
+            HTTPRequestAPI(this, "event/searchInDisciplineAndDistance", "eventsListResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "POST").execute()
+        } catch (e: Exception) {
+        }
 
 
     }

@@ -71,14 +71,15 @@
 
         <Button
             android:id="@+id/button4"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
             android:text="szukaj"
             android:textColor="@color/text_color_alternative"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_list_sport" />
+            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
         <EditText
             android:id="@+id/ET_event_name"
@@ -91,6 +92,31 @@
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:max="195"
+
+            android:progressTint="@color/background"
+            android:progressBackgroundTint="#ffffff"
+            app:layout_constraintEnd_toStartOf="@+id/textView17"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_list_sport" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="5 km"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_list_sport" />
 
 
     </android.support.constraint.ConstraintLayout>

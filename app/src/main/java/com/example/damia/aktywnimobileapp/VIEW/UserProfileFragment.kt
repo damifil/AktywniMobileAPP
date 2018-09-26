@@ -79,11 +79,11 @@ class UserProfileFragment : Fragment() {
         if (sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
             button6.text = "przedłuż konto premium"
             button6.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.wp.pl"))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://35.242.196.239/aktywni"))
                 startActivity(browserIntent)}
         } else {
             button6.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.wp.pl"))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://35.242.196.239/aktywni"))
                 startActivity(browserIntent)
             }
         }

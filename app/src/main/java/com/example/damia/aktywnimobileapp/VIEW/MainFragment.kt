@@ -85,7 +85,6 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         mView = inflater.inflate(R.layout.fragment_main, container, false)
 
         this.infoWindow = inflater.inflate(R.layout.info_window, null) as ViewGroup
-        presenter = MainFragmentPresenter(this, fromMain!!, event)
         return mView
     }
 
@@ -125,7 +124,11 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
             mMapView!!.onResume()
             mMapView!!.getMapAsync(this)
         }
+        presenter = MainFragmentPresenter(this, fromMain!!, event)
 
+        //   try {
+      //      presenter!!.setEvent(event)
+     //   }catch (e:Exception){}
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -194,7 +197,10 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
             markerHandle = googleMap.addMarker(marker)
         }
         getLocalization()
-        presenter!!.setEvent(event)
+
+       // try {
+            presenter!!.setEvent(event)
+     //   }catch (e:Exception){}
     }
 
     fun setMarker(latitude: Double, longitude: Double, title: String, description: String) {
