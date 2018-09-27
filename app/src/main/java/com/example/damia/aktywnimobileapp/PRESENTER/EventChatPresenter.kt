@@ -82,7 +82,7 @@ class EventChatPresenter(context: EventChatFragment) {
                 chatValue.date = item.getString("date").replace('T', ' ', true).dropLast(3)
                 model.chatList.add(chatValue)
             }
-            model.chatList.sortBy { it.messageId }
+            model.chatList.sortBy { it.date }
             context2.Notify()
         }
     }
