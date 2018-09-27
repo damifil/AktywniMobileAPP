@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_user_profile.*
 import org.json.JSONObject
 import java.util.HashMap
 import android.support.v4.content.ContextCompat.startActivity
+import com.example.damia.aktywnimobileapp.MODEL.Comment
 import com.example.damia.aktywnimobileapp.VIEW.EditAccountFragment
 
 
@@ -33,13 +34,51 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
                 HTTPRequestAPI(this, "user", "downloadResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
             } catch (e: Exception) {
             }
+
+
+
+
+
+
         } else {
             fragment.button6.visibility=View.INVISIBLE
             try {
                 HTTPRequestAPI(this, "user/profile/" + model.userID, "downloadResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
             } catch (e: Exception) {
             }
+
+            try {
+                HTTPRequestAPI(this, "userComment/user/" + model.userID, "commentResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
+            } catch (e: Exception) {
+            }
+
         }
+
+
+
+    }
+
+
+
+
+    fun commentResult(result: String)
+    {
+        val jsonObject = JSONObject(result)
+        if(jsonObject.getBoolean("response"))
+        {
+            val jarray=jsonObject.getJSONArray("info")
+            for (i in 0..jarray.length()-1)
+            {
+                val item=jarray.getJSONObject(i)
+                val coment = Comment()
+                coment.login=item.getString("userLoginWhoComment")
+                coment.fromProfile=true
+                coment.Rate=item.getInt("rate")
+                coment.describe=item.getString("describe")
+                model.coments.add(coment)
+            }
+        }
+        fragment.updateListOfComment()
     }
 
     fun downloadFriend() {
@@ -58,6 +97,14 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
         model.userDescribe = jsonObject.getString("description")
         model.userRating = jsonObject.getString("rate").toDouble()
         setData()
+        if(model.userID<0){
+        val toSend = HashMap<String, String>()
+        try {
+            HTTPRequestAPI(this, "userComment/user/" + jsonObject.getString("userId"), "commentResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
+        } catch (e: Exception) {
+        }
+        }
+
         downloadFriend()
     }
 

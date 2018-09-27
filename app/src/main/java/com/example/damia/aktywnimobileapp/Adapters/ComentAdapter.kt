@@ -12,33 +12,42 @@ import java.util.ArrayList
 import android.text.TextWatcher
 import android.widget.RatingBar
 import android.text.Editable
+import android.text.InputType
 
 class ComentAdapter(val items: ArrayList<Comment>, val context: Context): RecyclerView.Adapter<ViewHolderComment>()
 {
     override fun onBindViewHolder(holder: ViewHolderComment, position: Int) {
-        holder.rating.rating=items.get(position).Rate.toFloat()/2
-        holder.name.setText("Użytkownik "+items.get(position).login)
-        holder.rating.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser -> items[position].Rate=(rating*2).toInt() }
+        holder.rating.rating = items.get(position).Rate.toFloat() / 2
+        holder.name.setText("Użytkownik " + items.get(position).login)
         holder.coment.setText(items[position].describe)
-        holder.coment.addTextChangedListener(object : TextWatcher {
+        if (!items.get(position).fromProfile) {
+            holder.rating.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser -> items[position].Rate = (rating * 2).toInt() }
 
-            override fun afterTextChanged(s: Editable) {}
+            holder.coment.addTextChangedListener(object : TextWatcher {
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                    items[position].describe = s.toString()
+                }
+            })
+
+            holder.rating.setOnClickListener {
+                items.get(position).Rate = (holder.rating.rating * 2).toInt()
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
-                items[position].describe=s.toString()
-            }
-        })
-
-        holder.rating.setOnClickListener {
-            items.get(position).Rate=(holder.rating.rating*2).toInt()
         }
-
+        else
+        {
+            holder.rating.isEnabled=false
+            holder.coment.inputType=InputType.TYPE_NULL
         }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderComment {
         return ViewHolderComment(LayoutInflater.from(context).inflate(R.layout.event_rating_item, parent, false))

@@ -14,4 +14,5 @@ class Comment
     var describe=""
     var isAdded=false
     var login=""
+    var fromProfile=false
 }

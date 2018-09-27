@@ -13,8 +13,13 @@ import com.example.damia.aktywnimobileapp.PRESENTER.UserProfilPresenter
 
 import com.example.damia.aktywnimobileapp.R
 import android.content.Intent
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.example.damia.aktywnimobileapp.API.EnumChoice
 import com.example.damia.aktywnimobileapp.API.sharedPreferenceApi
+import com.example.damia.aktywnimobileapp.Adapters.ComentAdapter
+import com.example.damia.aktywnimobileapp.Adapters.EventListAdapter
+import kotlinx.android.synthetic.main.fragment_event.*
 import kotlinx.android.synthetic.main.fragment_user_profile.*
 
 
@@ -29,7 +34,7 @@ class UserProfileFragment : Fragment() {
     private var userID: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-
+    private var presenter : UserProfilPresenter?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,7 +46,10 @@ class UserProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_profile, container, false)
+        var rootView = inflater.inflate(R.layout.fragment_user_profile, container, false)
+        var rv = rootView.findViewById(R.id.rv_comment) as RecyclerView
+        rv.layoutManager = LinearLayoutManager(context)
+        return rootView
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -58,6 +66,12 @@ class UserProfileFragment : Fragment() {
         }
     }
 
+    fun updateListOfComment()
+    {
+        rv_comment.adapter = ComentAdapter(presenter!!.model.coments ,context!!)
+        rv_comment.adapter.notifyDataSetChanged()
+    }
+
     override fun onDetach() {
         super.onDetach()
         listener = null
@@ -65,15 +79,15 @@ class UserProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val presenter = UserProfilPresenter(this)
-        presenter.model.userID = userID!!.toInt()
-        presenter.downloadData()
+         presenter = UserProfilPresenter(this)
+        presenter!!.model.userID = userID!!.toInt()
+        presenter!!.downloadData()
         val tf = Typeface.createFromAsset(context!!.assets,
                 "fonts/fa-solid-900.ttf")
         val tvIco = view!!.findViewById(R.id.icoAddDelete) as TextView
         tvIco.setTypeface(tf)
         tvIco.setOnClickListener {
-            presenter.clickIco()
+            presenter!!.clickIco()
         }
 
         if (sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
