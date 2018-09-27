@@ -30,6 +30,7 @@ import com.example.damia.aktywnimobileapp.API.MyLocationListener
 import com.example.damia.aktywnimobileapp.MapClass.MapWrapperLayout
 import com.example.damia.aktywnimobileapp.PRESENTER.MainFragmentPresenter
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import org.json.JSONObject
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -101,7 +102,16 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
                         longitude = location.longitude
                         val position = LatLng(latitude!!, longitude!!)
                         markerHandle = mGoogleMap!!.addMarker(MarkerOptions().position(position).title("twoja pozycja"))
-                        mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12f))
+                        if(fromMain!!) {
+                            mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12f))
+                        }
+                        else
+                        {
+                            val root=  JSONObject(event)
+                            val pos= LatLng(root.getDouble("latitude"), root.getDouble("longitude"))
+                            mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 12f))
+
+                        }
                     } else {
                         val locationListener = MyLocationListener()
                         val locationMangaer = mcontext!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -118,13 +128,14 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         this.infoSnippet = infoWindow!!.findViewById(R.id.snippet) as TextView
         this.infoButton = infoWindow!!.findViewById(R.id.button) as Button
         mapWrapperLayout = mView!!.findViewById(R.id.map_relative_layout)
+        presenter = MainFragmentPresenter(this, fromMain!!, event)
+
         mMapView = mView!!.findViewById(R.id.map)
         if (mMapView != null) {
             mMapView!!.onCreate(null)
             mMapView!!.onResume()
             mMapView!!.getMapAsync(this)
         }
-        presenter = MainFragmentPresenter(this, fromMain!!, event)
 
         //   try {
       //      presenter!!.setEvent(event)

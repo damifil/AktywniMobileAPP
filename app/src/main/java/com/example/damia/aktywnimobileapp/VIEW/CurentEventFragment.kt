@@ -108,6 +108,7 @@ class CurentEventFragment : Fragment() {
             event.description=presenter!!.model.describe.get()!!
             val newFragment = MainFragment.newInstance(Klaxon().toJsonString(event))
             val transaction = fragmentManager!!.beginTransaction()
+            transaction.addToBackStack(null)
             transaction.replace(R.id.body, newFragment)
             transaction.commit()
         }
