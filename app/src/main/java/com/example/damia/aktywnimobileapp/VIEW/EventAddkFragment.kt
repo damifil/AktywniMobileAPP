@@ -184,8 +184,9 @@ class EventAddkFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             presenter!!.model.description = editText.text.toString()
             presenter!!.model.eventName = ETName.text.toString()
             sharedPreferenceApi.set(context!!, Klaxon().toJsonString(presenter!!.model), EnumChoice.EventAddPresenter)
-
-            val newFragment = MainFragment.newInstance(false)
+            presenter!!.model.eventName="miejsce tworzonego wydarzenia"
+            presenter!!.model.description=""
+            val newFragment = MainFragment.newInstance(Klaxon().toJsonString(presenter!!.model))
             val transaction = fragmentManager!!.beginTransaction()
             transaction.addToBackStack(null)
             transaction.replace(R.id.body, newFragment)

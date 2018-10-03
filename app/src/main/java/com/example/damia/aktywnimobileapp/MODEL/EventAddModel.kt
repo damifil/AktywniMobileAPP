@@ -1,7 +1,7 @@
 package com.example.damia.aktywnimobileapp.MODEL
 
 class EventAddModel( var longitude:Double=100000.0,
-                     var latitude:Double=0.0,
+                     var latitude:Double=100000.0,
                      var description:String="",
                      var eventName:String="",
                      var date:String="Data:",

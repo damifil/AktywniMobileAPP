@@ -118,13 +118,16 @@ class MainFragmentPresenter(context: MainFragment, fromMain: Boolean,event:Strin
 
             eventToAdd.latitude=jobject.getDouble("latitude")
             eventToAdd.longitude=jobject.getDouble("longitude")
-            eventToAdd.description=jobject.getString("description")
-          //  event.latitude=
-        //var ev:Event=Klaxon().parse<Event>(event)!!
-            var lsit:MutableList<Event> = arrayListOf()
-            lsit.add(eventToAdd)
-            model.listOfEvents.add(lsit)
-            setMarkers()
+            if(eventToAdd.longitude!=100000.0) {
+                eventToAdd.description = jobject.getString("description")
+                eventToAdd.eventName=jobject.getString("eventName")
+                //  event.latitude=
+                //var ev:Event=Klaxon().parse<Event>(event)!!
+                var lsit: MutableList<Event> = arrayListOf()
+                lsit.add(eventToAdd)
+                model.listOfEvents.add(lsit)
+                setMarkers()
+            }
         }
     }
 

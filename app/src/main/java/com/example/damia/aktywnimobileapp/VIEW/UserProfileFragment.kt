@@ -93,11 +93,11 @@ class UserProfileFragment : Fragment() {
         if (sharedPreferenceApi.getString(context!!, EnumChoice.isAdmin).equals("uzytkownik")) {
             button6.text = "przedłuż konto premium"
             button6.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://35.242.196.239/aktywni"))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://35.242.196.239/aktywni1"))
                 startActivity(browserIntent)}
         } else {
             button6.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://35.242.196.239/aktywni"))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://35.242.196.239/aktywni1"))
                 startActivity(browserIntent)
             }
         }

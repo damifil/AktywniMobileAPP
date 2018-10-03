@@ -70,7 +70,7 @@ class TopPanel : Fragment() {
                 "fonts/Pacifico-Regular.ttf")
         val tvLogo = view.findViewById(R.id.TVFLogo) as TextView
         tvLogo.typeface = tf
-
+        TVFMessage.setTextColor(resources.getColor(text_color_alternative))
         if(!sharedPreferenceApi.getString(context!!,EnumChoice.isAdmin).equals("uzytkownik"))
         {
             TVFLogo.text="Aktywni.pl\npremium"
@@ -148,11 +148,11 @@ class TopPanel : Fragment() {
                    // ico.setTypeface(tf)
                     val jsonArray: JSONArray = root.getJSONArray("info")
                     if(jsonArray.length()>0){
-                        TVFMessage.setTextColor(resources.getColor(yellow_color))
+                        TVFIntence.setTextColor(resources.getColor(yellow_color))
                     }
                     else
                     {
-                        TVFMessage.setTextColor(resources.getColor(text_color_alternative))
+                        TVFIntence.setTextColor(resources.getColor(text_color_alternative))
                     }
 
                     val popup = PopupMenu(context, ico)
@@ -173,7 +173,6 @@ class TopPanel : Fragment() {
 
                       //  ico.setOnClickListener {
                                     popup.menu.add(event.name)
-
                     //            }
 
 
@@ -195,6 +194,8 @@ class TopPanel : Fragment() {
                     })
                     ico.setOnClickListener {
                         popup.show()
+                        TVFIntence.setTextColor(resources.getColor(text_color_alternative))
+
                     }
 
 

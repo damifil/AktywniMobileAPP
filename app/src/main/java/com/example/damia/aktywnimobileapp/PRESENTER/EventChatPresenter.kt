@@ -79,10 +79,10 @@ class EventChatPresenter(context: EventChatFragment) {
                 }
                 chatValue.isMineName = chatValue.nameUser.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin), true)
                 chatValue.messageId = item.getInt("messageId")
-                chatValue.date = item.getString("date").replace('T', ' ', true).dropLast(3)
+                chatValue.date = item.getString("date").replace('T', ' ', true)
                 model.chatList.add(chatValue)
             }
-            model.chatList.sortBy { it.date }
+            model.chatList.sortedWith ( compareBy({ it.date }, { it.messageId })   )
             context2.Notify()
         }
     }
@@ -113,7 +113,7 @@ class EventChatPresenter(context: EventChatFragment) {
                 }
                 chatValue.isMineName = chatValue.nameUser.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin), true)
                 chatValue.messageId = item.getInt("messageId")
-                chatValue.date = item.getString("date").replace('T', ' ', true).dropLast(3)
+                chatValue.date = item.getString("date").replace('T', ' ', true)
                 model.chatList.add(chatValue)
             }
 
@@ -165,7 +165,7 @@ class EventChatPresenter(context: EventChatFragment) {
                 }
                 chatValue.isMineName = chatValue.nameUser.equals(sharedPreferenceApi.getString(context2.context!!, EnumChoice.choiceLogin), true)
                 chatValue.messageId = item.getInt("messageId")
-                chatValue.date = item.getString("date").replace('T', ' ', true).dropLast(3)
+                chatValue.date = item.getString("date").replace('T', ' ', true)
                 model.chatList.add(chatValue)
             }
             val cmp = compareBy<ChatValue> { Date(it.date) }
@@ -190,7 +190,7 @@ class EventChatPresenter(context: EventChatFragment) {
         chatvalue.isMineName=true
         val currentTime = Calendar.getInstance().time
 
-        val format1 = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val format1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val formatted = format1.format(currentTime)
 
         chatvalue.date= formatted

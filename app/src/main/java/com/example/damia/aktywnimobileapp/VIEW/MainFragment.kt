@@ -102,15 +102,19 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
                         longitude = location.longitude
                         val position = LatLng(latitude!!, longitude!!)
                         markerHandle = mGoogleMap!!.addMarker(MarkerOptions().position(position).title("twoja pozycja"))
-                        if(fromMain!!) {
+                        if (fromMain!!) {
                             mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12f))
-                        }
-                        else
-                        {
-                            val root=  JSONObject(event)
-                            val pos= LatLng(root.getDouble("latitude"), root.getDouble("longitude"))
-                            mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 12f))
-
+                        } else if (!event.equals("")) {
+                            val root = JSONObject(event)
+                            if(root.getDouble("longitude")!=100000.0) {
+                                val pos = LatLng(root.getDouble("latitude"), root.getDouble("longitude"))
+                                setMarker(root.getDouble("latitude"), root.getDouble("longitude"),"Miejsce tworzonego wydarzenia","")
+                                mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 12f))
+                            }
+                            else
+                            {
+                                mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12f))
+                            }
                         }
                     } else {
                         val locationListener = MyLocationListener()
@@ -138,8 +142,8 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         }
 
         //   try {
-      //      presenter!!.setEvent(event)
-     //   }catch (e:Exception){}
+        //      presenter!!.setEvent(event)
+        //   }catch (e:Exception){}
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -155,22 +159,16 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
             override fun onClickConfirmed(v: View, marker: Marker) {
                 val position = marker.position
 
-
-                val a =marker.title
-
-                if (fromMain!! && !marker.title.equals("Twoje wydarzenie")) {
+                if (fromMain!! && !marker.title.equals("Twoje wydarzenie") && !marker.title.equals("twoja pozycja")) {
                     val newFragment = CurentEventFragment.newInstance(marker.title, "")
                     val transaction = fragmentManager!!.beginTransaction()
                     transaction.replace(R.id.body, newFragment)
                     transaction.addToBackStack(null)
                     transaction.commit()
-                }else if(fromMain!! && marker.title.equals("Wiele wydarzeń"))
-                {
-                   var aaa= presenter!!.model.listOfEvents.filter { LatLng(it.first().latitude!!, it.first().longitude!!)==marker.position }
-                    var strin= Klaxon().toJsonString(aaa)
-                }
-                else
-                {
+                } else if (fromMain!! && marker.title.equals("Wiele wydarzeń")) {
+                    var aaa = presenter!!.model.listOfEvents.filter { LatLng(it.first().latitude!!, it.first().longitude!!) == marker.position }
+                    var strin = Klaxon().toJsonString(aaa)
+                } else {
                     val newFragment = EventAddkFragment.newInstance(position.latitude, position.longitude, -1) //nieistotny 3 parametr i tak odczyta z sharedpreference model
                     val transaction = fragmentManager!!.beginTransaction()
                     transaction.replace(R.id.body, newFragment)
@@ -209,9 +207,9 @@ class MainFragment : Fragment(), OnMapReadyCallback, LocationListener {
         }
         getLocalization()
 
-       // try {
-            presenter!!.setEvent(event)
-     //   }catch (e:Exception){}
+        // try {
+        presenter!!.setEvent(event)
+        //   }catch (e:Exception){}
     }
 
     fun setMarker(latitude: Double, longitude: Double, title: String, description: String) {

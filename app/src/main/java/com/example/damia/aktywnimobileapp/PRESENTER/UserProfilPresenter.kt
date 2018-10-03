@@ -30,8 +30,13 @@ class UserProfilPresenter(val fragment: UserProfileFragment) {
     fun downloadData() {
         val toSend = HashMap<String, String>()
         if (model.userID < 0) {
+
+
+
+
+
             try {
-                HTTPRequestAPI(this, "user", "downloadResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
+                HTTPRequestAPI(this, "account", "downloadResult", toSend, CyptographyApi.decrypt(sharedPreferenceApi.getString(fragment.context!!, EnumChoice.token)), "GET").execute()
             } catch (e: Exception) {
             }
 
