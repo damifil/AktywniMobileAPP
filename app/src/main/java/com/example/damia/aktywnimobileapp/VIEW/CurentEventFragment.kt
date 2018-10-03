@@ -62,6 +62,8 @@ class CurentEventFragment : Fragment() {
     fun setIco(userStatus: Int) {
         val tf = Typeface.createFromAsset(context!!.assets,
                 "fonts/fa-solid-900.ttf")
+
+
         TVIco.setTypeface(tf)
         TVIcoChangeEvent.setTypeface(tf)
         when (userStatus) {
@@ -82,6 +84,7 @@ class CurentEventFragment : Fragment() {
                 TVIco.setOnClickListener{
                 presenter!!.deleteEvent()
                 }
+                TVIcoChangeEvent.visibility=View.VISIBLE
                 TVIcoChangeEvent.setText("\uf303")
                 TVIcoChangeEvent.setOnClickListener{
                 presenter!!.changeEvent()

@@ -33,16 +33,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <Button
+            android:layout_width="60dp"
+            android:textColor="@color/text_color_alternative"
             android:id="@+id/TVIco"
-            android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="0dp"
             android:text="@={mod.icoText}"
-            app:layout_constraintStart_toEndOf="@+id/TVName"
+
+
             app:layout_constraintTop_toTopOf="parent"
-            fancy:layout_constraintEnd_toEndOf="parent"
-            fancy:layout_constraintHorizontal_bias="1.0" />
+            fancy:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/TVDate"
@@ -100,22 +102,22 @@
             fancy:fb_fontIconSize="50dp"
             fancy:fb_text="" />
 
-        <TextView
+        <Button
             android:id="@+id/TVMapIco"
-            android:layout_width="87dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="92dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/text_color_alternative"
             fancy:layout_constraintEnd_toEndOf="parent"
-            fancy:layout_constraintStart_toEndOf="@+id/TVIcoPlace"
             fancy:layout_constraintTop_toBottomOf="@+id/TVDate" />
 
-        <TextView
+        <Button
+            android:visibility="invisible"
+            android:textColor="@color/text_color_alternative"
             android:id="@+id/TVIcoChangeEvent"
-            android:layout_width="0dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="60dp"
+            android:layout_marginEnd="10dp"
             android:text=""
             fancy:layout_constraintEnd_toStartOf="@+id/TVIco"
             fancy:layout_constraintTop_toTopOf="parent" />

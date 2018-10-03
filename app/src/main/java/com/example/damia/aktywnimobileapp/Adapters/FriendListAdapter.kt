@@ -70,7 +70,7 @@ class FriendListAdapter(val items: MutableList<User>, val context: Context,val p
                 }
               //dodajemy
             }
-
+            holder.tvIcoRemove.visibility=View.VISIBLE
             holder.tvIcoRemove.setTypeface(tf)
             holder.tvIcoRemove.text="\uf235"
             holder.tvIcoRemove.setOnClickListener{
@@ -91,6 +91,7 @@ class FriendListAdapter(val items: MutableList<User>, val context: Context,val p
             }
             else
             {
+                holder?.tvIco.visibility=View.INVISIBLE
                 holder?.tvIco.setTextColor(Color.parseColor("#A0A0A0"))
                 holder?.tvIco.text = ""
             }

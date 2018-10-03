@@ -25,16 +25,19 @@
 
         />
 
-        <TextView
+        <Button
+            android:visibility="invisible"
+            android:textColor="@color/text_color_alternative"
+            android:layout_width="60dp"
             android:id="@+id/TVRemove"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="" />
 
-        <TextView
+        <Button
+            android:textColor="@color/text_color_alternative"
+            android:layout_width="60dp"
         android:id="@+id/TVICoChatFriend"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:layout_weight="0.1"

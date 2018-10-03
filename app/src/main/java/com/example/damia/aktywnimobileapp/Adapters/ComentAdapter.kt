@@ -13,11 +13,16 @@ import android.text.TextWatcher
 import android.widget.RatingBar
 import android.text.Editable
 import android.text.InputType
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
+
+
 
 class ComentAdapter(val items: ArrayList<Comment>, val context: Context): RecyclerView.Adapter<ViewHolderComment>()
 {
     override fun onBindViewHolder(holder: ViewHolderComment, position: Int) {
         holder.rating.rating = items.get(position).Rate.toFloat() / 2
+        var a=items.get(position).Rate.toFloat() / 2
         holder.name.setText("Użytkownik " + items.get(position).login)
         holder.coment.setText(items[position].describe)
         if (!items.get(position).fromProfile) {
@@ -44,8 +49,8 @@ class ComentAdapter(val items: ArrayList<Comment>, val context: Context): Recycl
         }
         else
         {
-            holder.rating.isEnabled=false
-            holder.coment.inputType=InputType.TYPE_NULL
+            holder.rating.setOnTouchListener(OnTouchListener { v, event -> true })
+
         }
     }
 
